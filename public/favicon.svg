@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- E-Commerce Multi-Color Gradient -->
+    <linearGradient id="fasco-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1A75" />
+      <stop offset="50%" stop-color="#B5179E" />
+      <stop offset="100%" stop-color="#00B4D8" />
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow Filter -->
+    <filter id="badge-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <!-- Outer Thick White Border Rectangle -->
+  <rect x="32" y="32" width="448" height="448" rx="110" fill="#FFFFFF" filter="url(#badge-shadow)" />
+
+  <!-- Main Colorful Gradient Icon Body -->
+  <rect x="56" y="56" width="400" height="400" rx="86" fill="url(#fasco-grad)" />
+
+  <!-- Clear, Scalable Bold Serif Lettermark "F" -->
+  <path d="M 175 140 H 335 C 348 140 355 147 355 160 C 355 173 348 180 335 180 H 235 V 238 H 315 C 328 238 335 245 335 258 C 335 271 328 278 315 278 H 235 V 372 C 235 385 228 392 215 392 C 202 392 195 385 195 372 V 180 H 175 C 162 180 155 173 155 160 C 155 147 162 140 175 140 Z" fill="#FFFFFF" />
+
+  <!-- Decorative Accent Sparkle -->
+  <polygon points="340,310 348,328 366,336 348,344 340,362 332,344 314,336 332,328" fill="#FFD166" />
+</svg>

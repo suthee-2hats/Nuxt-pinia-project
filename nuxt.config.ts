@@ -4,6 +4,20 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@pinia/nuxt',
   ],
-  devtools: { enabled: true },
+  app: {
+    head: {
+      link: [
+        {
+          rel: 'icon',
+          type: 'image/svg+xml',
+          href: '/favicon.svg',
+        },
+      ],
+    },
+  },
+
+  css: ['~/assets/scss/main.scss'],
+
+  devtools: { enabled: false },
   compatibilityDate: '2024-04-03',
 })
