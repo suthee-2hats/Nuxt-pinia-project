@@ -1,151 +1,216 @@
+@use '../base/breakpoints' as *;
+
+
+// ========================================
+// Hero layout
+// ========================================
+
 .home-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 397fr) minmax(0, 426fr) minmax(0, 397fr);
-    gap: 36px;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 397fr)
+    minmax(0, 426fr)
+    minmax(0, 397fr);
+  gap: 36px;
+}
+
+.home-hero__middle {
+  display: grid;
+  grid-template-rows: 150px 1fr 150px;
+  gap: 16px;
+  min-width: 0;
+}
+
+
+// ========================================
+// Hero images
+// ========================================
+
+.home-hero__image-link {
+  display: block;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #e1e1e1;
+}
+
+.home-hero__image-link--side {
+  aspect-ratio: 397 / 756;
+}
+
+.home-hero__image-link--middle {
+  aspect-ratio: 426 / 150;
+}
+
+.home-hero__image-link picture,
+.home-hero__image-link img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home-hero__image-link img {
+  object-fit: cover;
+  transition: transform 200ms ease;
+}
+
+
+// ========================================
+// Central sale content
+// ========================================
+
+.home-hero__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.home-hero__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.home-hero__title-top {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 91px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #484848;
+  text-transform: uppercase;
   
-    width: 100%;
-    max-width: 1252px;
-    margin: 0 auto;
-    
+}
+
+.home-hero__title-sale {
+  /* Typography */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;                 
+  font-size: 187px;                   
+  line-height: 1;                    
+  letter-spacing: -5.5%;            
+  
+  /* Outline Text Styling (Figma Stroke: 1px Outside #484848) */
+  color: transparent;                 
+  -webkit-text-stroke: 1px #484848;    
+  paint-order: stroke fill;            
+  
+  /* Display & Alignment */
+  display: block;                    
+  text-transform: uppercase;         
+}
+
+.home-hero__subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 100;     
+  margin-top: 0px;            
+  font-size: 20px; 
+  letter-spacing: 10%;  
+  text-transform: uppercase;
+}
+
+.home-hero__cta {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 207px;
+  min-height: 56px;
+  padding: 20px 60px;
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+}
+
+
+// ========================================
+// Hover interaction
+// ========================================
+
+@media (hover: hover) {
+  .home-hero__image-link:hover img {
+    transform: scale(1.03);
   }
-  
+}
+
+
+// ========================================
+// Keyboard focus
+// ========================================
+
+.home-hero__image-link:focus-visible,
+.home-hero__cta:focus-visible {
+  outline: 3px solid #2463eb;
+  outline-offset: 4px;
+}
+
+
+// ========================================
+// Tablet layout
+// ========================================
+
+@include tablet {
+  .home-hero {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
   .home-hero__middle {
-    display: grid;
-    grid-template-rows: 150px 1fr 150px;
-    gap: 16px;
-    min-width: 0;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    grid-template-rows: auto auto auto;
   }
-  
-  .home-hero__image-link {
-    display: block;
-    overflow: hidden;
-    border-radius: 6px;
-    background: #e1e1e1;
-  
-    transition:
-      transform 200ms ease,
-      box-shadow 200ms ease;
-  }
-  
+
   .home-hero__image-link--side {
-    aspect-ratio: 397 / 756;
+    align-self: start;
   }
-  
+
   .home-hero__image-link--middle {
-    aspect-ratio: 426 / 150;
-  }
-  
-  .home-hero__image-link picture,
-  .home-hero__image-link img {
-    display: block;
     width: 100%;
-    height: 100%;
   }
-  
-  .home-hero__image-link img {
-    object-fit: cover;
-  }
-  
-  /* Central sale content */
+
   .home-hero__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    min-height: 220px;
   }
-  
-  .home-hero__title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    line-height: 1;
-    text-transform: uppercase;
+}
+
+
+// ========================================
+// Mobile layout
+// ========================================
+
+@include mobile {
+  .home-hero {
+    gap: 8px;
   }
-  
-  .home-hero__title-top {
-    font-size: clamp(28px, 3vw, 40px);
-    font-weight: 500;
-    color: #484848;
+
+  .home-hero__content {
+    min-height: 180px;
   }
-  
+
   .home-hero__title-sale {
-    font-size: clamp(56px, 6vw, 84px);
-    font-weight: 300;
-    color: transparent;
-    -webkit-text-stroke: 1px #777;
+    font-size: clamp(48px, 12vw, 64px);
   }
-  
-  .home-hero__subtitle {
-    margin: 8px 0 12px;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+}
+
+
+// ========================================
+// Reduced motion preference
+// ========================================
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__image-link img {
+    transition: none;
   }
-  
-  .home-hero__cta {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 120px;
-    min-height: 44px;
-    padding: 10px 24px;
-    border-radius: 6px;
-    background: #000;
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 12px;
+
+  .home-hero__image-link:hover img {
+    transform: none;
   }
-  
-  /* Hover and keyboard feedback */
-  @media (hover: hover) {
-    .home-hero__image-link:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgb(0 0 0 / 12%);
-    }
-  }
-  
-  .home-hero__image-link:focus-visible,
-  .home-hero__cta:focus-visible {
-    outline: 3px solid #2463eb;
-    outline-offset: 4px;
-  }
-  
-  /* Tablet and mobile */
-  @media (max-width: 767px) {
-    .home-hero {
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      padding: 0 16px;
-    }
-  
-    .home-hero__middle {
-      grid-column: 1 / -1;
-      grid-row: 1;
-      grid-template-rows: auto auto auto;
-    }
-  
-    .home-hero__image-link--side {
-      align-self: start;
-    }
-  
-    .home-hero__image-link--middle {
-      width: 100%;
-    }
-  
-    .home-hero__content {
-      min-height: 220px;
-    }
-  }
-  
-  @media (prefers-reduced-motion: reduce) {
-    .home-hero__image-link {
-      transition: none;
-    }
-  
-    .home-hero__image-link:hover {
-      transform: none;
-    }
-  }
+}

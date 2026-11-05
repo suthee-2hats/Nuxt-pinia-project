@@ -1,0 +1,12 @@
+// Shared page container.
+// Both the site header and the home hero use this class so their left and
+// right edges always line up on the same vertical grid line.
+.container-global1 {
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 24px;
+
+  @media (max-width: 767px) {
+    padding-inline: 16px;
+  }
+}

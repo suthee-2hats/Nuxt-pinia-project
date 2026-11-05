@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/content',
     '@pinia/nuxt',
+    '@nuxt/fonts',
   ],
   app: {
     head: {
