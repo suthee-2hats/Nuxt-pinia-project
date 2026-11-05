@@ -1,43 +1,178 @@
+
 <script setup lang="ts">
-defineProps<{
-  carouselItems: any[]
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import type { Category } from '~/types/category'
+
+const props = defineProps<{
+  categories: Category[]
+  showMoreAvailable: boolean
 }>()
+
+const emit = defineEmits<{
+  (event: 'show-more'): void
+}>()
+
+// Number of cards visible at the same time
+const visibleCount = 3
+
+// Index of the first visible category
+const currentIndex = ref(0)
+
+// Pause automatic rotation when the user interacts
+const isHovered = ref(false)
+const isFocused = ref(false)
+
+// Automatically calculate the three visible categories
+const visibleCategories = computed<Category[]>(() => {
+  const total = props.categories.length
+
+  if (total <= visibleCount) {
+    return props.categories
+  }
+
+  const result: Category[] = []
+
+  for (let index = 0; index < visibleCount; index++) {
+    const categoryIndex = (currentIndex.value + index) % total
+    const category = props.categories[categoryIndex]
+
+    if (category) {
+      result.push(category)
+    }
+  }
+
+  return result
+})
+// Move to the next category
+const nextSlide = () => {
+  const total = props.categories.length
+
+  if (total <= visibleCount) return
+
+  currentIndex.value = (currentIndex.value + 1) % total
+}
+
+// Move to the previous category
+const previousSlide = () => {
+  const total = props.categories.length
+
+  if (total <= visibleCount) return
+
+  currentIndex.value = (currentIndex.value - 1 + total) % total
+}
+
+// Check whether keyboard focus has left the carousel
+const handleFocusOut = (event: FocusEvent) => {
+  const nextTarget = event.relatedTarget as Node | null
+
+  if (!event.currentTarget || !nextTarget) {
+    isFocused.value = false
+    return
+  }
+
+  isFocused.value = (event.currentTarget as HTMLElement).contains(nextTarget)
+}
+
+// Automatically change the category every 5 seconds
+let autoplayInterval: ReturnType<typeof setInterval> | undefined
+
+onMounted(() => {
+  autoplayInterval = setInterval(() => {
+    if (
+      props.categories.length > visibleCount &&
+      !isHovered.value &&
+      !isFocused.value
+    ) {
+      nextSlide()
+    }
+  }, 5000)
+})
+
+// Clean up the timer when the component is removed
+onUnmounted(() => {
+  if (autoplayInterval) {
+    clearInterval(autoplayInterval)
+  }
+})
 </script>
 
 <template>
-  <div class="carousel-section">
-    <!-- Heading and Buttons -->
-    <div class="carousel-header">
-      <div class="text-content">
-        <h2>EXPLORE OUR DIVERSE CATEGORIES</h2>
-        <p>Discover curated collections from everyday essentials to statement pieces.</p>
-      </div>
-      <div class="nav-buttons">
-        <button class="nav-btn">&lt;</button>
-        <button class="nav-btn">&gt;</button>
-      </div>
-    </div>
-
-    <!-- Carousel Images -->
-    <div class="carousel-track">
-      <div 
-        v-for="(item, index) in carouselItems" 
-        :key="item.slug"
-        :class="['carousel-item', { 'first-big-image': index === 0 }]"
+  <section
+    class="category-carousel"
+    aria-labelledby="category-carousel-title"
+    aria-roledescription="carousel"
+    @mouseenter="isHovered = true"
+    @mouseleave="isHovered = false"
+    @focusin="isFocused = true"
+    @focusout="handleFocusOut"
+  >
+    <div class="category-carousel__content">
+      <h2
+        id="category-carousel-title"
+        class="category-carousel__title"
       >
-        <img :src="item.image" :alt="item.name" />
-        <div class="label">{{ item.name }}</div>
-      </div>
-    </div>
-  </div>
-</template>
+        Explore Our Categories
+      </h2>
 
-<style scoped>
-.carousel-section { display: flex; gap: 2rem; margin-bottom: 3rem; }
-.carousel-header { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-.carousel-track { flex: 2; display: flex; gap: 1rem; overflow-x: auto; }
-.carousel-item { flex: 0 0 auto; position: relative; border-radius: 8px; overflow: hidden; }
-.carousel-item img { width: 200px; height: 300px; object-fit: cover; }
-.first-big-image img { width: 300px; height: 400px; } /* Makes the first image larger */
-.label { position: absolute; bottom: 10px; width: 100%; text-align: center; background: white; padding: 5px; }
-</style>
+      <p class="category-carousel__description">
+        Discover curated collections, from everyday essentials
+        to statement pieces.
+      </p>
+         <!-- Carousel navigation -->
+    <div
+    v-if="categories.length > visibleCount"
+    class="category-carousel__controls"
+  >
+    <button
+      type="button"
+      class="category-carousel__arrow"
+      aria-label="Previous categories"
+      @click="previousSlide"
+    >
+      &lsaquo;
+    </button>
+
+    <button
+      type="button"
+      class="category-carousel__arrow"
+      aria-label="Next categories"
+      @click="nextSlide"
+    >
+      &rsaquo;
+    </button>
+  </div>
+     
+    </div>
+
+    <div class="category-carousel__images">
+      <NuxtLink
+        v-for="(category, index) in visibleCategories"
+        :key="category.slug"
+        :to="`/products?category=${encodeURIComponent(category.slug)}`"
+        class="category-carousel__card"
+        :class="`category-carousel__card--${index + 1}`"
+      >
+        <img
+          :src="category.image"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+
+        <span class="category-carousel__label">
+          {{ category.name }}
+        </span>
+      </NuxtLink>
+    </div>
+    <button
+    v-if="showMoreAvailable"
+    type="button"
+    class="category-carousel__button"
+    @click="emit('show-more')"
+  >
+    Explore all categories
+  </button>
+
+
+  </section>
+</template>

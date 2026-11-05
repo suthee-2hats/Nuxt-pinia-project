@@ -1,0 +1,78 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.category-grid {
+  padding: 40px 0;
+}
+
+.category-grid__title {
+  margin: 0 0 24px;
+  color: vars.$category-text;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.category-grid__items {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.category-grid__card {
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f8f7f7;
+  color: vars.$category-text;
+  text-align: center;
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: 3px solid vars.$focus-color;
+    outline-offset: 4px;
+  }
+}
+
+.category-grid__card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.category-grid__name {
+  display: block;
+  padding: 14px 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+// ========================================
+// Tablet
+// ========================================
+
+@include mixins.tablet {
+  .category-grid__items {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+// ========================================
+// Mobile
+// ========================================
+
+@include mixins.mobile {
+  .category-grid {
+    padding: 28px 0;
+  }
+
+  .category-grid__items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .category-grid__title {
+    font-size: 21px;
+  }
+}

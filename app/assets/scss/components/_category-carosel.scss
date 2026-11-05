@@ -1,0 +1,248 @@
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mixins;
+
+.category-carousel {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.85fr) minmax(0, 2fr);
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  padding: 145px 40px 145px 40px;
+
+  background: linear-gradient(
+    to bottom,
+    #e8e8e8 0%,
+    #f5f5f5 25%,
+    #fafafa 60%,
+    #fff 100%
+  );
+}
+
+// ========================================
+// Content
+// ========================================
+
+.category-carousel__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.category-carousel__title {
+  margin: 0 0 12px;
+  color: vars.$category-text;
+  font-size: 46px;
+  font-weight: 500;
+}
+
+.category-carousel__description {
+  max-width: 320px;
+  margin: 0 0 24px;
+  color: vars.$category-muted;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+// ========================================
+// Explore all categories button
+// ========================================
+
+.category-carousel__button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 120px;
+  min-height: 44px;
+  padding: 10px 24px;
+  border: 0;
+  border-radius: 4px;
+  background: #000;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    background: #333;
+  }
+
+  &:focus-visible {
+    outline: 3px solid vars.$focus-color;
+    outline-offset: 4px;
+  }
+}
+
+// ========================================
+// Featured category images
+// ========================================
+
+.category-carousel__images {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.category-carousel__card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  min-width: 0;
+  aspect-ratio: 3 / 4;
+  background: vars.$category-card-two;
+  text-decoration: none;
+  border: 2px soild red;
+
+  &:focus-visible {
+    outline: 3px solid vars.$focus-color;
+    outline-offset: 4px;
+  }
+}
+
+// Individual card backgrounds
+
+.category-carousel__card--1 {
+  aspect-ratio: 0.72;
+  background: vars.$category-card-one;
+  
+}
+
+.category-carousel__card--2 {
+  background: vars.$category-card-two;
+}
+
+.category-carousel__card--3 {
+  background: vars.$category-card-three;
+}
+
+// Image
+
+.category-carousel__card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Category label
+
+.category-carousel__label {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 12px 10px;
+  background: rgb(255 255 255 / 92%);
+  color: vars.$category-text;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+// ========================================
+// Hover effect
+// ========================================
+
+@media (hover: hover) {
+  .category-carousel__card img {
+    transition: transform 200ms ease;
+  }
+
+  .category-carousel__card:hover img {
+    transform: scale(1.03);
+  }
+}
+
+// ========================================
+// Tablet
+// ========================================
+
+@include mixins.tablet {
+  .category-carousel {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px 24px;
+  }
+
+  .category-carousel__description {
+    max-width: 480px;
+  }
+}
+
+// ========================================
+// Mobile
+// ========================================
+
+@include mixins.mobile {
+  .category-carousel {
+    padding: 24px 16px;
+  }
+
+  .category-carousel__images {
+    gap: 8px;
+  }
+
+  .category-carousel__card--1 {
+    aspect-ratio: 0.85;
+  }
+
+  .category-carousel__label {
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+}
+
+// ========================================
+// Reduced motion
+// ========================================
+
+@media (prefers-reduced-motion: reduce) {
+  .category-carousel__card img {
+    transition: none;
+  }
+
+  .category-carousel__card:hover img {
+    transform: none;
+  }
+}
+
+//left and right buttons 
+.category-carousel__controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    grid-column: 2;
+    margin-top: 8px;
+  }
+  
+  .category-carousel__arrow {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    color: #333;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 200ms ease;
+  }
+  
+  .category-carousel__arrow:hover {
+    background: #f0f0f0;
+  }
+  
+  .category-carousel__arrow:focus-visible {
+    outline: 3px solid vars.$focus-color;
+    outline-offset: 3px;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .category-carousel__arrow {
+      transition: none;
+    }
+  }

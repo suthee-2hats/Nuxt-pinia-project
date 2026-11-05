@@ -1,53 +1,43 @@
+
 <script setup lang="ts">
+import type { Category } from '~/types/category'
+
 defineProps<{
-  gridItems: any[]
+  categories: Category[]
 }>()
 </script>
 
 <template>
-  <div class="category-section">
-    <!-- Grid showing categories -->
-    <div class="grid-container">
-      <div v-for="item in gridItems" :key="item.slug" class="grid-card">
-        <img :src="item.image" :alt="item.name" />
-        <p>{{ item.name }}</p>
-      </div>
-    </div>
+  <section
+    v-if="categories.length"
+    class="category-grid"
+    aria-labelledby="category-grid-title"
+  >
+    <h2
+      id="category-grid-title"
+      class="category-grid__title"
+    >
+      All Categories
+    </h2>
 
-    <!-- Show More Button -->
-    <div class="button-wrapper">
-      <button class="show-more-btn">SHOW MORE</button>
+    <div class="category-grid__items">
+      <NuxtLink
+        v-for="category in categories"
+        :key="category.slug"
+        :to="`/products?category=${encodeURIComponent(category.slug)}`"
+        class="category-grid__card"
+      >
+        <img
+          :src="category.image"
+          alt=""
+          loading="lazy"
+          decoding="async"
+        />
+
+        <span class="category-grid__name">
+          {{ category.name }}
+        </span>
+      </NuxtLink>
     </div>
-  </div>
+  </section>
 </template>
-
-<style scoped>
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6 columns like the image */
-  gap: 1rem;
-}
-.grid-card {
-  background: white;
-  border-radius: 8px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-}
-.grid-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px 8px 0 0;
-}
-.button-wrapper {
-  text-align: center;
-  margin-top: 2rem;
-}
-.show-more-btn {
-  padding: 10px 30px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  background: #f8ede3;
-  cursor: pointer;
-}
-</style>
