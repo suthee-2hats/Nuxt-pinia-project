@@ -7,7 +7,7 @@
   align-items: center;
   gap: 32px;
   width: 100%;
-  padding: 145px 40px 145px 40px;
+  padding: 40px;
 
   background: linear-gradient(
     to bottom,
@@ -92,7 +92,7 @@
   aspect-ratio: 3 / 4;
   background: vars.$category-card-two;
   text-decoration: none;
-  border: 2px soild red;
+
 
   &:focus-visible {
     outline: 3px solid vars.$focus-color;
@@ -105,15 +105,18 @@
 .category-carousel__card--1 {
   aspect-ratio: 0.72;
   background: vars.$category-card-one;
+  max-height: 582px;
   
 }
 
 .category-carousel__card--2 {
   background: vars.$category-card-two;
+  max-height: 482px;
 }
 
 .category-carousel__card--3 {
   background: vars.$category-card-three;
+  max-height: 482px;
 }
 
 // Image

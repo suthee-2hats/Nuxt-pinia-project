@@ -88,15 +88,15 @@ const closeMobileMenu = () => {
           {{ isMobileMenuOpen ? '×' : '☰' }}
         </span>
       </button>
+    </div>
+  </div>
 
-    
-
-    <!-- Mobile navigation -->
-    <div
-      id="mobile-menu"
-      v-show="isMobileMenuOpen"
-      class="mobile-menu"
-    >
+  <!-- Mobile navigation -->
+  <div
+    id="mobile-menu"
+    v-show="isMobileMenuOpen"
+    class="mobile-menu"
+  >
       <nav aria-label="Mobile navigation">
         <ul class="mobile-menu__list">
           <li v-for="item in navItems" :key="item.path">
@@ -130,7 +130,5 @@ const closeMobileMenu = () => {
         </NuxtLink>
       </div>
     </div>
-  </div>
-</div>
   </header>
 </template>

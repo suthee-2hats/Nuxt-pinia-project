@@ -73,27 +73,9 @@ const handleFocusOut = (event: FocusEvent) => {
   isFocused.value = (event.currentTarget as HTMLElement).contains(nextTarget)
 }
 
-// Automatically change the category every 5 seconds
-let autoplayInterval: ReturnType<typeof setInterval> | undefined
 
-onMounted(() => {
-  autoplayInterval = setInterval(() => {
-    if (
-      props.categories.length > visibleCount &&
-      !isHovered.value &&
-      !isFocused.value
-    ) {
-      nextSlide()
-    }
-  }, 5000)
-})
 
-// Clean up the timer when the component is removed
-onUnmounted(() => {
-  if (autoplayInterval) {
-    clearInterval(autoplayInterval)
-  }
-})
+
 </script>
 
 <template>

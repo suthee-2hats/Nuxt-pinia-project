@@ -11,15 +11,21 @@
     minmax(0, 397fr)
     minmax(0, 426fr)
     minmax(0, 397fr);
-  gap: 36px;
-  
+  gap: clamp(12px, 2.8vw, 36px);
+  align-items: stretch;
 }
 
 .home-hero__middle {
   display: grid;
-  grid-template-rows: 150px 1fr 150px;
-  gap: 16px;
+  /* Top and bottom banners keep their ratio, so they shrink together
+     with the side banners instead of staying at a fixed height. */
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: clamp(8px, 1.25vw, 16px);
   min-width: 0;
+
+  /* Type sizes below use cqw, so the sale block scales in lockstep
+     with this column and never overflows it. */
+  container-type: inline-size;
 }
 
 
@@ -79,7 +85,7 @@
 .home-hero__title-top {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 91px;
+  font-size: min(22.5cqw, 91px);
   line-height: 1;
   letter-spacing: -0.04em;
   color: #484848;
@@ -91,9 +97,9 @@
   /* Typography */
   font-family: 'Poppins', sans-serif;
   font-weight: 500;                 
-  font-size: 187px;                   
+  font-size: min(46.2cqw, 187px);                   
   line-height: 1;                    
-  letter-spacing: -5.5%;            
+  letter-spacing: -0.055em;            
   
   /* Outline Text Styling (Figma Stroke: 1px Outside #484848) */
   color: transparent;                 
@@ -108,9 +114,9 @@
 .home-hero__subtitle {
   font-family: 'Poppins', sans-serif;
   font-weight: 100;     
-  margin-top: 0px;            
-  font-size: 20px; 
-  letter-spacing: 10%;  
+  margin: clamp(6px, 1.6cqw, 14px) 0 clamp(12px, 3.2cqw, 28px);
+  font-size: min(4.95cqw, 20px); 
+  letter-spacing: 0.1em;  
   text-transform: uppercase;
 }
 
@@ -118,15 +124,15 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  min-width: 207px;
-  min-height: 56px;
-  padding: 20px 60px;
+  min-width: min(51.1cqw, 207px);
+  min-height: min(13.8cqw, 56px);
+  padding: min(4.9cqw, 20px) min(14.8cqw, 60px);
   border-radius: 10px;
   background: #000;
   color: #fff;
   text-decoration: none;
   text-transform: uppercase;
-  font-size: 16px;
+  font-size: min(3.95cqw, 16px);
   font-family: 'Poppins', sans-serif;
 }
 
@@ -156,29 +162,15 @@
 // ========================================
 // Tablet layout
 // ========================================
+//
+// The three-column grid stays in place all the way down to the mobile
+// breakpoint. The columns keep their 397 / 426 / 397 ratio, so both side
+// banners stay exactly the same size and contract together with the
+// viewport instead of jumping into a different layout.
 
 @include tablet {
   .home-hero {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .home-hero__middle {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    grid-template-rows: auto auto auto;
-  }
-
-  .home-hero__image-link--side {
-    align-self: start;
-  }
-
-  .home-hero__image-link--middle {
-    width: 100%;
-  }
-
-  .home-hero__content {
-    min-height: 220px;
+    gap: clamp(10px, 2.4vw, 20px);
   }
 }
 
@@ -189,15 +181,43 @@
 
 @include mobile {
   .home-hero {
-    gap: 8px;
+    /* Side banners are decorative: drop them completely on mobile. */
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .home-hero__image-link--side {
+    display: none;
+  }
+
+  .home-hero__middle {
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 12px;
   }
 
   .home-hero__content {
     min-height: 180px;
+    padding-block: 8px;
+  }
+
+  .home-hero__title-top {
+    font-size: clamp(24px, 7.5vw, 40px);
   }
 
   .home-hero__title-sale {
-    font-size: clamp(48px, 12vw, 64px);
+    font-size: clamp(48px, 14vw, 76px);
+  }
+
+  .home-hero__subtitle {
+    font-size: clamp(11px, 3.2vw, 16px);
+    margin: 8px 0 18px;
+  }
+
+  .home-hero__cta {
+    min-width: clamp(160px, 45vw, 207px);
+    min-height: 48px;
+    padding: 14px 28px;
+    font-size: 13px;
   }
 }
 

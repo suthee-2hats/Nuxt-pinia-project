@@ -1,474 +1,329 @@
+@use '../abstracts/mixins' as *;
+
+
+// ========================================
+// Site header
+// ========================================
 
 .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    width: 100%;
-    background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background: #fff;
+  padding-block: 20px;
+  font-family: 'Poppins', sans-serif;
 
-    padding-bottom: 70px;
-    padding-top: 70px;
-    font-family: 'Poppins', sans-serif;
-  
-    &__container {
-      height: 80px;
-  
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    &__container_right{
-        display: flex;
-        flex-direction: row;
-        gap: 32px;
-    }
-  
-    &__logo {
-      display: inline-flex;
-      flex-shrink: 0;
-      align-items: center;
-  
-      img {
-        display: block;
-        width: auto;
-        height: 40px;
-      }
-    }
-  }
-  
-  // Desktop navigation
-  .desktop-nav {
+  &__container {
+    height: 80px;
+
     display: flex;
     align-items: center;
-  
-    &__list {
-      display: flex;
-      align-items: center;
-      
-      gap: 32px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-  
-    &__link {
-      display: inline-block;
-      padding: 8px 4px;
-      color: #4b5563;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: color 0.2s ease;
-      border-bottom: 1px solid transparent;
-  
-      &:hover,
-      &.is-active {
-        border-bottom: 1px solid #000;
-      }
-  
-      &:focus-visible {
-        outline: 2px solid #000;
-        outline-offset: 4px;
-        border-radius: 2px;
-      }
-    }
+    justify-content: space-between;
+    gap: clamp(16px, 3vw, 48px);
+    min-width: 0;
   }
-  
-  // Desktop authentication
-  .header-actions {
+
+  &__container_left {
     display: flex;
     align-items: center;
-    gap: 24px;
-  
-    &__link {
-      color: #4b5563;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-  
-      &:hover {
-        border-bottom: 1px solid #000;
-      }
-    }
-  
-    &__signup {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 24px;
-      border-radius: 8px;
-      background: #000;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s ease;
-  
-      &:hover {
-        background: #333;
-      }
-    }
+    flex-shrink: 0;
+    min-width: 0;
   }
-  
-  // Mobile menu button
-  .mobile-menu-button {
-    display: none;
-    padding: 8px;
-    border: 0;
-    border-radius: 6px;
-    background: transparent;
-    color: #333;
-    cursor: pointer;
-  
-    &__icon {
+
+  &__container_right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(14px, 2.5vw, 32px);
+    min-width: 0;
+  }
+
+  &__logo {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+
+    img {
       display: block;
-      font-size: 26px;
-      line-height: 1;
+      width: auto;
+      height: clamp(30px, 3.2vw, 40px);
     }
-  
+  }
+}
+
+
+// ========================================
+// Desktop navigation
+// ========================================
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+
+  &__list {
+    display: flex;
+    align-items: center;
+
+    gap: clamp(14px, 2.5vw, 32px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: inline-block;
+    padding: 8px 4px;
+    color: #4b5563;
+    font-size: clamp(13px, 1.15vw, 16px);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+    border-bottom: 1px solid transparent;
+
+    &:hover,
+    &.is-active {
+      border-bottom: 1px solid #000;
+    }
+
     &:focus-visible {
       outline: 2px solid #000;
-      outline-offset: 3px;
+      outline-offset: 4px;
+      border-radius: 2px;
     }
   }
-  
-  // Mobile navigation
-  .mobile-menu {
-    display: none;
-    padding: 16px 24px 24px;
-    border-top: 1px solid #f3f4f6;
-    background: #fff;
-  
-    &__list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-  
-    &__link {
-      display: block;
-      padding: 10px 12px;
-      border-radius: 6px;
-      color: #374151;
-      font-size: 16px;
-      font-weight: 500;
-      text-decoration: none;
-  
-      &:hover,
-      &.is-active {
-        background: #f9fafb;
-        color: #000;
-      }
-  
-      &:focus-visible {
-        outline: 2px solid #000;
-        outline-offset: 2px;
-      }
-      .site-header {
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        width: 100%;
-        background: #fff;
-        border-bottom: 1px solid #f3f4f6;
-      
-        &__container {
-          max-width: 1280px;
-          height: 80px;
-          margin: 0 auto;
-          padding: 0 24px;
-      
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-      
-        &__logo {
-          display: inline-flex;
-          flex-shrink: 0;
-          align-items: center;
-      
-          img {
-            display: block;
-            width: auto;
-            height: 40px;
-          }
-        }
-      }
-      
-      // Desktop navigation
-      .desktop-nav {
-        display: flex;
-        align-items: center;
-      
-        &__list {
-          display: flex;
-          align-items: center;
-          gap: 32px;
-          margin: 0;
-          padding: 0;
-          list-style: none;
-        }
-      
-        &__link {
-          display: inline-block;
-          padding: 8px 4px;
-          color: #4b5563;
-          font-size: 16px;
-          font-weight: 500;
-          text-decoration: none;
-          transition: color 0.2s ease;
-      
-          &:hover,
-          &.is-active {
-            color: #000;
-          }
-      
-          &:focus-visible {
-            outline: 2px solid #000;
-            outline-offset: 4px;
-            border-radius: 2px;
-          }
-        }
-      }
-      
-      // Desktop authentication
-      .header-actions {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-      
-        &__link {
-          color: #4b5563;
-          font-size: 16px;
-          font-weight: 500;
-          text-decoration: none;
-      
-          &:hover {
-            color: #000;
-          }
-        }
-      
-        &__signup {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 10px 24px;
-          border-radius: 8px;
-          background: #000;
-          color: #fff;
-          font-size: 14px;
-          font-weight: 500;
-          text-decoration: none;
-          transition: background 0.2s ease;
-      
-          &:hover {
-            background: #333;
-          }
-        }
-      }
-      
-      // Mobile menu button
-      .mobile-menu-button {
-        display: none;
-        padding: 8px;
-        border: 0;
-        border-radius: 6px;
-        background: transparent;
-        color: #333;
-        cursor: pointer;
-      
-        &__icon {
-          display: block;
-          font-size: 26px;
-          line-height: 1;
-        }
-      
-        &:focus-visible {
-          outline: 2px solid #000;
-          outline-offset: 3px;
-        }
-      }
-      
-      // Mobile navigation
-      .mobile-menu {
-        display: none;
-        padding: 16px 24px 24px;
-        border-top: 1px solid #f3f4f6;
-        background: #fff;
-      
-        &__list {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          margin: 0;
-          padding: 0;
-          list-style: none;
-        }
-      
-        &__link {
-          display: block;
-          padding: 10px 12px;
-          border-radius: 6px;
-          color: #374151;
-          font-size: 16px;
-          font-weight: 500;
-          text-decoration: none;
-      
-          &:hover,
-          &.is-active {
-            background: #f9fafb;
-            color: #000;
-          }
-      
-          &:focus-visible {
-            outline: 2px solid #000;
-            outline-offset: 2px;
-          }
-        }
-      
-        &__actions {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          margin-top: 20px;
-          padding-top: 16px;
-          border-top: 1px solid #f3f4f6;
-        }
-      
-        &__signin,
-        &__signup {
-          display: block;
-          padding: 12px;
-          border-radius: 8px;
-          text-align: center;
-          font-size: 15px;
-          font-weight: 500;
-          text-decoration: none;
-        }
-      
-        &__signin {
-          color: #374151;
-      
-          &:hover {
-            background: #f9fafb;
-          }
-        }
-      
-        &__signup {
-          background: #000;
-          color: #fff;
-      
-          &:hover {
-            background: #333;
-          }
-        }
-      }
-      
-      // Responsive layout
-      @media (max-width: 767px) {
-        .site-header {
-          &__container {
-            height: 72px;
-            padding: 0 16px;
-          }
-        }
-      
-        .desktop-nav,
-        .header-actions {
-          display: none;
-        }
-      
-        .mobile-menu-button {
-          display: block;
-        }
-      
-        .mobile-menu {
-          display: block;
-        }
-      }
-      
-      // Keyboard focus for authentication links
-      .header-actions__link:focus-visible,
-      .header-actions__signup:focus-visible,
-      .mobile-menu__signin:focus-visible,
-      .mobile-menu__signup:focus-visible {
-        outline: 2px solid #000;
-        outline-offset: 3px;
-      }
-      
-    }
-  
-    &__actions {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 20px;
-      padding-top: 16px;
-      border-top: 1px solid #f3f4f6;
-    }
-  
-    &__signin,
-    &__signup {
-      display: block;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 15px;
-      font-weight: 500;
-      text-decoration: none;
-    }
-  
-    &__signin {
-      color: #374151;
-  
-      &:hover {
-        background: #f9fafb;
-      }
-    }
-  
-    &__signup {
-      background: #000;
-      color: #fff;
-  
-      &:hover {
-        background: #333;
-      }
+}
+
+
+// ========================================
+// Desktop authentication
+// ========================================
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 24px);
+  flex-shrink: 0;
+
+  &__link {
+    color: #4b5563;
+    font-size: clamp(13px, 1.15vw, 16px);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      border-bottom: 1px solid #000;
     }
   }
-  
-  // Responsive layout
-  @media (max-width: 767px) {
-    .site-header {
-      &__container {
-        height: 72px;
-      }
-    }
-  
-    .desktop-nav,
-    .header-actions {
-      display: none;
-    }
-  
-    .mobile-menu-button {
-      display: block;
-    }
-  
-    .mobile-menu {
-      display: block;
+
+  &__signup {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(8px, 0.8vw, 10px) clamp(14px, 1.9vw, 24px);
+    border-radius: 8px;
+    background: #000;
+    color: #fff;
+    font-size: clamp(12px, 1.1vw, 16px);
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #333;
     }
   }
-  
-  // Keyboard focus for authentication links
-  .header-actions__link:focus-visible,
-  .header-actions__signup:focus-visible,
-  .mobile-menu__signin:focus-visible,
-  .mobile-menu__signup:focus-visible {
+}
+
+
+// ========================================
+// Mobile menu button
+// ========================================
+
+.mobile-menu-button {
+  display: none;
+  padding: 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #333;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  &__icon {
+    display: block;
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  &:focus-visible {
     outline: 2px solid #000;
     outline-offset: 3px;
   }
-  
+}
+
+
+// ========================================
+// Mobile navigation
+// ========================================
+
+.mobile-menu {
+  display: none;
+  padding: 16px 24px 24px;
+  border-top: 1px solid #f3f4f6;
+  background: #fff;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #374151;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+
+    &:hover,
+    &.is-active {
+      background: #f9fafb;
+      color: #000;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  &__signin,
+  &__signup {
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  &__signin {
+    color: #374151;
+
+    &:hover {
+      background: #f9fafb;
+    }
+  }
+
+  &__signup {
+    background: #000;
+    color: #fff;
+
+    &:hover {
+      background: #333;
+    }
+  }
+}
+
+
+// ========================================
+// Keyboard focus for authentication links
+// ========================================
+
+.header-actions__link:focus-visible,
+.header-actions__signup:focus-visible,
+.mobile-menu__signin:focus-visible,
+.mobile-menu__signup:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+
+// ========================================
+// Responsive layout
+// ========================================
+
+@include tablet {
+  .site-header {
+    padding-block: 14px;
+
+    &__container {
+      height: 64px;
+    }
+  }
+
+  .desktop-nav,
+  .header-actions {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: block;
+    padding-inline: 16px;
+  }
+}
+
+// Compact phones: keep the header on a single line with smaller type.
+@media (max-width: 480px) {
+  .site-header {
+    padding-block: 10px;
+
+    &__container {
+      height: 54px;
+      gap: 10px;
+    }
+
+    &__logo img {
+      height: 28px;
+    }
+  }
+
+  .mobile-menu-button {
+    padding: 4px;
+
+    &__icon {
+      font-size: 22px;
+    }
+  }
+
+  .mobile-menu {
+    padding: 12px 16px 16px;
+
+    &__link {
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+
+    &__signin,
+    &__signup {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+}
