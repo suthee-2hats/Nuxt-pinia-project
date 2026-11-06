@@ -1,54 +1,124 @@
+
 @use '../abstracts/variables' as vars;
 @use '../abstracts/mixins' as mixins;
 
+// ========================================
+// Category grid container
+// ========================================
+
 .category-grid {
-  padding: 40px 0;
+  width: 100%;
   max-width: 1280px;
-  padding: 24px;
-  justify-self: center;
+  margin: 0 auto;
+  padding: 60px 24px;
+  font-family: 'Poppins', sans-serif;
 }
 
+// ========================================
+// Section title
+// ========================================
+
 .category-grid__title {
-  margin: 0 0 24px;
-  color: vars.$category-text;
-  font-size: 24px;
-  font-weight: 500;
-  
+  margin: 0 0 40px;
+  color: #333;
+
+  font-size: 32px;
+  font-weight: 200;
+  text-align: center;
 }
+
+// ========================================
+// Category grid layout
+// ========================================
 
 .category-grid__items {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
 }
 
+// ========================================
+// Individual category card
+// ========================================
+
 .category-grid__card {
+  position: relative;
   display: block;
   overflow: hidden;
-  border-radius: 8px;
-  background: #f8f7f7;
-  color: vars.$category-text;
-  text-align: center;
+  min-width: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: 3px;
+  background:rgb(227, 227, 227);
   text-decoration: none;
+
+  // Soft, widely spread shadow
+ // box-shadow:
+   // 0 8px 20px 2px rgb(45 35 28 / 5%),
+   // 0 18px 42px 5px rgb(45 35 28 / 3%),
+   // 0 30px 65px -12px rgb(45 35 28 / 6%);
+
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease;
+
 
   &:focus-visible {
     outline: 3px solid vars.$focus-color;
-    outline-offset: 4px;
+    outline-offset: 5px;
   }
 }
+
+// ========================================
+// Category image
+// ========================================
 
 .category-grid__card img {
   display: block;
   width: 100%;
-  aspect-ratio: 1;
+  height: 100%;
   object-fit: cover;
+
+  transition: transform 400ms ease;
 }
 
+@media (hover: hover) {
+  .category-grid__card:hover img {
+    transform: scale(1.04);
+    background: linear-gradient(to top, rgba(109, 109, 109, 0.26) 0%, rgba(0, 0, 0, 0) 100%);
+  }
+}
+
+// ========================================
+// Glassmorphism category name
+// ========================================
+
 .category-grid__name {
-  display: block;
-  padding: 14px 8px;
-  font-size: 14px;
-  font-weight: 500;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 54px;
+  padding: 12px 16px;
+
+  // Glass effect
+  //ackground:
+  //backdrop-filter: blur(12px);
+  //-webkit-backdrop-filter: blur(12px);
+
+  // Glass frame
+
+
+  color: #333130;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
 }
 
 // ========================================
@@ -56,9 +126,17 @@
 // ========================================
 
 @include mixins.tablet {
+  .category-grid {
+    padding: 48px 24px;
+  }
+
   .category-grid__items {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .category-grid__card {
+    aspect-ratio: 4 / 4.5;
   }
 }
 
@@ -68,15 +146,47 @@
 
 @include mixins.mobile {
   .category-grid {
-    padding: 28px 0;
+    padding: 32px 16px;
+  }
+
+  .category-grid__title {
+    margin-bottom: 24px;
+    font-size: 24px;
   }
 
   .category-grid__items {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+    gap: 16px;
   }
 
-  .category-grid__title {
-    font-size: 21px;
+  .category-grid__card {
+    aspect-ratio: 3 / 4;
+    border-radius: 10px;
+  }
+
+  .category-grid__name {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    min-height: 44px;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+}
+
+// ========================================
+// Reduced motion accessibility
+// ========================================
+
+@media (prefers-reduced-motion: reduce) {
+  .category-grid__card,
+  .category-grid__card img {
+    transition: none;
+  }
+
+  .category-grid__card:hover,
+  .category-grid__card:hover img {
+    transform: none;
   }
 }
