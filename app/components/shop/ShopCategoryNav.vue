@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Category } from '~/types/category'
+const { scrollElement } = useHorizontalWheelScroll()
 
 defineProps<{
   categories: Category[]
@@ -14,6 +15,7 @@ const emit = defineEmits<{
 <template>
   <nav
     class="shop-category-nav"
+    ref="scrollElement"
     aria-label="Product categories"
   >
     <button

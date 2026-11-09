@@ -10,7 +10,9 @@ interface DummyProductResponse {
 
 export const useCategories = () => {
   const categories = ref<Category[]>([])
-  const pending = ref(false)
+  // Start pending so the SSR markup and the initial client render both show the
+  // skeleton, preventing a layout shift when the fetch starts on mount.
+  const pending = ref(true)
   const error = ref<string | null>(null)
 
   const fetchCategories = async () => {

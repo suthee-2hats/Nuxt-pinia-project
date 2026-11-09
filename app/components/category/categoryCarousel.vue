@@ -6,6 +6,7 @@ import type { Category } from '~/types/category'
 const props = defineProps<{
   categories: Category[]
   showMoreAvailable: boolean
+  loading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -98,6 +99,8 @@ onUnmounted(() => {
 <template>
   <section
     class="category-carousel"
+    :class="{ 'category-carousel--loading': loading }"
+    :aria-busy="loading"
     aria-labelledby="category-carousel-title"
     aria-roledescription="carousel"
     @mouseenter="isHovered = true"
@@ -120,9 +123,10 @@ onUnmounted(() => {
       </p>
 
       <button
-        v-if="showMoreAvailable"
+        v-if="showMoreAvailable || loading"
         type="button"
         class="category-carousel__button"
+        :disabled="loading"
         @click="emit('show-more')"
       >
         Explore all categories
@@ -135,36 +139,50 @@ onUnmounted(() => {
         :key="currentIndex"
         class="category-carousel__images"
       >
-        <NuxtLink
-          v-for="(category, index) in visibleCategories"
-          :key="category.slug"
-          :to="`/products?category=${encodeURIComponent(category.slug)}`"
-          class="category-carousel__card"
-          :class="`category-carousel__card--${index + 1}`"
-        >
-          <img
-            :src="category.image"
-            alt=""
-            loading="lazy"
-            decoding="async"
+        <!-- Placeholder cards reserve the exact same space while loading -->
+        <template v-if="loading">
+          <div
+            v-for="index in visibleCount"
+            :key="`category-skeleton-${index}`"
+            class="category-carousel__card"
+            :class="`category-carousel__card--${index}`"
+            aria-hidden="true"
           />
+        </template>
 
-          <span class="category-carousel__label">
-            {{ category.name }}
-          </span>
-        </NuxtLink>
+        <template v-else>
+          <NuxtLink
+            v-for="(category, index) in visibleCategories"
+            :key="category.slug"
+            :to="`/products?category=${encodeURIComponent(category.slug)}`"
+            class="category-carousel__card"
+            :class="`category-carousel__card--${index + 1}`"
+          >
+            <img
+              :src="category.image"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+
+            <span class="category-carousel__label">
+              {{ category.name }}
+            </span>
+          </NuxtLink>
+        </template>
       </div>
     </Transition>
 
     <!-- Navigation controls: directly below the images -->
     <div
-      v-if="categories.length > visibleCount"
+      v-if="loading || categories.length > visibleCount"
       class="category-carousel__controls"
     >
       <button
         type="button"
         class="category-carousel__arrow"
         aria-label="Previous categories"
+        :disabled="loading"
         @click="previousSlide"
       >
         &lsaquo;
@@ -174,6 +192,7 @@ onUnmounted(() => {
         type="button"
         class="category-carousel__arrow"
         aria-label="Next categories"
+        :disabled="loading"
         @click="nextSlide"
       >
         &rsaquo;

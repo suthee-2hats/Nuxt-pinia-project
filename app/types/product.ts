@@ -24,4 +24,5 @@ export interface Product {
     minPrice: number | null
     maxPrice: number | null
     brand: string
+    rating: number | null
   }

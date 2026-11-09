@@ -30,11 +30,10 @@ const showAll = () => {
 
 <template>
   <section class="home-categories">
-    <p v-if="pending" class="home-categories__status" role="status">
-      Loading categories...
-    </p>
-
-    <div v-else-if="error" class="home-categories__error">
+    <div
+      v-if="error && !pending"
+      class="home-categories__error"
+    >
       <p role="alert">{{ error }}</p>
 
       <button type="button" @click="fetchCategories">
@@ -42,12 +41,17 @@ const showAll = () => {
       </button>
     </div>
 
-    <template v-else-if="categories.length">
-        <CategoryCarousel
+    <template v-else-if="pending || categories.length">
+      <CategoryCarousel
         :categories="categories"
         :show-more-available="showMoreAvailable"
+        :loading="pending"
         @show-more="showAll"
       />
+
+      <p v-if="pending" class="visually-hidden" role="status">
+        Loading categories...
+      </p>
 
       <CategoryGrid
         v-if="showAllCategories"

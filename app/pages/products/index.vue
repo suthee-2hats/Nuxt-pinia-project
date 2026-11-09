@@ -26,6 +26,7 @@ const filters = ref<ProductFilters>({
   minPrice: null,
   maxPrice: null,
   brand: '',
+  rating: null,
 })
 
 // SSR: fetch the initial products
@@ -87,8 +88,8 @@ const brands = computed(() => {
 })
 
 // Client-side additional filters
-const filteredProducts = computed(() => {
-  return products.value.filter((product) => {
+const filteredProducts = computed(() =>
+  products.value.filter((product) => {
     const matchesMin =
       filters.value.minPrice === null ||
       product.price >= filters.value.minPrice
@@ -101,9 +102,18 @@ const filteredProducts = computed(() => {
       !filters.value.brand ||
       product.brand === filters.value.brand
 
-    return matchesMin && matchesMax && matchesBrand
-  })
-})
+    const matchesRating =
+      filters.value.rating === null ||
+      product.rating >= filters.value.rating
+
+    return (
+      matchesMin &&
+      matchesMax &&
+      matchesBrand &&
+      matchesRating
+    )
+  }),
+)
 
 // Infinite scroll
 const scrollTarget = ref<HTMLElement | null>(null)
