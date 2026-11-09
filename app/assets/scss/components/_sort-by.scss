@@ -111,8 +111,8 @@
   }
 }
 @include mixins.mobile {
-    .product-sort__menu {
-      right: auto;
-      left: 0;
-    }
+  .product-sort__menu {
+    right: auto;
+    left: 0;
   }
+}

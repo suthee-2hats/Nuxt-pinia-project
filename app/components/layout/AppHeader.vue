@@ -6,17 +6,35 @@ import { ref } from 'vue'
 interface NavItem {
   label: string
   path: string
+  /** Returns true when this item should be highlighted for the given route. */
+  match: (routePath: string) => boolean
 }
 
 // Navigation data
 const navItems: NavItem[] = [
-  { label: 'Home', path: '/' },
-  { label: 'Shop', path: '/shop' },
-  { label: 'Products', path: '/products' },
+  {
+    label: 'Home',
+    path: '/',
+    match: (routePath) => routePath === '/',
+  },
+  {
+    label: 'Shop',
+    path: '/products',
+    match: (routePath) => routePath === '/products',
+  },
+  {
+    label: 'Products',
+    path: '/products',
+    match: (routePath) => routePath.startsWith('/products/'),
+  },
 ]
 
 // Mobile menu state
 const isMobileMenuOpen = ref(false)
+
+const route = useRoute()
+
+const isNavItemActive = (item: NavItem) => item.match(route.path)
 
 // Toggle mobile navigation
 const toggleMobileMenu = () => {
@@ -49,11 +67,12 @@ const closeMobileMenu = () => {
       <!-- Desktop navigation -->
       <nav class="desktop-nav" aria-label="Main navigation">
         <ul class="desktop-nav__list">
-          <li v-for="item in navItems" :key="item.path">
+          <li v-for="item in navItems" :key="item.label">
             <NuxtLink
               :to="item.path"
               class="desktop-nav__link"
-              active-class="is-active"
+              :class="{ 'is-active': isNavItemActive(item) }"
+              :aria-current="isNavItemActive(item) ? 'page' : undefined"
             >
               {{ item.label }}
             </NuxtLink>
@@ -99,11 +118,12 @@ const closeMobileMenu = () => {
   >
       <nav aria-label="Mobile navigation">
         <ul class="mobile-menu__list">
-          <li v-for="item in navItems" :key="item.path">
+          <li v-for="item in navItems" :key="item.label">
             <NuxtLink
               :to="item.path"
               class="mobile-menu__link"
-              active-class="is-active"
+              :class="{ 'is-active': isNavItemActive(item) }"
+              :aria-current="isNavItemActive(item) ? 'page' : undefined"
               @click="closeMobileMenu"
             >
               {{ item.label }}
