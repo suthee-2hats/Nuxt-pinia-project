@@ -6,7 +6,7 @@ import { productService } from '~/services/productServices'
 const PAGE_SIZE = 12
 
 export const useShopProducts = (
-  initialData: Ref<ProductsResponse | null>,
+  initialData: Ref<ProductsResponse | null | undefined>,
   selectedCategory: Ref<string>,
   selectedSort: Ref<string>,
 ) => {

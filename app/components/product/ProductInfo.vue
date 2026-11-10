@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import type { Product } from '~/types/product'
+import { useCartStore } from '~/stores/cart'
+
+const cartStore = useCartStore()
+
 
 const props = defineProps<{
   product: Product
 }>()
 
-const emit = defineEmits<{
-  'add-to-cart': [payload: { productId: number; quantity: number }]
-}>()
 
 const maxQuantity = computed(() => Math.max(1, props.product.stock))
 
@@ -90,14 +91,18 @@ const addToCart = async () => {
 
   statusMessage.value = ''
 
+  const result = cartStore.addItem(props.product, quantity.value)
+
+  if (!result) {
+    statusMessage.value =
+      'Unable to add the requested quantity. Please check availability.'
+    return
+  }
+
   await nextTick()
 
-  statusMessage.value = `Added ${quantity.value} × ${props.product.title} to your cart.`
-
-  emit('add-to-cart', {
-    productId: props.product.id,
-    quantity: quantity.value,
-  })
+  statusMessage.value =
+    `Added ${quantity.value} × ${props.product.title} to your cart.`
 }
 </script>
 
