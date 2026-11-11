@@ -1,5 +1,6 @@
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import type {
   CheckoutFormData,
   CheckoutFormErrors,
@@ -14,6 +15,17 @@ const emit = defineEmits<{
   'update:modelValue': [value: CheckoutFormData]
   'clear-error': [field: keyof CheckoutFormErrors]
 }>()
+
+// Local draft so consecutive synchronous updates (e.g. browser autofill)
+// merge instead of overwriting each other with a stale object.
+const draft = ref<CheckoutFormData>({ ...props.modelValue })
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    draft.value = { ...value }
+  },
+)
 
 type TextFieldKey =
   | 'email'
@@ -71,16 +83,17 @@ const deliveryFields: {
   },
 ]
 
-const updateField = (
-  field: TextFieldKey | 'country',
-  value: string,
+const updateField = <K extends keyof CheckoutFormData>(
+  field: K,
+  value: CheckoutFormData[K],
 ) => {
-  emit('update:modelValue', {
-    ...props.modelValue,
+  draft.value = {
+    ...draft.value,
     [field]: value,
-  })
+  }
 
-  emit('clear-error', field)
+  emit('update:modelValue', draft.value)
+  emit('clear-error', field as keyof CheckoutFormErrors)
 }
 </script>
 
@@ -108,7 +121,7 @@ const updateField = (
           type="email"
           autocomplete="email"
           placeholder="Email Address"
-          :value="modelValue.email"
+          :value="draft.email"
           :aria-invalid="!!errors.email"
           :aria-describedby="errors.email ? 'email-error' : undefined"
           required
@@ -142,7 +155,7 @@ const updateField = (
         <select
           id="checkout-country"
           autocomplete="country-name"
-          :value="modelValue.country"
+          :value="draft.country"
           :aria-invalid="!!errors.country"
           :aria-describedby="errors.country ? 'country-error' : undefined"
           required
@@ -188,7 +201,7 @@ const updateField = (
             type="text"
             :autocomplete="field.autocomplete"
             :placeholder="field.placeholder"
-            :value="modelValue[field.key]"
+            :value="draft[field.key]"
             :aria-invalid="!!errors[field.key]"
             :aria-describedby="
               errors[field.key]
@@ -216,11 +229,11 @@ const updateField = (
       <label class="address-form__checkbox">
         <input
           type="checkbox"
-          :checked="modelValue.saveInformation"
-          @change="emit('update:modelValue', {
-            ...modelValue,
-            saveInformation: ($event.target as HTMLInputElement).checked
-          })"
+          :checked="draft.saveInformation"
+          @change="updateField(
+            'saveInformation',
+            ($event.target as HTMLInputElement).checked
+          )"
         />
 
         <span>Save this information for future</span>

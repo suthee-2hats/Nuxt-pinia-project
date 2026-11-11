@@ -18,9 +18,18 @@ export const useCartStore = defineStore('cart', {
         const item = state.items.find(
           (item) => item.productId === productId,
         )
-    
+
         return item?.quantity ?? 0
       }
+    },
+    isEmpty: (state) => state.items.length === 0,
+    subtotal: (state) => {
+      return state.items.reduce((total, item) => {
+        const unitPrice =
+          item.price * (1 - item.discountPercentage / 100)
+
+        return total + unitPrice * item.quantity
+      }, 0)
     },
   },
 
@@ -70,6 +79,9 @@ export const useCartStore = defineStore('cart', {
       this.items = this.items.filter(
         (item) => item.productId !== productId,
       )
+    },
+    clearCart() {
+      this.items = []
     },
   },
 })

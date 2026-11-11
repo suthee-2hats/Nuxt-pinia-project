@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cart'
-import CartItem from '../components/cart/Cartitem.vue'
+import CartItem from '~/components/cart/Cartitem.vue'
+
 const cartStore = useCartStore()
+
+const formatPrice = (value: number) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(value)
 </script>
 
 <template>
@@ -17,7 +24,7 @@ const cartStore = useCartStore()
         </nav>
       </header>
 
-      <div v-if="cartStore.items.length === 0" class="cart-page__empty">
+      <div v-if="cartStore.isEmpty" class="cart-page__empty">
         <p>Your cart is empty.</p>
         <NuxtLink to="/products">Continue Shopping</NuxtLink>
       </div>
@@ -38,6 +45,27 @@ const cartStore = useCartStore()
               :item="item"
             />
           </div>
+        </div>
+
+        <div class="cart-page__footer">
+          <div class="cart-page__summary">
+            <p class="cart-page__subtotal">
+              <span>Subtotal</span>
+              <span>{{ formatPrice(cartStore.subtotal) }}</span>
+            </p>
+
+            <p class="cart-page__note">
+              Shipping and taxes are calculated at checkout.
+            </p>
+          </div>
+
+          <NuxtLink
+            v-if="!cartStore.isEmpty"
+            to="/checkout"
+            class="cart-page__checkout-button"
+          >
+            Proceed to Checkout
+          </NuxtLink>
         </div>
       </section>
     </div>

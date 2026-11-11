@@ -121,6 +121,24 @@ const addToCart = async () => {
   statusMessage.value =
     `Added ${quantity.value} × ${props.product.title} to your cart.`
 }
+
+const buyNow = async () => {
+  if (isOutOfStock.value) return
+
+  clampQuantity()
+
+  statusMessage.value = ''
+
+  const result = cartStore.addItem(props.product, quantity.value)
+
+  if (!result) {
+    statusMessage.value =
+      'Unable to add the requested quantity. Please check availability.'
+    return
+  }
+
+  await navigateTo('/checkout')
+}
 </script>
 
 <template>
@@ -311,6 +329,15 @@ const addToCart = async () => {
         @click="addToCart"
       >
         {{ isOutOfStock ? 'Out of Stock' : 'Add to Cart' }}
+      </button>
+
+      <button
+        type="button"
+        class="product-info__buy-now"
+        :disabled="isOutOfStock"
+        @click="buyNow"
+      >
+        Buy Now
       </button>
     </div>
 
