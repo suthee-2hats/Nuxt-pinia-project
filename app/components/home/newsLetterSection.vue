@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-
-import leftimage from '~/assets/img/newLetter/left.avif';
-import rightimage from '~/assets/img/newLetter/right.avif';
 const email = ref('')
 const isSubmitted = ref(false)
 

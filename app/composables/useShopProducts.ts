@@ -1,6 +1,7 @@
+
 import { computed, ref, watch } from 'vue'
 import type { Ref } from 'vue'
-import type { ProductsResponse } from '~/types/product'
+import type { Product, ProductsResponse } from '~/types/product'
 import { productService } from '~/services/productServices'
 
 const PAGE_SIZE = 12
@@ -10,17 +11,21 @@ export const useShopProducts = (
   selectedCategory: Ref<string>,
   selectedSort: Ref<string>,
 ) => {
-  const products = ref(initialData.value?.products ?? [])
+  const products = ref<Product[]>(initialData.value?.products ?? [])
   const total = ref(initialData.value?.total ?? 0)
 
+  const currentPage = ref(1)
   const loading = ref(false)
   const error = ref<string | null>(null)
 
-  const skip = ref(products.value.length)
+  let requestId = 0
 
-  const hasMore = computed(
-    () => products.value.length < total.value,
+  const totalPages = computed(() =>
+    Math.max(1, Math.ceil(total.value / PAGE_SIZE)),
   )
+
+  const hasPrevious = computed(() => currentPage.value > 1)
+  const hasNext = computed(() => currentPage.value < totalPages.value)
 
   const getSortOptions = () => {
     switch (selectedSort.value) {
@@ -37,65 +42,104 @@ export const useShopProducts = (
         return {}
     }
   }
+  const visiblePages = computed(() => {
+    const start = Math.max(1, currentPage.value - 1)
+  
+    const end = Math.min(
+      totalPages.value,
+      start + 3,
+    )
+  
+    const adjustedStart = Math.max(1, end - 3)
+  
+    return Array.from(
+      { length: end - adjustedStart + 1 },
+      (_, index) => adjustedStart + index,
+    )
+  })
 
-  // Load the next page or reset the product list
-  const loadProducts = async (reset = false) => {
-    if (loading.value) return
+  const loadProducts = async (page = 1) => {
+    const validPage = Math.min(Math.max(page, 1), totalPages.value)
 
-    if (!reset && !hasMore.value) return
+    currentPage.value = validPage
+
+    const currentRequestId = ++requestId
 
     loading.value = true
     error.value = null
 
-    const requestSkip = reset ? 0 : skip.value
+    const skip = (validPage - 1) * PAGE_SIZE
 
     try {
-      const sortOptions = getSortOptions()
-
       const response = await productService.getProducts({
         limit: PAGE_SIZE,
-        skip: requestSkip,
+        skip,
         category: selectedCategory.value || undefined,
-        ...sortOptions,
+        ...getSortOptions(),
       })
 
-      if (reset) {
-        products.value = response.products
-      } else {
-        products.value.push(...response.products)
-      }
+      // Ignore an older response if a newer request has started.
+      if (currentRequestId !== requestId) return
 
+      products.value = response.products
       total.value = response.total
-      skip.value = response.skip + response.products.length
     } catch (err) {
+      if (currentRequestId !== requestId) return
+
       console.error('Unable to fetch products:', err)
       error.value = 'Unable to load products. Please try again.'
     } finally {
-      loading.value = false
+      if (currentRequestId === requestId) {
+        loading.value = false
+      }
     }
   }
 
-  // Reload when category or sorting changes
+  const goToPage = (page: number) => {
+    if (
+      page < 1 ||
+      page > totalPages.value ||
+      page === currentPage.value ||
+      loading.value
+    ) {
+      return
+    }
+
+    loadProducts(page)
+  }
+
+  // Reset pagination when the category or sorting changes.
   watch(
     [selectedCategory, selectedSort],
-    () => loadProducts(true),
+    () => {
+      loadProducts(1)
+    },
   )
 
-  // Keep initial SSR data in sync with the composable
+  // Keep the composable synchronized with updated initial SSR data.
   watch(initialData, (response) => {
     if (!response) return
 
+    requestId++
+
     products.value = response.products
     total.value = response.total
-    skip.value = response.products.length
+    currentPage.value = 1
+    loading.value = false
+    error.value = null
   })
 
   return {
     products,
     total,
+    currentPage,
+    totalPages,
+    visiblePages,
     loading,
     error,
-    hasMore,
+    hasPrevious,
+    hasNext,
     loadProducts,
+    goToPage,
   }
 }

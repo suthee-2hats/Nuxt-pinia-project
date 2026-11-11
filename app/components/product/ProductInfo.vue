@@ -11,7 +11,15 @@ const props = defineProps<{
 }>()
 
 
-const maxQuantity = computed(() => Math.max(1, props.product.stock))
+const cartQuantity = computed(() =>
+  cartStore.getItemQuantity(props.product.id),
+)
+
+const availableStock = computed(() =>
+  Math.max(0, props.product.stock - cartQuantity.value),
+)
+
+const maxQuantity = computed(() => availableStock.value)
 
 const minQuantity = computed(() =>
   Math.min(
@@ -30,11 +38,12 @@ watch(
     statusMessage.value = ''
   },
 )
-
-const isOutOfStock = computed(() => props.product.stock <= 0)
+const isOutOfStock = computed(
+  () => availableStock.value <= 0,
+)
 
 const isLowStock = computed(
-  () => props.product.stock > 0 && props.product.stock <= 10,
+  () => availableStock.value > 0 && availableStock.value <= 10,
 )
 
 const hasDiscount = computed(() => props.product.discountPercentage > 0)
@@ -44,15 +53,14 @@ const discountedPrice = computed(
     props.product.price *
     (1 - props.product.discountPercentage / 100),
 )
-
 const stockMessage = computed(() => {
   if (isOutOfStock.value) return 'Out of stock'
 
   if (isLowStock.value) {
-    return `Only ${props.product.stock} left in stock — order soon.`
+    return `Only ${availableStock.value} left in stock — order soon.`
   }
 
-  return `${props.product.availabilityStatus ?? 'In stock'} — ${props.product.stock} available`
+  return `${availableStock.value} available`
 })
 
 const categoryLabel = computed(() =>
@@ -75,6 +83,15 @@ const clampQuantity = () => {
     ? Math.min(Math.max(parsed, minQuantity.value), maxQuantity.value)
     : minQuantity.value
 }
+
+watch(availableStock, (stock) => {
+  if (stock <= 0) {
+    quantity.value = 0
+    return
+  }
+
+  clampQuantity()
+})
 
 const decreaseQuantity = () => {
   if (quantity.value > minQuantity.value) quantity.value -= 1

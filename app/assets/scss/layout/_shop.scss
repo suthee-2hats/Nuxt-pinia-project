@@ -5,9 +5,9 @@
 // SHOP PAGE
 .shop-page {
   width: 100%;
-  max-width: 1440px;
+
   margin: 0 auto;
-  padding: 40px 32px;
+  
 }
 
 // SHOP PAGE HEADER
@@ -432,5 +432,43 @@
 
   .product-card__link:hover .product-card__image img {
     transform: none;
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin:auto;
+
+  button {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #222;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      background: #222;
+      color: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #2463eb;
+      outline-offset: 3px;
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+
+  &__page--active {
+    background: #222 !important;
+    color: #fff !important;
+    border-color: #222 !important;
   }
 }

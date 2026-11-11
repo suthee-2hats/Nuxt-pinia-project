@@ -3,13 +3,13 @@ import { computed, ref, watch } from 'vue'
 import type { ProductFilters } from '~/types/product'
 import { productService } from '~/services/productServices'
 import { useShopProducts } from '~/composables/useShopProducts'
-import { useInfiniteScroll } from '~/composables/useInfiniteScroll'
 
 import ShopPageHeader from '~/components/shop/ShopPageHeader.vue'
 import ShopCategoryNav from '~/components/shop/ShopCategoryNav.vue'
 import ProductFiltersSidebar from '~/components/product/ProductFilters.vue'
 import ProductSort from '~/components/product/ProductSort.vue'
 import ProductGrid from '~/components/product/ProductGrid.vue'
+import newsLetterSection from '~/components/home/newsLetterSection.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -48,10 +48,14 @@ const { data: categories } = await useAsyncData(
 
 const {
   products,
+  currentPage,
+  totalPages,
   loading,
   error,
-  hasMore,
-  loadProducts,
+  hasPrevious,
+  visiblePages,
+  hasNext,
+  goToPage,
 } = useShopProducts(
   initialProducts,
   selectedCategory,
@@ -115,18 +119,11 @@ const filteredProducts = computed(() =>
   }),
 )
 
-// Infinite scroll
-const scrollTarget = ref<HTMLElement | null>(null)
 
-useInfiniteScroll(scrollTarget, () => {
-  if (hasMore.value && !loading.value) {
-    loadProducts()
-  }
-})
 </script>
 
 <template>
-  <main class="shop-page">
+  <main class="shop-page container-global1">
     <ShopPageHeader
       :selected-category="selectedCategory"
     />
@@ -182,20 +179,42 @@ useInfiniteScroll(scrollTarget, () => {
         >
           No products match your filters.
         </p>
+                <!-- Pagination -->
+  <nav
+  v-if="totalPages > 1"
+  class="pagination"
+  aria-label="Product pages"
+>
+  <button
+    type="button"
+    :disabled="!hasPrevious || loading"
+    @click="goToPage(currentPage - 1)"
+  >
+    Previous
+  </button>
 
-        <p
-          v-if="!hasMore && products.length"
-          class="shop-page__end"
-        >
-          You have reached the end of the products.
-        </p>
+  <button
+    v-for="page in visiblePages"
+    :key="page"
+    type="button"
+    :aria-current="currentPage === page ? 'page' : undefined"
+    :disabled="loading"
+    :class="{ 'pagination__page--active': currentPage === page }"
+    @click="goToPage(page)"
+  >
+    {{ page }}
+  </button>
 
-        <div
-          ref="scrollTarget"
-          class="shop-page__scroll-trigger"
-          aria-hidden="true"
-        />
+  <button
+    type="button"
+    :disabled="!hasNext || loading"
+    @click="goToPage(currentPage + 1)"
+  >
+    Next
+  </button>
+</nav>
       </section>
     </div>
+    <newsLetterSection/>
   </main>
 </template>

@@ -15,4 +15,5 @@ defineProps<{
       :product="product"
     />
   </div>
+  
 </template>
