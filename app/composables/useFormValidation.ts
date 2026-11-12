@@ -1,47 +1,48 @@
 
 import { ref } from 'vue'
-import type {
-  CheckoutFormData,
-  CheckoutFormErrors,
-} from '~/types/order'
 
-const requiredFields = [
-  { key: 'email', label: 'Email address' },
-  { key: 'country', label: 'Country / Region' },
-  { key: 'firstName', label: 'First name' },
-  { key: 'lastName', label: 'Last name' },
-  { key: 'address', label: 'Address' },
-  { key: 'city', label: 'City' },
-  { key: 'postalCode', label: 'Postal code' },
-] as const
+type ValidationErrors = Record<string, string>
 
-export const useFormValidation = () => {
-  const errors = ref<CheckoutFormErrors>({})
+interface RequiredField {
+  key: string
+  label: string
+}
 
-  const validateCheckout = (form: CheckoutFormData): boolean => {
-    const newErrors: CheckoutFormErrors = {}
+interface ValidationRule<T> {
+  key: keyof T
+  validate: (value: string, form: T) => string | null
+}
 
-    // Validate all required fields
+export const useFormValidation = <T extends object>() => {
+  const errors = ref<ValidationErrors>({})
+
+  const validateForm = (
+    form: T,
+    requiredFields: RequiredField[],
+    rules: ValidationRule<T>[] = [],
+  ): boolean => {
+    const newErrors: ValidationErrors = {}
+
+    // 1. Required field validation
     for (const field of requiredFields) {
-      if (!form[field.key].toString().trim()) {
+      const value = String(form[field.key] ?? '')
+
+      if (!value.trim()) {
         newErrors[field.key] = `${field.label} is required.`
       }
     }
 
-    // Email format validation
-    if (
-      form.email.trim() &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
-    ) {
-      newErrors.email = 'Please enter a valid email address.'
-    }
+    // 2. Additional validation rules
+    for (const rule of rules) {
+      const value = String(form[rule.key] ?? '')
 
-    // Postal code validation
-    if (
-      form.postalCode.trim() &&
-      form.postalCode.trim().length < 3
-    ) {
-      newErrors.postalCode = 'Please enter a valid postal code.'
+      if (value.trim()) {
+        const error = rule.validate(value, form)
+
+        if (error) {
+          newErrors[rule.key as string] = error
+        }
+      }
     }
 
     errors.value = newErrors
@@ -49,17 +50,19 @@ export const useFormValidation = () => {
     return Object.keys(newErrors).length === 0
   }
 
-  const clearError = (field: keyof CheckoutFormErrors) => {
-    delete errors.value[field]
+  // Clear an individual field error
+  const clearError = (field: keyof T) => {
+    delete errors.value[field as string]
   }
 
+  // Clear all errors
   const clearErrors = () => {
     errors.value = {}
   }
 
   return {
     errors,
-    validateCheckout,
+    validateForm,
     clearError,
     clearErrors,
   }
