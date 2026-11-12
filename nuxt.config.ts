@@ -7,9 +7,25 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
+      title: 'FASCO | Modern Fashion, Clothing & Accessories',
       htmlAttrs: {
         lang: 'en',
       },
+      meta: [
+        {
+          name: 'description',
+          content:
+            'Shop FASCO for modern clothing, shoes and accessories. Explore curated collections, new arrivals and timeless everyday essentials.',
+        },
+        {
+          name: 'theme-color',
+          content: '#ffffff',
+        },
+        {
+          name: 'format-detection',
+          content: 'telephone=no',
+        },
+      ],
       link: [
         {
           rel: 'icon',

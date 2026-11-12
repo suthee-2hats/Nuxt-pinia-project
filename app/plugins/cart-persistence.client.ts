@@ -55,7 +55,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     cart.$subscribe(persist, { detached: true })
   }
 
-  // Hydrate after SSR hydration so the server-rendered markup and the
-  // client state stay in sync.
-  nuxtApp.hook('app:mounted', hydrate)
+  // Restore the stored cart right after hydration resolves, so the server
+  // and client markup match before the state changes.
+  if (nuxtApp.isHydrating) {
+    nuxtApp.hooks.hookOnce('app:suspense:resolve', hydrate)
+  } else {
+    hydrate()
+  }
 })

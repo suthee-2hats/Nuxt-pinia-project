@@ -62,6 +62,22 @@ const {
   selectedSort,
 )
 
+const activeCategoryName = computed(
+  () =>
+    categories.value?.find(
+      (category) => category.slug === selectedCategory.value,
+    )?.name ?? '',
+)
+
+usePageSeo(() => ({
+  title: activeCategoryName.value
+    ? `Shop ${activeCategoryName.value}`
+    : 'Shop All Products',
+  description: activeCategoryName.value
+    ? `Shop ${activeCategoryName.value} at FASCO. Compare styles, filter by brand, price and rating, and find your next favourite piece.`
+    : 'Browse all FASCO clothing, shoes and accessories. Filter by category, brand, price and rating to find the pieces you love.',
+}))
+
 // Keep URL in sync with category selection
 watch(selectedCategory, (category) => {
   router.replace({

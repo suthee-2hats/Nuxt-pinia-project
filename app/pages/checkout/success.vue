@@ -27,8 +27,11 @@ const formatDate = (value: string) =>
     timeStyle: 'short',
   }).format(new Date(value))
 
-useSeoMeta({
-  title: 'Order Confirmed | FASCO',
+usePageSeo({
+  title: 'Order Confirmed',
+  description:
+    'Your FASCO order has been placed. Review your order number, items and delivery details.',
+  noIndex: true,
 })
 </script>
 

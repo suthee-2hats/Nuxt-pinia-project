@@ -20,8 +20,7 @@ export interface OrderApiResponse {
 }
 
 export const orderService = {
-  // dummyjson does not persist orders, but this endpoint gives us a
-  // realistic server round-trip and an order ID.
+
   createOrder(payload: CreateOrderPayload) {
     return $fetch<OrderApiResponse>(`${API_URL}/carts/add`, {
       method: 'POST',

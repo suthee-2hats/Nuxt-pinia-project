@@ -59,10 +59,17 @@ const relatedProducts = computed(() =>
     .slice(0, 8),
 )
 
-useSeoMeta({
-  title: () =>
-    product.value ? `${product.value.title} | FASCO` : 'Product | FASCO',
-  description: () => product.value?.description ?? '',
+usePageSeo(() => {
+  const current = product.value
+
+  return {
+    title: current?.title ?? 'Product',
+    description:
+      current?.description ??
+      'Discover product details, pricing and availability at FASCO.',
+    image: current?.images?.[0] ?? current?.thumbnail,
+    type: 'product',
+  }
 })
 </script>
 

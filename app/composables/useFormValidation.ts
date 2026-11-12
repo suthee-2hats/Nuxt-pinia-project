@@ -1,10 +1,9 @@
-
 import { ref } from 'vue'
 
-type ValidationErrors = Record<string, string>
+type ValidationErrors<T> = Partial<Record<keyof T, string>>
 
-interface RequiredField {
-  key: string
+interface RequiredField<T> {
+  key: keyof T
   label: string
 }
 
@@ -13,15 +12,17 @@ interface ValidationRule<T> {
   validate: (value: string, form: T) => string | null
 }
 
+export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 export const useFormValidation = <T extends object>() => {
-  const errors = ref<ValidationErrors>({})
+  const errors = ref<ValidationErrors<T>>({})
 
   const validateForm = (
     form: T,
-    requiredFields: RequiredField[],
+    requiredFields: RequiredField<T>[],
     rules: ValidationRule<T>[] = [],
   ): boolean => {
-    const newErrors: ValidationErrors = {}
+    const newErrors: ValidationErrors<T> = {}
 
     // 1. Required field validation
     for (const field of requiredFields) {
@@ -40,7 +41,7 @@ export const useFormValidation = <T extends object>() => {
         const error = rule.validate(value, form)
 
         if (error) {
-          newErrors[rule.key as string] = error
+          newErrors[rule.key] = error
         }
       }
     }
@@ -52,7 +53,7 @@ export const useFormValidation = <T extends object>() => {
 
   // Clear an individual field error
   const clearError = (field: keyof T) => {
-    delete errors.value[field as string]
+    delete errors.value[field]
   }
 
   // Clear all errors

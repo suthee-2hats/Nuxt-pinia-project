@@ -139,6 +139,36 @@
       background: #333;
     }
   }
+
+  &__greeting {
+    color: #4b5563;
+    font-size: clamp(13px, 1.15vw, 16px);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &__signout {
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    background: none;
+    color: #4b5563;
+    font: inherit;
+    font-size: clamp(13px, 1.15vw, 16px);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom-color: #000;
+      color: #000;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 3px;
+    }
+  }
 }
 
 
@@ -279,6 +309,30 @@
     font-size: 15px;
     font-weight: 500;
     text-decoration: none;
+
+    &:hover {
+      background: #f9fafb;
+      color: #000;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+    }
+  }
+
+  &__signout {
+    width: 100%;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: #374151;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
 
     &:hover {
       background: #f9fafb;

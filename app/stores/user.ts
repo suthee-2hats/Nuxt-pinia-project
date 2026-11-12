@@ -1,4 +1,3 @@
-
 import { defineStore } from 'pinia'
 import type {
   User,
@@ -18,6 +17,14 @@ interface UserState {
   error: string | null
 }
 
+const messageFrom = (error: unknown, fallback: string) => {
+  if (error instanceof Error && error.message) {
+    return error.message
+  }
+
+  return fallback
+}
+
 export const useUserStore = defineStore('user', {
   state: (): UserState => ({
     user: null,
@@ -27,6 +34,10 @@ export const useUserStore = defineStore('user', {
 
   getters: {
     isAuthenticated: (state) => state.user !== null,
+    displayName: (state) =>
+      state.user
+        ? `${state.user.firstName} ${state.user.lastName}`.trim()
+        : '',
   },
 
   actions: {
@@ -37,7 +48,10 @@ export const useUserStore = defineStore('user', {
       try {
         this.user = await signInUser(credentials)
       } catch (error) {
-        this.error = 'Unable to sign in. Please check your details.'
+        this.error = messageFrom(
+          error,
+          'Unable to sign in. Please check your details.',
+        )
         throw error
       } finally {
         this.isLoading = false
@@ -51,7 +65,10 @@ export const useUserStore = defineStore('user', {
       try {
         this.user = await signUpUser(data)
       } catch (error) {
-        this.error = 'Unable to create your account.'
+        this.error = messageFrom(
+          error,
+          'Unable to create your account.',
+        )
         throw error
       } finally {
         this.isLoading = false
@@ -65,6 +82,7 @@ export const useUserStore = defineStore('user', {
         await signOutUser()
       } finally {
         this.user = null
+        this.error = null
         this.isLoading = false
       }
     },

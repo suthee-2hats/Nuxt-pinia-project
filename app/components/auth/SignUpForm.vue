@@ -70,11 +70,11 @@ const handleSubmit = () => {
         v-model="form.firstName"
         autocomplete="given-name"
         required
-        :aria-invalid="!!signUpErrors.firstName"
-        :aria-describedby="signUpErrors.firstName ? 'signup-first-name-error' : undefined"
+        :aria-invalid="!!errors.firstName"
+        :aria-describedby="errors.firstName ? 'signup-first-name-error' : undefined"
       />
-      <p v-if="signUpErrors.firstName" id="signup-first-name-error" class="auth-form__error">
-        {{ signUpErrors.firstName }}
+      <p v-if="errors.firstName" id="signup-first-name-error" class="auth-form__error">
+        {{ errors.firstName }}
       </p>
     </div>
 
@@ -85,11 +85,11 @@ const handleSubmit = () => {
         v-model="form.lastName"
         autocomplete="family-name"
         required
-        :aria-invalid="!!signUpErrors.lastName"
-        :aria-describedby="signUpErrors.lastName ? 'signup-last-name-error' : undefined"
+        :aria-invalid="!!errors.lastName"
+        :aria-describedby="errors.lastName ? 'signup-last-name-error' : undefined"
       />
-      <p v-if="signUpErrors.lastName" id="signup-last-name-error" class="auth-form__error">
-        {{ signUpErrors.lastName }}
+      <p v-if="errors.lastName" id="signup-last-name-error" class="auth-form__error">
+        {{ errors.lastName }}
       </p>
     </div>
 
@@ -101,11 +101,11 @@ const handleSubmit = () => {
         type="email"
         autocomplete="email"
         required
-        :aria-invalid="!!signUpErrors.email"
-        :aria-describedby="signUpErrors.email ? 'signup-email-error' : undefined"
+        :aria-invalid="!!errors.email"
+        :aria-describedby="errors.email ? 'signup-email-error' : undefined"
       />
-      <p v-if="signUpErrors.email" id="signup-email-error" class="auth-form__error">
-        {{ signUpErrors.email }}
+      <p v-if="errors.email" id="signup-email-error" class="auth-form__error">
+        {{ errors.email }}
       </p>
     </div>
 
@@ -117,11 +117,11 @@ const handleSubmit = () => {
         type="password"
         autocomplete="new-password"
         required
-        :aria-invalid="!!signUpErrors.password"
-        :aria-describedby="signUpErrors.password ? 'signup-password-error' : undefined"
+        :aria-invalid="!!errors.password"
+        :aria-describedby="errors.password ? 'signup-password-error' : undefined"
       />
-      <p v-if="signUpErrors.password" id="signup-password-error" class="auth-form__error">
-        {{ signUpErrors.password }}
+      <p v-if="errors.password" id="signup-password-error" class="auth-form__error">
+        {{ errors.password }}
       </p>
     </div>
 
@@ -133,15 +133,15 @@ const handleSubmit = () => {
         type="password"
         autocomplete="new-password"
         required
-        :aria-invalid="!!signUpErrors.confirmPassword"
-        :aria-describedby="signUpErrors.confirmPassword ? 'signup-confirm-password-error' : undefined"
+        :aria-invalid="!!errors.confirmPassword"
+        :aria-describedby="errors.confirmPassword ? 'signup-confirm-password-error' : undefined"
       />
       <p
-        v-if="signUpErrors.confirmPassword"
+        v-if="errors.confirmPassword"
         id="signup-confirm-password-error"
         class="auth-form__error"
       >
-        {{ signUpErrors.confirmPassword }}
+        {{ errors.confirmPassword }}
       </p>
     </div>
 

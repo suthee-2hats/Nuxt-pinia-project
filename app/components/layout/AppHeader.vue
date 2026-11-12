@@ -1,6 +1,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { useUserStore } from '~/stores/user'
 
 interface NavItem {
   label: string
@@ -27,6 +28,7 @@ const navItems: NavItem[] = [
 ]
 
 const route = useRoute()
+const userStore = useUserStore()
 
 // Decide which header layout to display
 const isHomePage = computed(() => route.path === '/')
@@ -60,6 +62,12 @@ watch(
     isMobileMenuOpen.value = false
   },
 )
+
+const handleSignOut = async () => {
+  await userStore.signOut()
+  closeMobileMenu()
+  await navigateTo('/')
+}
 </script>
 
 <template>
@@ -100,13 +108,29 @@ watch(
 
       <!-- Section 3A: Homepage authentication -->
       <div v-if="isHomePage" class="header-actions">
-        <NuxtLink to="/auth/signin" class="header-actions__link">
-          Sign in
-        </NuxtLink>
+        <template v-if="userStore.isAuthenticated">
+          <span class="header-actions__greeting">
+            Hi, {{ userStore.user?.firstName }}
+          </span>
 
-        <NuxtLink to="/auth/signup" class="header-actions__signup">
-          Sign up
-        </NuxtLink>
+          <button
+            type="button"
+            class="header-actions__signout"
+            @click="handleSignOut"
+          >
+            Sign out
+          </button>
+        </template>
+
+        <template v-else>
+          <NuxtLink to="/auth/signin" class="header-actions__link">
+            Sign in
+          </NuxtLink>
+
+          <NuxtLink to="/auth/signup" class="header-actions__signup">
+            Sign up
+          </NuxtLink>
+        </template>
       </div>
 
       <!-- Section 3B: Inner-page actions -->
@@ -169,21 +193,41 @@ watch(
       <!-- Page-relevant actions, only visible inside the disclosure -->
       <div class="mobile-menu__actions">
         <template v-if="isHomePage">
-          <NuxtLink
-            to="/auth/signin"
-            class="mobile-menu__signin"
-            @click="closeMobileMenu"
-          >
-            Sign in
-          </NuxtLink>
+          <template v-if="userStore.isAuthenticated">
+            <NuxtLink
+              to="/account"
+              class="mobile-menu__account-link"
+              @click="closeMobileMenu"
+            >
+              My account
+            </NuxtLink>
 
-          <NuxtLink
-            to="/auth/signup"
-            class="mobile-menu__signup"
-            @click="closeMobileMenu"
-          >
-            Sign up
-          </NuxtLink>
+            <button
+              type="button"
+              class="mobile-menu__signout"
+              @click="handleSignOut"
+            >
+              Sign out
+            </button>
+          </template>
+
+          <template v-else>
+            <NuxtLink
+              to="/auth/signin"
+              class="mobile-menu__signin"
+              @click="closeMobileMenu"
+            >
+              Sign in
+            </NuxtLink>
+
+            <NuxtLink
+              to="/auth/signup"
+              class="mobile-menu__signup"
+              @click="closeMobileMenu"
+            >
+              Sign up
+            </NuxtLink>
+          </template>
         </template>
 
         <template v-else>
@@ -201,6 +245,24 @@ watch(
             @click="closeMobileMenu"
           >
             My account
+          </NuxtLink>
+
+          <button
+            v-if="userStore.isAuthenticated"
+            type="button"
+            class="mobile-menu__signout"
+            @click="handleSignOut"
+          >
+            Sign out
+          </button>
+
+          <NuxtLink
+            v-else
+            to="/auth/signin"
+            class="mobile-menu__account-link"
+            @click="closeMobileMenu"
+          >
+            Sign in
           </NuxtLink>
         </template>
       </div>

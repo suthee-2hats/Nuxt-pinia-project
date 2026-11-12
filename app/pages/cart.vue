@@ -4,6 +4,13 @@ import CartItem from '~/components/cart/Cartitem.vue'
 
 const cartStore = useCartStore()
 
+usePageSeo({
+  title: 'Shopping Cart',
+  description:
+    'Review the items in your FASCO shopping cart, update quantities and proceed to a simple, secure checkout.',
+  noIndex: true,
+})
+
 const formatPrice = (value: number) =>
   new Intl.NumberFormat('en-US', {
     style: 'currency',

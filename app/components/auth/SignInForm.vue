@@ -1,8 +1,11 @@
-
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import type { SignInCredentials } from '~/types/user'
 import { useFormValidation } from '~/composables/useFormValidation'
+
+defineProps<{
+  isSubmitting?: boolean
+}>()
 
 const emit = defineEmits<{
   submit: [credentials: SignInCredentials]
@@ -13,10 +16,20 @@ const form = reactive<SignInCredentials>({
   password: '',
 })
 
-const { errors, validateForm } =
+const formRef = ref<HTMLFormElement | null>(null)
+
+const { errors, validateForm, clearError } =
   useFormValidation<SignInCredentials>()
 
-const handleSubmit = () => {
+const focusFirstInvalidField = async () => {
+  await nextTick()
+
+  formRef.value
+    ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+    ?.focus()
+}
+
+const handleSubmit = async () => {
   const isValid = validateForm(
     form,
     [
@@ -34,15 +47,22 @@ const handleSubmit = () => {
     ],
   )
 
-  if (!isValid) return
+  if (!isValid) {
+    await focusFirstInvalidField()
+    return
+  }
 
   emit('submit', { ...form })
 }
 </script>
 
-
 <template>
-  <form class="auth-form" @submit.prevent="handleSubmit" novalidate>
+  <form
+    ref="formRef"
+    class="auth-form"
+    novalidate
+    @submit.prevent="handleSubmit"
+  >
     <div class="auth-form__field">
       <label for="signin-email">Email address</label>
 
@@ -50,10 +70,12 @@ const handleSubmit = () => {
         id="signin-email"
         v-model="form.email"
         type="email"
+        name="email"
         autocomplete="email"
         required
         :aria-invalid="!!errors.email"
         :aria-describedby="errors.email ? 'signin-email-error' : undefined"
+        @input="clearError('email')"
       />
 
       <p
@@ -72,10 +94,12 @@ const handleSubmit = () => {
         id="signin-password"
         v-model="form.password"
         type="password"
+        name="password"
         autocomplete="current-password"
         required
         :aria-invalid="!!errors.password"
         :aria-describedby="errors.password ? 'signin-password-error' : undefined"
+        @input="clearError('password')"
       />
 
       <p
@@ -87,8 +111,12 @@ const handleSubmit = () => {
       </p>
     </div>
 
-    <button type="submit" class="auth-form__submit">
-      Sign In
+    <button
+      type="submit"
+      class="auth-form__submit"
+      :disabled="isSubmitting"
+    >
+      {{ isSubmitting ? 'Signing in…' : 'Sign In' }}
     </button>
 
     <p class="auth-form__footer">
