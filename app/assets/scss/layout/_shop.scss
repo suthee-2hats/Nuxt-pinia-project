@@ -68,6 +68,12 @@
       color: $color-surface;
     }
 
+    &:not(.is-active):hover {
+
+      border-color: #b9aaa0;
+      color: #332b26;
+    }
+
     @include focus-ring(3px, 3px);
   }
 }
@@ -218,7 +224,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
-    color: $color-subtle;
+    color:$color-ink-soft ;
     font-size: 16px;
   }
 
@@ -319,6 +325,9 @@
     margin-bottom: 8px;
     font-size: 15px;
     font-weight: 500;
+  }
+  &__title:hover{
+     color: $color-focus;
   }
 
   &__price {

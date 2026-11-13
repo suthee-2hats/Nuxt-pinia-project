@@ -6,6 +6,10 @@
   align-items: center;
   font-family: $font-sans;
 
+  button:hover{
+   background-color: $color-heading;
+  }
+
   // Sort By button
   &__trigger {
     display: flex;
