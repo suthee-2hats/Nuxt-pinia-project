@@ -171,6 +171,9 @@ const handleSubscribe = () => {
   .newsletter__image {
     flex: 0 0 200px;
     height: 380px;
+    img {
+      width: auto;
+      height: 100%;}
   }
 
   .newsletter__title {

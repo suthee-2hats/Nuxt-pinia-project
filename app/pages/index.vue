@@ -2,6 +2,7 @@
 import HomeHero from '~/components/home/homeHero.vue'
 import HomeCategories from '~/components/home/homeCategories.vue'
 import newsLetterSection from '~/components/home/newsLetterSection.vue';
+import AppFoooter from '~/components/layout/AppFoooter.vue';
 
 usePageSeo({
   title: 'FASCO | Modern Fashion, Clothing & Accessories',
@@ -19,5 +20,7 @@ usePageSeo({
   </div>
   <div class="news-letter">
 <newsLetterSection/>
+
   </div>
+<AppFoooter/>  
 </template>

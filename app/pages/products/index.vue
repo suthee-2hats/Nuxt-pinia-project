@@ -10,6 +10,7 @@ import ProductFiltersSidebar from '~/components/product/ProductFilters.vue'
 import ProductSort from '~/components/product/ProductSort.vue'
 import ProductGrid from '~/components/product/ProductGrid.vue'
 import newsLetterSection from '~/components/home/newsLetterSection.vue'
+import AppFoooter from '~/components/layout/AppFoooter.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -232,5 +233,7 @@ const filteredProducts = computed(() =>
       </section>
     </div>
     <newsLetterSection/>
+    
   </main>
+  <AppFoooter/>
 </template>
