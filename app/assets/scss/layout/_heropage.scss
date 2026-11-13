@@ -131,6 +131,9 @@
   font-size: min(3.95cqw, 16px);
   font-family: $font-sans;
 }
+.home-hero__cta:hover {
+  background-color: $color-body;
+}
 
 // ========================================
 // Hover interaction
