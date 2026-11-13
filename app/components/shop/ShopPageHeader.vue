@@ -1,14 +1,12 @@
 <script setup lang="ts">
 defineProps<{
-  selectedCategory: string
-}>()
+  selectedCategory: string;
+}>();
 </script>
 
 <template>
   <section class="shop-page-header">
-    <h1 class="shop-page-header__title">
-      Shop
-    </h1>
+    <h1 class="shop-page-header__title">Shop</h1>
 
     <nav aria-label="Breadcrumb">
       <ol class="shop-page-header__breadcrumb">
@@ -21,7 +19,7 @@ defineProps<{
         </li>
 
         <li aria-current="page">
-          {{ selectedCategory || 'All Products' }}
+          {{ selectedCategory || "All Products" }}
         </li>
       </ol>
     </nav>

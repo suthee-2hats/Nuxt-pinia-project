@@ -1,87 +1,78 @@
-
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import type {
-  CheckoutFormData,
-  CheckoutFormErrors,
-} from '~/types/order'
+import { ref, watch } from "vue";
+import type { CheckoutFormData, CheckoutFormErrors } from "~/types/order";
 
 const props = defineProps<{
-  modelValue: CheckoutFormData
-  errors: CheckoutFormErrors
-}>()
+  modelValue: CheckoutFormData;
+  errors: CheckoutFormErrors;
+}>();
 
 const emit = defineEmits<{
-  'update:modelValue': [value: CheckoutFormData]
-  'clear-error': [field: keyof CheckoutFormErrors]
-}>()
+  "update:modelValue": [value: CheckoutFormData];
+  "clear-error": [field: keyof CheckoutFormErrors];
+}>();
 
 // Local draft so consecutive synchronous updates (e.g. browser autofill)
 // merge instead of overwriting each other with a stale object.
-const draft = ref<CheckoutFormData>({ ...props.modelValue })
+const draft = ref<CheckoutFormData>({ ...props.modelValue });
 
 watch(
   () => props.modelValue,
   (value) => {
-    draft.value = { ...value }
+    draft.value = { ...value };
   },
-)
+);
 
 type TextFieldKey =
-  | 'email'
-  | 'firstName'
-  | 'lastName'
-  | 'address'
-  | 'city'
-  | 'postalCode'
+  "email" | "firstName" | "lastName" | "address" | "city" | "postalCode";
 
 const countries = [
-  'India',
-  'United States',
-  'United Kingdom',
-  'Canada',
-  'Australia',
-]
+  "India",
+  "United States",
+  "United Kingdom",
+  "Canada",
+  "Australia",
+];
 
 const deliveryFields: {
-  key: Exclude<TextFieldKey, 'email'>
-  label: string
-  placeholder: string
-  autocomplete: string
-  fullWidth?: boolean
+  key: Exclude<TextFieldKey, "email">;
+  label: string;
+  placeholder: string;
+  autocomplete: string;
+  fullWidth?: boolean;
 }[] = [
   {
-    key: 'firstName',
-    label: 'First name',
-    placeholder: 'First Name',
-    autocomplete: 'given-name',
+    key: "firstName",
+    label: "First name",
+    placeholder: "First Name",
+    autocomplete: "given-name",
   },
   {
-    key: 'lastName',
-    label: 'Last name',
-    placeholder: 'Last Name',
-    autocomplete: 'family-name',
+    key: "lastName",
+    label: "Last name",
+    placeholder: "Last Name",
+    autocomplete: "family-name",
   },
   {
-    key: 'address',
-    label: 'Address',
-    placeholder: 'Address',
-    autocomplete: 'street-address',
+    key: "address",
+    label: "Address",
+    placeholder: "Address",
+    autocomplete: "street-address",
     fullWidth: true,
   },
   {
-    key: 'city',
-    label: 'City',
-    placeholder: 'City',
-    autocomplete: 'address-level2',
+    key: "city",
+    label: "City",
+    placeholder: "City",
+    autocomplete: "address-level2",
   },
   {
-    key: 'postalCode',
-    label: 'Postal code',
-    placeholder: 'Postal Code',
-    autocomplete: 'postal-code',
+    key: "postalCode",
+    label: "Postal code",
+    placeholder: "Postal Code",
+    autocomplete: "postal-code",
   },
-]
+];
 
 const updateField = <K extends keyof CheckoutFormData>(
   field: K,
@@ -90,20 +81,17 @@ const updateField = <K extends keyof CheckoutFormData>(
   draft.value = {
     ...draft.value,
     [field]: value,
-  }
+  };
 
-  emit('update:modelValue', draft.value)
-  emit('clear-error', field as keyof CheckoutFormErrors)
-}
+  emit("update:modelValue", draft.value);
+  emit("clear-error", field as keyof CheckoutFormErrors);
+};
 </script>
 
 <template>
   <div class="address-form">
     <!-- Contact -->
-    <section
-      class="address-form__section"
-      aria-labelledby="contact-heading"
-    >
+    <section class="address-form__section" aria-labelledby="contact-heading">
       <div class="address-form__heading">
         <h2 id="contact-heading">Contact</h2>
 
@@ -125,27 +113,19 @@ const updateField = <K extends keyof CheckoutFormData>(
           :aria-invalid="!!errors.email"
           :aria-describedby="errors.email ? 'email-error' : undefined"
           required
-          @input="updateField(
-            'email',
-            ($event.target as HTMLInputElement).value
-          )"
-        />
-
-        <p
-          v-if="errors.email"
-          id="email-error"
-          class="address-form__error"
+          @input="
+            updateField('email', ($event.target as HTMLInputElement).value)
+          "
         >
+
+        <p v-if="errors.email" id="email-error" class="address-form__error">
           {{ errors.email }}
         </p>
       </div>
     </section>
 
     <!-- Delivery -->
-    <section
-      class="address-form__section"
-      aria-labelledby="delivery-heading"
-    >
+    <section class="address-form__section" aria-labelledby="delivery-heading">
       <h2 id="delivery-heading">Delivery</h2>
 
       <!-- Country -->
@@ -159,27 +139,18 @@ const updateField = <K extends keyof CheckoutFormData>(
           :aria-invalid="!!errors.country"
           :aria-describedby="errors.country ? 'country-error' : undefined"
           required
-          @change="updateField(
-            'country',
-            ($event.target as HTMLSelectElement).value
-          )"
+          @change="
+            updateField('country', ($event.target as HTMLSelectElement).value)
+          "
         >
           <option value="" disabled>Select country / region</option>
 
-          <option
-            v-for="country in countries"
-            :key="country"
-            :value="country"
-          >
+          <option v-for="country in countries" :key="country" :value="country">
             {{ country }}
           </option>
         </select>
 
-        <p
-          v-if="errors.country"
-          id="country-error"
-          class="address-form__error"
-        >
+        <p v-if="errors.country" id="country-error" class="address-form__error">
           {{ errors.country }}
         </p>
       </div>
@@ -204,16 +175,13 @@ const updateField = <K extends keyof CheckoutFormData>(
             :value="draft[field.key]"
             :aria-invalid="!!errors[field.key]"
             :aria-describedby="
-              errors[field.key]
-                ? `checkout-${field.key}-error`
-                : undefined
+              errors[field.key] ? `checkout-${field.key}-error` : undefined
             "
             required
-            @input="updateField(
-              field.key,
-              ($event.target as HTMLInputElement).value
-            )"
-          />
+            @input="
+              updateField(field.key, ($event.target as HTMLInputElement).value)
+            "
+          >
 
           <p
             v-if="errors[field.key]"
@@ -230,11 +198,13 @@ const updateField = <K extends keyof CheckoutFormData>(
         <input
           type="checkbox"
           :checked="draft.saveInformation"
-          @change="updateField(
-            'saveInformation',
-            ($event.target as HTMLInputElement).checked
-          )"
-        />
+          @change="
+            updateField(
+              'saveInformation',
+              ($event.target as HTMLInputElement).checked,
+            )
+          "
+        >
 
         <span>Save this information for future</span>
       </label>

@@ -1,44 +1,35 @@
-
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import CategoryCarousel from '~/components/category/categoryCarousel.vue'
-import CategoryGrid from '~/components/category/categoryGrid.vue'
-import { useCategories } from '~/composables/useCategory'
+import { computed, onMounted, ref } from "vue";
+import CategoryCarousel from "~/components/category/categoryCarousel.vue";
+import CategoryGrid from "~/components/category/categoryGrid.vue";
+import { useCategories } from "~/composables/useCategory";
 
-const { categories, pending, error, fetchCategories } = useCategories()
+const { categories, pending, error, fetchCategories } = useCategories();
 
-const showAllCategories = ref(false)
+const showAllCategories = ref(false);
 
 // Fetch the complete category list.
-onMounted(fetchCategories)
-
-// First three categories are featured.
-const featuredCategories = computed(() => categories.value.slice(0, 3))
+onMounted(fetchCategories);
 
 // All remaining categories are displayed in the grid.
-const remainingCategories = computed(() => categories.value.slice(3))
+const remainingCategories = computed(() => categories.value.slice(3));
 
 // Show the button only when there are more categories to reveal.
 const showMoreAvailable = computed(
   () => remainingCategories.value.length > 0 && !showAllCategories.value,
-)
+);
 
 const showAll = () => {
-  showAllCategories.value = true
-}
+  showAllCategories.value = true;
+};
 </script>
 
 <template>
   <section class="home-categories">
-    <div
-      v-if="error && !pending"
-      class="home-categories__error"
-    >
+    <div v-if="error && !pending" class="home-categories__error">
       <p role="alert">{{ error }}</p>
 
-      <button type="button" @click="fetchCategories">
-        Try again
-      </button>
+      <button type="button" @click="fetchCategories">Try again</button>
     </div>
 
     <template v-else-if="pending || categories.length">
@@ -59,11 +50,7 @@ const showAll = () => {
       />
     </template>
 
-    <p
-      v-else
-      class="home-categories__status"
-      role="status"
-    >
+    <p v-else class="home-categories__status" role="status">
       No categories are currently available.
     </p>
   </section>

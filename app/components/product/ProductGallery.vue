@@ -1,82 +1,79 @@
 <script setup lang="ts">
-import { computed, ref, useId, watch } from 'vue'
+import { computed, ref, useId, watch } from "vue";
 
 const props = defineProps<{
-  images: string[]
-  title: string
-  thumbnail?: string
-}>()
+  images: string[];
+  title: string;
+  thumbnail?: string;
+}>();
 
-const panelId = useId()
+const panelId = useId();
 
 const galleryImages = computed(() => {
-  const sources = props.images.length > 0 ? props.images : [props.thumbnail]
+  const sources = props.images.length > 0 ? props.images : [props.thumbnail];
 
-  return [...new Set(sources)].filter(
-    (source): source is string => Boolean(source),
-  )
-})
+  return [...new Set(sources)].filter((source): source is string =>
+    Boolean(source),
+  );
+});
 
-const activeIndex = ref(0)
+const activeIndex = ref(0);
 
-const thumbRefs = ref<HTMLButtonElement[]>([])
+const thumbRefs = ref<HTMLButtonElement[]>([]);
 
-const setThumbRef = (
-  element: Element | null,
-  index: number,
-) => {
+const setThumbRef = (element: Element | null, index: number) => {
   if (element instanceof HTMLButtonElement) {
-    thumbRefs.value[index] = element
+    thumbRefs.value[index] = element;
   }
-}
+};
 
 watch(galleryImages, () => {
-  activeIndex.value = 0
-})
+  activeIndex.value = 0;
+});
 
 const activeImage = computed(
-  () => galleryImages.value[activeIndex.value] ?? '',
-)
+  () => galleryImages.value[activeIndex.value] ?? "",
+);
 
 const mainImageAlt = computed(() => {
-  if (galleryImages.value.length <= 1) return props.title
+  if (galleryImages.value.length <= 1) return props.title;
 
-  return `${props.title} — image ${activeIndex.value + 1} of ${galleryImages.value.length}`
-})
+  return `${props.title} — image ${activeIndex.value + 1} of ${galleryImages.value.length}`;
+});
 
 const onThumbKeydown = (event: KeyboardEvent, index: number) => {
-  const lastIndex = galleryImages.value.length - 1
+  const lastIndex = galleryImages.value.length - 1;
 
-  let nextIndex = index
+  let nextIndex = index;
 
   switch (event.key) {
-    case 'ArrowDown':
-    case 'ArrowRight':
-      nextIndex = index === lastIndex ? 0 : index + 1
-      break
+    case "ArrowDown":
+    case "ArrowRight":
+      nextIndex = index === lastIndex ? 0 : index + 1;
+      break;
 
-    case 'ArrowUp':
-    case 'ArrowLeft':
-      nextIndex = index === 0 ? lastIndex : index - 1
-      break
+    case "ArrowUp":
+    case "ArrowLeft":
+      nextIndex = index === 0 ? lastIndex : index - 1;
+      break;
 
-    case 'Home':
-      nextIndex = 0
-      break
+    case "Home":
+      nextIndex = 0;
+      break;
 
-    case 'End':
-      nextIndex = lastIndex
-      break
+    case "End":
+      nextIndex = lastIndex;
+      break;
 
     default:
-      return
+      return;
   }
 
-  event.preventDefault()
+  event.preventDefault();
 
-  activeIndex.value = nextIndex
-  thumbRefs.value[nextIndex]?.focus()
-}
+  activeIndex.value = nextIndex;
+  thumbRefs.value[nextIndex]?.focus();
+};
 </script>
 
 <template>
@@ -97,7 +94,7 @@ const onThumbKeydown = (event: KeyboardEvent, index: number) => {
         :src="activeImage"
         :alt="mainImageAlt"
         decoding="async"
-      />
+      >
     </div>
 
     <div
@@ -119,12 +116,7 @@ const onThumbKeydown = (event: KeyboardEvent, index: number) => {
         @click="activeIndex = index"
         @keydown="onThumbKeydown($event, index)"
       >
-        <img
-          :src="image"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
+        <img :src="image" alt="" loading="lazy" decoding="async" >
       </button>
     </div>
   </div>

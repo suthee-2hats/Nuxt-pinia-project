@@ -1,40 +1,40 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { ProductsResponse } from '~/types/product'
-import { productService } from '~/services/productServices'
+import { computed } from "vue";
+import type { ProductsResponse } from "~/types/product";
+import { productService } from "~/services/productServices";
 
-import ProductGallery from '~/components/product/ProductGallery.vue'
-import ProductInfo from '~/components/product/ProductInfo.vue'
-import RelatedProducts from '~/components/product/RelatedProducts.vue'
+import ProductGallery from "~/components/product/ProductGallery.vue";
+import ProductInfo from "~/components/product/ProductInfo.vue";
+import RelatedProducts from "~/components/product/RelatedProducts.vue";
 
-const route = useRoute()
+const route = useRoute();
 
-const productId = computed(() => Number(route.params.id))
+const productId = computed(() => Number(route.params.id));
 
 const { data: product, error } = await useAsyncData(
   () => `product-detail-${productId.value}`,
   () => productService.getProductById(productId.value),
   { watch: [productId] },
-)
+);
 
 if (error.value || !product.value) {
   throw createError({
     statusCode: 404,
-    statusMessage: 'Product not found',
+    statusMessage: "Product not found",
     fatal: true,
-  })
+  });
 }
 
-const category = computed(() => product.value?.category ?? '')
+const category = computed(() => product.value?.category ?? "");
 
 const categoryLabel = computed(() => {
-  if (!category.value) return ''
+  if (!category.value) return "";
 
   return category.value
-    .split('-')
+    .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-})
+    .join(" ");
+});
 
 const { data: relatedData } = await useAsyncData<ProductsResponse>(
   () => `related-products-${category.value}`,
@@ -45,32 +45,32 @@ const { data: relatedData } = await useAsyncData<ProductsResponse>(
         total: 0,
         skip: 0,
         limit: 0,
-      })
+      });
     }
 
-    return productService.getRelatedProducts(category.value, 12)
+    return productService.getRelatedProducts(category.value, 12);
   },
   { watch: [category] },
-)
+);
 
 const relatedProducts = computed(() =>
   (relatedData.value?.products ?? [])
     .filter((item) => item.id !== product.value?.id)
     .slice(0, 8),
-)
+);
 
 usePageSeo(() => {
-  const current = product.value
+  const current = product.value;
 
   return {
-    title: current?.title ?? 'Product',
+    title: current?.title ?? "Product",
     description:
       current?.description ??
-      'Discover product details, pricing and availability at FASCO.',
+      "Discover product details, pricing and availability at FASCO.",
     image: current?.images?.[0] ?? current?.thumbnail,
-    type: 'product',
-  }
-})
+    type: "product",
+  };
+});
 </script>
 
 <template>
@@ -109,9 +109,6 @@ usePageSeo(() => {
       <ProductInfo :product="product" />
     </article>
 
-    <RelatedProducts
-      :products="relatedProducts"
-      :category="product.category"
-    />
+    <RelatedProducts :products="relatedProducts" :category="product.category" />
   </div>
 </template>

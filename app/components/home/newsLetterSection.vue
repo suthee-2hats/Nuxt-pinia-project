@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-const email = ref('')
-const isSubmitted = ref(false)
+import { ref } from "vue";
+const email = ref("");
+const isSubmitted = ref(false);
 
 const handleSubscribe = () => {
   if (email.value) {
     // Add your submit logic/API call here
-    isSubmitted.value = true
+    isSubmitted.value = true;
     setTimeout(() => {
-      email.value = ''
-      isSubmitted.value = false
-    }, 3000)
+      email.value = "";
+      isSubmitted.value = false;
+    }, 3000);
   }
-}
+};
 </script>
 
 <template>
@@ -23,15 +23,16 @@ const handleSubscribe = () => {
         src="~/assets/img/newLetter/left.avif"
         alt="Fashion Model Left"
         loading="lazy"
-      />
+      >
     </div>
 
     <!-- Center Content -->
     <div class="newsletter__content">
       <h2 class="newsletter__title">Subscribe To Our Newsletter</h2>
       <p class="newsletter__description">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque duis
-        ultrices sollicitudin aliquam sem. Scelerisque duis ultrices sollicitudin.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque
+        duis ultrices sollicitudin aliquam sem. Scelerisque duis ultrices
+        sollicitudin.
       </p>
 
       <form class="newsletter__form" @submit.prevent="handleSubscribe">
@@ -41,9 +42,9 @@ const handleSubscribe = () => {
           placeholder="michael@ymail.com"
           required
           class="newsletter__input"
-        />
+        >
         <button type="submit" class="newsletter__button">
-          {{ isSubmitted ? 'Subscribed!' : 'Subscribe Now' }}
+          {{ isSubmitted ? "Subscribed!" : "Subscribe Now" }}
         </button>
       </form>
     </div>
@@ -54,13 +55,13 @@ const handleSubscribe = () => {
         src="~/assets/img/newLetter/right.avif"
         alt="Fashion Model Right"
         loading="lazy"
-      />
+      >
     </div>
   </section>
 </template>
 
 <style lang="scss" scoped>
-@use '../../assets/scss/abstracts' as *;
+@use "../../assets/scss/abstracts" as *;
 
 .newsletter {
   position: relative;
@@ -83,7 +84,8 @@ const handleSubscribe = () => {
 }
 
 .newsletter__title {
-  font-family: 'Playfair Display', Georgia, serif; /* Matches serif headline style */
+  font-family:
+    "Playfair Display", Georgia, serif; /* Matches serif headline style */
   font-size: 38px;
   font-weight: 600;
   color: $color-heading;
@@ -117,7 +119,9 @@ const handleSubscribe = () => {
   outline: none;
   box-shadow: 0 4px 20px rgb(0 0 0 / 3%); /* Soft inner/bottom shadow */
   text-align: center;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 
   &::placeholder {
     color: #b0b0b0;
@@ -139,7 +143,9 @@ const handleSubscribe = () => {
   font-weight: 500;
   cursor: pointer;
   box-shadow: 0 8px 20px rgb(0 0 0 / 15%); /* Floating black button shadow */
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 
   &:hover {
     background-color: $color-ink-soft;
@@ -154,7 +160,7 @@ const handleSubscribe = () => {
 /* Image Placement */
 .newsletter__image {
   flex: 0 0 280px;
-  height:fit-content;
+  height: fit-content;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -163,7 +169,9 @@ const handleSubscribe = () => {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08)); /* Ground shadow under cutout models */
+    filter: drop-shadow(
+      0 15px 25px rgba(0, 0, 0, 0.08)
+    ); /* Ground shadow under cutout models */
   }
 }
 
@@ -174,7 +182,8 @@ const handleSubscribe = () => {
     height: 380px;
     img {
       width: auto;
-      height: 100%;}
+      height: 100%;
+    }
   }
 
   .newsletter__title {

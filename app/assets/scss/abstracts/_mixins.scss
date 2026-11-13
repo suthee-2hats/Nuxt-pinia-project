@@ -1,5 +1,5 @@
-@use 'tokens' as *;
-@use 'breakpoints' as *;
+@use "tokens" as *;
+@use "breakpoints" as *;
 
 // ========================================
 // Focus
@@ -28,11 +28,7 @@
   }
 }
 
-@mixin focus-ring-within(
-  $width: 2px,
-  $offset: 3px,
-  $color: $color-focus
-) {
+@mixin focus-ring-within($width: 2px, $offset: 3px, $color: $color-focus) {
   &:focus-within {
     outline: $width solid $color;
     outline-offset: $offset;
@@ -137,7 +133,7 @@
 
   @include focus-ring(2px, 2px, $color-focus, null, $color-focus);
 
-  &[aria-invalid='true'] {
+  &[aria-invalid="true"] {
     border-color: $color-danger;
   }
 }

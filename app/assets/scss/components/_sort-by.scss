@@ -1,4 +1,4 @@
-@use '../abstracts' as *;
+@use "../abstracts" as *;
 
 .product-sort {
   position: relative;
@@ -6,8 +6,8 @@
   align-items: center;
   font-family: $font-sans;
 
-  button:hover{
-   background-color: $color-heading;
+  button:hover {
+    background-color: $color-heading;
   }
 
   // Sort By button
@@ -75,7 +75,7 @@
     cursor: pointer;
 
     &:hover,
-    &[aria-checked='true'] {
+    &[aria-checked="true"] {
       background: $color-heading;
     }
 

@@ -1,37 +1,36 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { SignInCredentials } from '~/types/user'
-import SignInForm from '~/components/auth/SignInForm.vue'
-import { useUserStore } from '~/stores/user'
+import { ref } from "vue";
+import type { SignInCredentials } from "~/types/user";
+import SignInForm from "~/components/auth/SignInForm.vue";
+import { useUserStore } from "~/stores/user";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 
-const isSubmitting = ref(false)
-const formError = ref('')
+const isSubmitting = ref(false);
+const formError = ref("");
 
 usePageSeo({
-  title: 'Sign In',
+  title: "Sign In",
   description:
-    'Sign in to your FASCO account to continue shopping and check out faster.',
+    "Sign in to your FASCO account to continue shopping and check out faster.",
   noIndex: true,
-})
+});
 
 const handleSubmit = async (credentials: SignInCredentials) => {
-  if (isSubmitting.value) return
+  if (isSubmitting.value) return;
 
-  formError.value = ''
-  isSubmitting.value = true
+  formError.value = "";
+  isSubmitting.value = true;
 
   try {
-    await userStore.signIn(credentials)
-    await navigateTo('/')
+    await userStore.signIn(credentials);
+    await navigateTo("/");
   } catch {
-    formError.value =
-      userStore.error ?? 'Unable to sign in. Please try again.'
+    formError.value = userStore.error ?? "Unable to sign in. Please try again.";
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
-}
+};
 </script>
 <template>
   <div class="auth-page">
@@ -50,19 +49,11 @@ const handleSubmit = async (credentials: SignInCredentials) => {
           </p>
         </header>
 
-        <p
-          v-if="formError"
-          class="auth-page__alert"
-          role="alert"
-        >
+        <p v-if="formError" class="auth-page__alert" role="alert">
           {{ formError }}
         </p>
 
-        <SignInForm
-          :is-submitting="isSubmitting"
-          @submit="handleSubmit"
-        />
-
+        <SignInForm :is-submitting="isSubmitting" @submit="handleSubmit" />
       </div>
     </div>
   </div>

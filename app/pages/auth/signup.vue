@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { SignUpData } from '~/types/user'
-import SignUpForm from '~/components/auth/SignUpForm.vue'
-import { useUserStore } from '~/stores/user'
+import { ref } from "vue";
+import type { SignUpData } from "~/types/user";
+import SignUpForm from "~/components/auth/SignUpForm.vue";
+import { useUserStore } from "~/stores/user";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 
-const isSubmitting = ref(false)
-const formError = ref('')
+const isSubmitting = ref(false);
+const formError = ref("");
 
 usePageSeo({
-  title: 'Create Account',
+  title: "Create Account",
   description:
-    'Create a FASCO account to save your details and check out faster.',
+    "Create a FASCO account to save your details and check out faster.",
   noIndex: true,
-})
+});
 
 const handleSubmit = async (data: SignUpData) => {
-  if (isSubmitting.value) return
+  if (isSubmitting.value) return;
 
-  formError.value = ''
-  isSubmitting.value = true
+  formError.value = "";
+  isSubmitting.value = true;
 
   try {
-    await userStore.signUp(data)
-    await navigateTo('/')
+    await userStore.signUp(data);
+    await navigateTo("/");
   } catch {
     formError.value =
-      userStore.error ?? 'Unable to create your account. Please try again.'
+      userStore.error ?? "Unable to create your account. Please try again.";
   } finally {
-    isSubmitting.value = false
+    isSubmitting.value = false;
   }
-}
+};
 </script>
 
 <template>
@@ -51,19 +51,11 @@ const handleSubmit = async (data: SignUpData) => {
           </p>
         </header>
 
-        <p
-          v-if="formError"
-          class="auth-page__alert"
-          role="alert"
-        >
+        <p v-if="formError" class="auth-page__alert" role="alert">
           {{ formError }}
         </p>
 
-        <SignUpForm
-          :is-submitting="isSubmitting"
-          @submit="handleSubmit"
-        />
-
+        <SignUpForm :is-submitting="isSubmitting" @submit="handleSubmit" />
       </div>
     </div>
   </div>

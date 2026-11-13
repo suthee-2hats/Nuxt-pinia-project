@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useUserStore } from '~/stores/user'
+import { computed } from "vue";
+import { useUserStore } from "~/stores/user";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 
 const addressLine = computed(() => {
-  const address = userStore.user?.address
+  const address = userStore.user?.address;
 
-  if (!address) return ''
+  if (!address) return "";
 
   return [address.address, address.city, address.postalCode, address.country]
     .filter((part) => part && part.trim())
-    .join(', ')
-})
+    .join(", ");
+});
 
 usePageSeo({
-  title: 'My Account',
+  title: "My Account",
   description:
-    'View your FASCO account details, saved delivery information and sign out.',
+    "View your FASCO account details, saved delivery information and sign out.",
   noIndex: true,
-})
+});
 
 const handleSignOut = async () => {
-  await userStore.signOut()
-  await navigateTo('/')
-}
+  await userStore.signOut();
+  await navigateTo("/");
+};
 </script>
 
 <template>
@@ -78,10 +78,7 @@ const handleSignOut = async () => {
           </p>
 
           <div class="account-page__actions">
-            <NuxtLink
-              to="/auth/signin"
-              class="account-page__button"
-            >
+            <NuxtLink to="/auth/signin" class="account-page__button">
               Sign in
             </NuxtLink>
 

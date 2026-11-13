@@ -1,59 +1,57 @@
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue'
-import type { SignInCredentials } from '~/types/user'
-import { useFormValidation } from '~/composables/useFormValidation'
+import { nextTick, reactive, ref } from "vue";
+import type { SignInCredentials } from "~/types/user";
+import { useFormValidation } from "~/composables/useFormValidation";
 
 defineProps<{
-  isSubmitting?: boolean
-}>()
+  isSubmitting?: boolean;
+}>();
 
 const emit = defineEmits<{
-  submit: [credentials: SignInCredentials]
-}>()
+  submit: [credentials: SignInCredentials];
+}>();
 
 const form = reactive<SignInCredentials>({
-  email: '',
-  password: '',
-})
+  email: "",
+  password: "",
+});
 
-const formRef = ref<HTMLFormElement | null>(null)
+const formRef = ref<HTMLFormElement | null>(null);
 
 const { errors, validateForm, clearError } =
-  useFormValidation<SignInCredentials>()
+  useFormValidation<SignInCredentials>();
 
 const focusFirstInvalidField = async () => {
-  await nextTick()
+  await nextTick();
 
-  formRef.value
-    ?.querySelector<HTMLElement>('[aria-invalid="true"]')
-    ?.focus()
-}
+  formRef.value?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
+};
 
 const handleSubmit = async () => {
   const isValid = validateForm(
     form,
     [
-      { key: 'email', label: 'Email address' },
-      { key: 'password', label: 'Password' },
+      { key: "email", label: "Email address" },
+      { key: "password", label: "Password" },
     ],
     [
       {
-        key: 'email',
+        key: "email",
         validate: (value) =>
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
             ? null
-            : 'Please enter a valid email address.',
+            : "Please enter a valid email address.",
       },
     ],
-  )
+  );
 
   if (!isValid) {
-    await focusFirstInvalidField()
-    return
+    await focusFirstInvalidField();
+    return;
   }
 
-  emit('submit', { ...form })
-}
+  emit("submit", { ...form });
+};
 </script>
 
 <template>
@@ -76,13 +74,9 @@ const handleSubmit = async () => {
         :aria-invalid="!!errors.email"
         :aria-describedby="errors.email ? 'signin-email-error' : undefined"
         @input="clearError('email')"
-      />
-
-      <p
-        v-if="errors.email"
-        id="signin-email-error"
-        class="auth-form__error"
       >
+
+      <p v-if="errors.email" id="signin-email-error" class="auth-form__error">
         {{ errors.email }}
       </p>
     </div>
@@ -98,9 +92,11 @@ const handleSubmit = async () => {
         autocomplete="current-password"
         required
         :aria-invalid="!!errors.password"
-        :aria-describedby="errors.password ? 'signin-password-error' : undefined"
+        :aria-describedby="
+          errors.password ? 'signin-password-error' : undefined
+        "
         @input="clearError('password')"
-      />
+      >
 
       <p
         v-if="errors.password"
@@ -111,12 +107,8 @@ const handleSubmit = async () => {
       </p>
     </div>
 
-    <button
-      type="submit"
-      class="auth-form__submit"
-      :disabled="isSubmitting"
-    >
-      {{ isSubmitting ? 'Signing in…' : 'Sign In' }}
+    <button type="submit" class="auth-form__submit" :disabled="isSubmitting">
+      {{ isSubmitting ? "Signing in…" : "Sign In" }}
     </button>
 
     <p class="auth-form__footer">

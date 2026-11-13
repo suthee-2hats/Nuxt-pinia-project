@@ -1,151 +1,144 @@
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
-import type { Product } from '~/types/product'
-import { useCartStore } from '~/stores/cart'
+import { computed, nextTick, ref, watch } from "vue";
+import type { Product } from "~/types/product";
+import { useCartStore } from "~/stores/cart";
 
-const cartStore = useCartStore()
-
+const cartStore = useCartStore();
 
 const props = defineProps<{
-  product: Product
-}>()
-
+  product: Product;
+}>();
 
 const cartQuantity = computed(() =>
   cartStore.getItemQuantity(props.product.id),
-)
+);
 
 const availableStock = computed(() =>
   Math.max(0, props.product.stock - cartQuantity.value),
-)
+);
 
-const maxQuantity = computed(() => availableStock.value)
+const maxQuantity = computed(() => availableStock.value);
 
 const minQuantity = computed(() =>
   Math.min(
     Math.max(1, props.product.minimumOrderQuantity ?? 1),
     maxQuantity.value,
   ),
-)
+);
 
-const quantity = ref(minQuantity.value)
-const statusMessage = ref('')
+const quantity = ref(minQuantity.value);
+const statusMessage = ref("");
 
 watch(
   () => props.product.id,
   () => {
-    quantity.value = minQuantity.value
-    statusMessage.value = ''
+    quantity.value = minQuantity.value;
+    statusMessage.value = "";
   },
-)
-const isOutOfStock = computed(
-  () => availableStock.value <= 0,
-)
+);
+const isOutOfStock = computed(() => availableStock.value <= 0);
 
 const isLowStock = computed(
   () => availableStock.value > 0 && availableStock.value <= 10,
-)
+);
 
-const hasDiscount = computed(() => props.product.discountPercentage > 0)
+const hasDiscount = computed(() => props.product.discountPercentage > 0);
 
 const discountedPrice = computed(
-  () =>
-    props.product.price *
-    (1 - props.product.discountPercentage / 100),
-)
+  () => props.product.price * (1 - props.product.discountPercentage / 100),
+);
 const stockMessage = computed(() => {
-  if (isOutOfStock.value) return 'Out of stock'
+  if (isOutOfStock.value) return "Out of stock";
 
   if (isLowStock.value) {
-    return `Only ${availableStock.value} left in stock — order soon.`
+    return `Only ${availableStock.value} left in stock — order soon.`;
   }
 
-  return `${availableStock.value} available`
-})
+  return `${availableStock.value} available`;
+});
 
 const categoryLabel = computed(() =>
   props.product.category
-    .split('-')
+    .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' '),
-)
+    .join(" "),
+);
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(value)
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(value);
 
 const clampQuantity = () => {
-  const parsed = Math.round(Number(quantity.value))
+  const parsed = Math.round(Number(quantity.value));
 
   quantity.value = Number.isFinite(parsed)
     ? Math.min(Math.max(parsed, minQuantity.value), maxQuantity.value)
-    : minQuantity.value
-}
+    : minQuantity.value;
+};
 
 watch(availableStock, (stock) => {
   if (stock <= 0) {
-    quantity.value = 0
-    return
+    quantity.value = 0;
+    return;
   }
 
-  clampQuantity()
-})
+  clampQuantity();
+});
 
 const decreaseQuantity = () => {
-  if (quantity.value > minQuantity.value) quantity.value -= 1
-}
+  if (quantity.value > minQuantity.value) quantity.value -= 1;
+};
 
 const increaseQuantity = () => {
-  if (quantity.value < maxQuantity.value) quantity.value += 1
-}
+  if (quantity.value < maxQuantity.value) quantity.value += 1;
+};
 
 const addToCart = async () => {
-  if (isOutOfStock.value) return
+  if (isOutOfStock.value) return;
 
-  clampQuantity()
+  clampQuantity();
 
-  statusMessage.value = ''
+  statusMessage.value = "";
 
-  const result = cartStore.addItem(props.product, quantity.value)
+  const result = cartStore.addItem(props.product, quantity.value);
 
   if (!result) {
     statusMessage.value =
-      'Unable to add the requested quantity. Please check availability.'
-    return
+      "Unable to add the requested quantity. Please check availability.";
+    return;
   }
 
-  await nextTick()
+  await nextTick();
 
-  statusMessage.value =
-    `Added ${quantity.value} × ${props.product.title} to your cart.`
-}
+  statusMessage.value = `Added ${quantity.value} × ${props.product.title} to your cart.`;
+};
 
 const buyNow = async () => {
-  if (isOutOfStock.value) return
+  if (isOutOfStock.value) return;
 
-  clampQuantity()
+  clampQuantity();
 
-  statusMessage.value = ''
+  statusMessage.value = "";
 
-  const result = cartStore.addItem(props.product, quantity.value)
+  const result = cartStore.addItem(props.product, quantity.value);
 
   if (!result) {
     statusMessage.value =
-      'Unable to add the requested quantity. Please check availability.'
-    return
+      "Unable to add the requested quantity. Please check availability.";
+    return;
   }
 
-  await navigateTo('/checkout')
-}
+  await navigateTo("/checkout");
+};
 </script>
 
 <template>
   <div class="product-info">
     <div class="product-info__eyebrow">
       <p class="product-info__brand">
-        {{ product.brand || 'FASCO' }}
+        {{ product.brand || "FASCO" }}
       </p>
 
       <NuxtLink
@@ -215,11 +208,7 @@ const buyNow = async () => {
       class="product-info__tags"
       aria-label="Product tags"
     >
-      <li
-        v-for="tag in product.tags"
-        :key="tag"
-        class="product-info__tag"
-      >
+      <li v-for="tag in product.tags" :key="tag" class="product-info__tag">
         {{ tag }}
       </li>
     </ul>
@@ -271,10 +260,7 @@ const buyNow = async () => {
       </template>
 
       <template
-        v-if="
-          product.minimumOrderQuantity &&
-            product.minimumOrderQuantity > 1
-        "
+        v-if="product.minimumOrderQuantity && product.minimumOrderQuantity > 1"
       >
         <div>
           <dt>Minimum order</dt>
@@ -284,10 +270,12 @@ const buyNow = async () => {
     </dl>
 
     <div class="product-info__actions">
-      <div class="product-quantity" role="group" aria-labelledby="quantity-label">
-        <span id="quantity-label" class="product-quantity__label">
-          Qty
-        </span>
+      <div
+        class="product-quantity"
+        role="group"
+        aria-labelledby="quantity-label"
+      >
+        <span id="quantity-label" class="product-quantity__label"> Qty </span>
 
         <button
           type="button"
@@ -309,7 +297,7 @@ const buyNow = async () => {
           aria-labelledby="quantity-label"
           @change="clampQuantity"
           @blur="clampQuantity"
-        />
+        >
 
         <button
           type="button"
@@ -328,7 +316,7 @@ const buyNow = async () => {
         :disabled="isOutOfStock"
         @click="addToCart"
       >
-        {{ isOutOfStock ? 'Out of Stock' : 'Add to Cart' }}
+        {{ isOutOfStock ? "Out of Stock" : "Add to Cart" }}
       </button>
 
       <button
@@ -341,11 +329,7 @@ const buyNow = async () => {
       </button>
     </div>
 
-    <p
-      v-if="statusMessage"
-      class="product-info__status"
-      role="status"
-    >
+    <p v-if="statusMessage" class="product-info__status" role="status">
       {{ statusMessage }}
     </p>
   </div>

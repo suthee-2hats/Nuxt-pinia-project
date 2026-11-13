@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import type { Category } from '~/types/category'
-const { scrollElement } = useHorizontalWheelScroll()
+import type { Category } from "~/types/category";
+const { scrollElement } = useHorizontalWheelScroll();
 
 defineProps<{
-  categories: Category[]
-  modelValue: string
-}>()
+  categories: Category[];
+  modelValue: string;
+}>();
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
+  "update:modelValue": [value: string];
+}>();
 </script>
 
 <template>
   <nav
-    class="shop-category-nav"
     ref="scrollElement"
+    class="shop-category-nav"
     aria-label="Product categories"
   >
     <button

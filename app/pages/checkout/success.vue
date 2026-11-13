@@ -1,38 +1,38 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import type { Order } from '~/types/order'
-import { readLastOrder } from '~/utils/orderStorage'
+import { onMounted } from "vue";
+import type { Order } from "~/types/order";
+import { readLastOrder } from "~/utils/orderStorage";
 
-const lastOrder = useState<Order | null>('last-order', () => null)
+const lastOrder = useState<Order | null>("last-order", () => null);
 
 onMounted(() => {
-  if (lastOrder.value) return
+  if (lastOrder.value) return;
 
-  const stored = readLastOrder()
+  const stored = readLastOrder();
 
   if (stored) {
-    lastOrder.value = stored
+    lastOrder.value = stored;
   }
-})
+});
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(value)
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(value);
 
 const formatDate = (value: string) =>
-  new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  }).format(new Date(value))
+  new Intl.DateTimeFormat("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(value));
 
 usePageSeo({
-  title: 'Order Confirmed',
+  title: "Order Confirmed",
   description:
-    'Your FASCO order has been placed. Review your order number, items and delivery details.',
+    "Your FASCO order has been placed. Review your order number, items and delivery details.",
   noIndex: true,
-})
+});
 </script>
 
 <template>
@@ -87,8 +87,8 @@ usePageSeo({
         </template>
 
         <p v-else class="checkout-success__lead">
-          No recent order details were found. If you just completed a
-          purchase, check your email for the confirmation.
+          No recent order details were found. If you just completed a purchase,
+          check your email for the confirmation.
         </p>
 
         <NuxtLink to="/products" class="checkout-success__link">

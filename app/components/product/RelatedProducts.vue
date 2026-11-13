@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { Product } from '~/types/product'
-import ProductGrid from './ProductGrid.vue'
+import { computed } from "vue";
+import type { Product } from "~/types/product";
+import ProductGrid from "./ProductGrid.vue";
 
 const props = defineProps<{
-  products: Product[]
-  category?: string
-}>()
+  products: Product[];
+  category?: string;
+}>();
 
 const categoryLabel = computed(() => {
-  if (!props.category) return 'this category'
+  if (!props.category) return "this category";
 
   return props.category
-    .split('-')
+    .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-})
+    .join(" ");
+});
 </script>
 
 <template>

@@ -1,23 +1,22 @@
-
 <script setup lang="ts">
 interface HeroImage {
-  to: string
-  alt: string
-  avifSrcset: string
-  webpSrcset: string
-  fallbackSrc: string
-  fallbackSrcset: string
-  sizes: string
-  width: number
-  height: number
-  variant: 'side' | 'middle'
-  loading?: 'eager' | 'lazy'
+  to: string;
+  alt: string;
+  avifSrcset: string;
+  webpSrcset: string;
+  fallbackSrc: string;
+  fallbackSrcset: string;
+  sizes: string;
+  width: number;
+  height: number;
+  variant: "side" | "middle";
+  loading?: "eager" | "lazy";
 }
 
 // Declare the image prop
 defineProps<{
-  image: HeroImage
-}>()
+  image: HeroImage;
+}>();
 </script>
 
 <template>
@@ -31,13 +30,13 @@ defineProps<{
         type="image/avif"
         :srcset="image.avifSrcset"
         :sizes="image.sizes"
-      />
+      >
 
       <source
         type="image/webp"
         :srcset="image.webpSrcset"
         :sizes="image.sizes"
-      />
+      >
 
       <img
         :src="image.fallbackSrc"
@@ -48,7 +47,7 @@ defineProps<{
         :height="image.height"
         :loading="image.loading || 'lazy'"
         decoding="async"
-      />
+      >
     </picture>
   </NuxtLink>
 </template>

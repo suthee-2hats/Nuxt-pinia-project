@@ -1,15 +1,15 @@
-@use './base/reset';
-@use './base/global';
+@use "./base/reset";
+@use "./base/global";
 
-@use './layout/header';
-@use './layout/heropage';
-@use './layout/shop';
-@use './layout/product-detail';
+@use "./layout/header";
+@use "./layout/heropage";
+@use "./layout/shop";
+@use "./layout/product-detail";
 
-@use './components/category-carousel';
-@use './components/category-grid';
-@use './components/sort-by';
+@use "./components/category-carousel";
+@use "./components/category-grid";
+@use "./components/sort-by";
 
-@use './layout/cart';
-@use './layout/checkout';
-@use './layout/auth';
+@use "./layout/cart";
+@use "./layout/checkout";
+@use "./layout/auth";

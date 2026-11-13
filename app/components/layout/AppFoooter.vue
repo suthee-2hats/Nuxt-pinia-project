@@ -1,41 +1,30 @@
-
 <script setup lang="ts">
 const footerLinks = [
-  { label: 'Support Center', href: '#' },
-  { label: 'Invoicing', href: '#' },
-  { label: 'Contract', href: '#' },
-  { label: 'Careers', href: '#' },
-  { label: 'Blog', href: '#' },
-  { label: 'FAQ,s', href: '#' },
-]
+  { label: "Support Center", href: "#" },
+  { label: "Invoicing", href: "#" },
+  { label: "Contract", href: "#" },
+  { label: "Careers", href: "#" },
+  { label: "Blog", href: "#" },
+  { label: "FAQ,s", href: "#" },
+];
 </script>
 
 <template>
   <footer class="app-footer">
     <div class="app-footer__container">
       <div class="app-footer__top">
-        <NuxtLink
-          to="/"
-          class="app-footer__logo"
-          aria-label="FASCO homepage"
-        >
-          <img src="/img/logo/logo-home.svg" alt="" />
+        <NuxtLink to="/" class="app-footer__logo" aria-label="FASCO homepage">
+          <img src="/img/logo/logo-home.svg" alt="" >
         </NuxtLink>
 
-        <nav
-          class="app-footer__navigation"
-          aria-label="Footer navigation"
-        >
+        <nav class="app-footer__navigation" aria-label="Footer navigation">
           <ul class="app-footer__list">
             <li
               v-for="link in footerLinks"
               :key="link.label"
               class="app-footer__item"
             >
-              <NuxtLink
-                :to="link.href"
-                class="app-footer__link"
-              >
+              <NuxtLink :to="link.href" class="app-footer__link">
                 {{ link.label }}
               </NuxtLink>
             </li>
@@ -51,7 +40,7 @@ const footerLinks = [
 </template>
 
 <style lang="scss" scoped>
-@use '../../assets/scss/abstracts' as *;
+@use "../../assets/scss/abstracts" as *;
 
 .app-footer {
   padding: 34px 20px;

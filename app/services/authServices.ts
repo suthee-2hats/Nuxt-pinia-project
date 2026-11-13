@@ -1,27 +1,23 @@
-import type {
-  User,
-  SignInCredentials,
-  SignUpData,
-} from '~/types/user'
-import { getApiBase } from '~/utils/api'
+import type { User, SignInCredentials, SignUpData } from "~/types/user";
+import { getApiBase } from "~/utils/api";
 
 interface DummyJsonUser {
-  id: number
-  username?: string
-  firstName: string
-  lastName: string
-  email: string
-  phone?: string
+  id: number;
+  username?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
   address?: {
-    address: string
-    city: string
-    postalCode: string
-    country: string
-  }
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
 }
 
 interface DummyJsonAuthResponse extends DummyJsonUser {
-  accessToken?: string
+  accessToken?: string;
 }
 
 /**
@@ -29,17 +25,17 @@ interface DummyJsonAuthResponse extends DummyJsonUser {
  * the user, so pages do not have to translate $fetch error shapes.
  */
 export class AuthError extends Error {
-  statusCode: number
+  statusCode: number;
 
   constructor(message: string, statusCode = 400) {
-    super(message)
-    this.name = 'AuthError'
-    this.statusCode = statusCode
+    super(message);
+    this.name = "AuthError";
+    this.statusCode = statusCode;
   }
 }
 
 const hasText = (value?: string) =>
-  typeof value === 'string' && value.trim().length > 0
+  typeof value === "string" && value.trim().length > 0;
 
 const mapUser = (raw: DummyJsonUser): User => {
   const addressParts = [
@@ -47,7 +43,7 @@ const mapUser = (raw: DummyJsonUser): User => {
     raw.address?.city,
     raw.address?.postalCode,
     raw.address?.country,
-  ]
+  ];
 
   return {
     id: raw.id,
@@ -64,20 +60,20 @@ const mapUser = (raw: DummyJsonUser): User => {
             country: raw.address.country,
           }
         : undefined,
-  }
-}
+  };
+};
 
 const errorStatus = (error: unknown): number => {
-  if (typeof error !== 'object' || error === null) return 0
+  if (typeof error !== "object" || error === null) return 0;
 
   const value = error as {
-    statusCode?: number
-    status?: number
-    response?: { status?: number }
-  }
+    statusCode?: number;
+    status?: number;
+    response?: { status?: number };
+  };
 
-  return value.statusCode ?? value.status ?? value.response?.status ?? 0
-}
+  return value.statusCode ?? value.status ?? value.response?.status ?? 0;
+};
 
 // dummyjson's login endpoint expects a username, while our form collects an
 // email address. Resolve the username first, then authenticate.
@@ -86,99 +82,96 @@ const findUsernameByEmail = async (email: string): Promise<string | null> => {
     `${getApiBase()}/users/filter`,
     {
       query: {
-        key: 'email',
+        key: "email",
         value: email,
-        select: 'username,email',
+        select: "username,email",
       },
     },
-  )
+  );
 
-  return response.users[0]?.username ?? null
-}
+  return response.users[0]?.username ?? null;
+};
 
 const toUsername = (email: string) => {
-  const localPart = email.split('@')[0] ?? 'user'
-  const cleaned = localPart.replace(/[^a-z0-9._-]/gi, '').toLowerCase()
+  const localPart = email.split("@")[0] ?? "user";
+  const cleaned = localPart.replace(/[^a-z0-9._-]/gi, "").toLowerCase();
 
-  return cleaned || `user${Date.now()}`
-}
+  return cleaned || `user${Date.now()}`;
+};
 
 export const signInUser = async (
   credentials: SignInCredentials,
 ): Promise<User> => {
-  let username: string | null = null
+  let username: string | null;
 
   try {
-    username = await findUsernameByEmail(credentials.email)
+    username = await findUsernameByEmail(credentials.email);
   } catch {
     throw new AuthError(
-      'We could not reach the sign-in service. Please try again.',
+      "We could not reach the sign-in service. Please try again.",
       503,
-    )
+    );
   }
 
   if (!username) {
     throw new AuthError(
-      'We could not find an account with that email address.',
+      "We could not find an account with that email address.",
       404,
-    )
+    );
   }
 
   try {
     const response = await $fetch<DummyJsonAuthResponse>(
       `${getApiBase()}/auth/login`,
       {
-        method: 'POST',
+        method: "POST",
         body: {
           username,
           password: credentials.password,
           expiresInMins: 60,
         },
       },
-    )
+    );
 
-    return mapUser(response)
+    return mapUser(response);
   } catch (error) {
-    const status = errorStatus(error)
+    const status = errorStatus(error);
 
     if (status === 400 || status === 401) {
-      throw new AuthError('Incorrect email or password.', 401)
+      throw new AuthError("Incorrect email or password.", 401);
     }
 
     throw new AuthError(
-      'We could not sign you in right now. Please try again.',
+      "We could not sign you in right now. Please try again.",
       503,
-    )
+    );
   }
-}
+};
 
 export const signUpUser = async (data: SignUpData): Promise<User> => {
-  const { confirmPassword, ...registrationData } = data
+  const { confirmPassword, ...registrationData } = data;
 
-  void confirmPassword
+  void confirmPassword;
 
   try {
-    const response = await $fetch<DummyJsonUser>(
-      `${getApiBase()}/users/add`,
-      {
-        method: 'POST',
-        body: {
-          ...registrationData,
-          username: toUsername(registrationData.email),
-        },
+    const response = await $fetch<DummyJsonUser>(`${getApiBase()}/users/add`, {
+      method: "POST",
+      body: {
+        ...registrationData,
+        username: toUsername(registrationData.email),
       },
-    )
+    });
 
-    return mapUser(response)
+    return mapUser(response);
   } catch {
     throw new AuthError(
-      'We could not create your account. Please try again.',
+      "We could not create your account. Please try again.",
       503,
-    )
+    );
   }
-}
+};
 
 export const signOutUser = async (): Promise<void> => {
   // dummyjson has no logout endpoint. The session lives in the browser, so
   // clearing the user store is enough.
-}
+};

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { useCartStore } from '~/stores/cart'
-import CartItem from '~/components/cart/Cartitem.vue'
+import { useCartStore } from "~/stores/cart";
+import CartItem from "~/components/cart/Cartitem.vue";
 
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
 usePageSeo({
-  title: 'Shopping Cart',
+  title: "Shopping Cart",
   description:
-    'Review the items in your FASCO shopping cart, update quantities and proceed to a simple, secure checkout.',
+    "Review the items in your FASCO shopping cart, update quantities and proceed to a simple, secure checkout.",
   noIndex: true,
-})
+});
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(value)
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(value);
 </script>
 
 <template>
@@ -36,7 +36,11 @@ const formatPrice = (value: number) =>
         <NuxtLink to="/products">Continue Shopping</NuxtLink>
       </div>
 
-      <section v-else class="cart-page__content" aria-label="Shopping cart items">
+      <section
+        v-else
+        class="cart-page__content"
+        aria-label="Shopping cart items"
+      >
         <div class="cart-page__table">
           <div class="cart-page__table-header" aria-hidden="true">
             <span>Product</span>

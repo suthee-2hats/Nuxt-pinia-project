@@ -1,80 +1,79 @@
-
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import type { Category } from '~/types/category'
+import { computed, onMounted, onUnmounted, ref } from "vue";
+import type { Category } from "~/types/category";
 
 const props = defineProps<{
-  categories: Category[]
-  showMoreAvailable: boolean
-  loading?: boolean
-}>()
+  categories: Category[];
+  showMoreAvailable: boolean;
+  loading?: boolean;
+}>();
 
 const emit = defineEmits<{
-  (event: 'show-more'): void
-}>()
+  (event: "show-more"): void;
+}>();
 
 // Number of categories displayed at the same time
-const visibleCount = 3
+const visibleCount = 3;
 
 // Index of the first visible category
-const currentIndex = ref(0)
+const currentIndex = ref(0);
 
 // Pause autoplay while the user interacts
-const isHovered = ref(false)
-const isFocused = ref(false)
+const isHovered = ref(false);
+const isFocused = ref(false);
 
 // Calculate the three visible categories
 const visibleCategories = computed<Category[]>(() => {
-  const total = props.categories.length
+  const total = props.categories.length;
 
   // If there are three or fewer categories, display all of them
   if (total <= visibleCount) {
-    return props.categories
+    return props.categories;
   }
 
-  const result: Category[] = []
+  const result: Category[] = [];
 
   for (let index = 0; index < visibleCount; index++) {
-    const categoryIndex = (currentIndex.value + index) % total
-    const category = props.categories[categoryIndex]
+    const categoryIndex = (currentIndex.value + index) % total;
+    const category = props.categories[categoryIndex];
 
     if (category) {
-      result.push(category)
+      result.push(category);
     }
   }
 
-  return result
-})
+  return result;
+});
 
 // Move to the next category
 const nextSlide = () => {
-  const total = props.categories.length
+  const total = props.categories.length;
 
-  if (total <= visibleCount) return
+  if (total <= visibleCount) return;
 
-  currentIndex.value = (currentIndex.value + 1) % total
-}
+  currentIndex.value = (currentIndex.value + 1) % total;
+};
 
 // Move to the previous category
 const previousSlide = () => {
-  const total = props.categories.length
+  const total = props.categories.length;
 
-  if (total <= visibleCount) return
+  if (total <= visibleCount) return;
 
-  currentIndex.value = (currentIndex.value - 1 + total) % total
-}
+  currentIndex.value = (currentIndex.value - 1 + total) % total;
+};
 
 // Detect when keyboard focus leaves the carousel
 const handleFocusOut = (event: FocusEvent) => {
-  const nextTarget = event.relatedTarget as Node | null
+  const nextTarget = event.relatedTarget as Node | null;
 
   isFocused.value =
     nextTarget !== null &&
-    (event.currentTarget as HTMLElement).contains(nextTarget)
-}
+    (event.currentTarget as HTMLElement).contains(nextTarget);
+};
 
 // Automatic carousel rotation
-let autoplayInterval: ReturnType<typeof setInterval> | undefined
+let autoplayInterval: ReturnType<typeof setInterval> | undefined;
 
 onMounted(() => {
   autoplayInterval = setInterval(() => {
@@ -83,17 +82,17 @@ onMounted(() => {
       !isHovered.value &&
       !isFocused.value
     ) {
-      nextSlide()
+      nextSlide();
     }
-  }, 3000)
-})
+  }, 3000);
+});
 
 // Clean up the timer
 onUnmounted(() => {
   if (autoplayInterval) {
-    clearInterval(autoplayInterval)
+    clearInterval(autoplayInterval);
   }
-})
+});
 </script>
 
 <template>
@@ -110,16 +109,13 @@ onUnmounted(() => {
   >
     <!-- Left content -->
     <div class="category-carousel__content">
-      <h2
-        id="category-carousel-title"
-        class="category-carousel__title"
-      >
+      <h2 id="category-carousel-title" class="category-carousel__title">
         Explore Our Categories
       </h2>
 
       <p class="category-carousel__description">
-        Discover curated collections, from everyday essentials
-        to statement pieces.
+        Discover curated collections, from everyday essentials to statement
+        pieces.
       </p>
 
       <button
@@ -135,10 +131,7 @@ onUnmounted(() => {
 
     <!-- Three featured category cards -->
     <Transition name="category-slide" mode="out-in">
-      <div
-        :key="currentIndex"
-        class="category-carousel__images"
-      >
+      <div :key="currentIndex" class="category-carousel__images">
         <!-- Placeholder cards reserve the exact same space while loading -->
         <template v-if="loading">
           <div
@@ -158,12 +151,7 @@ onUnmounted(() => {
             class="category-carousel__card"
             :class="`category-carousel__card--${index + 1}`"
           >
-            <img
-              :src="category.image"
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
+            <img :src="category.image" alt="" loading="lazy" decoding="async" >
 
             <span class="category-carousel__label">
               {{ category.name }}

@@ -1,10 +1,9 @@
-
 <script setup lang="ts">
-import type { Category } from '~/types/category'
+import type { Category } from "~/types/category";
 
 defineProps<{
-  categories: Category[]
-}>()
+  categories: Category[];
+}>();
 </script>
 
 <template>
@@ -13,10 +12,7 @@ defineProps<{
     class="category-grid"
     aria-labelledby="category-grid-title"
   >
-    <h2
-      id="category-grid-title"
-      class="category-grid__title"
-    >
+    <h2 id="category-grid-title" class="category-grid__title">
       All Categories
     </h2>
 
@@ -27,12 +23,7 @@ defineProps<{
         :to="`/products?category=${encodeURIComponent(category.slug)}`"
         class="category-grid__card"
       >
-        <img
-          :src="category.image"
-          alt=""
-          loading="lazy"
-          decoding="async"
-        />
+        <img :src="category.image" alt="" loading="lazy" decoding="async" >
 
         <span class="category-grid__name">
           {{ category.name }}

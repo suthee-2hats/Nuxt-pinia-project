@@ -1,4 +1,4 @@
-@use '../abstracts' as *;
+@use "../abstracts" as *;
 
 // ========================================
 // Product detail page
@@ -28,7 +28,7 @@
     }
 
     li + li::before {
-      content: '/';
+      content: "/";
       margin-right: 8px;
       color: $color-placeholder;
     }
@@ -45,7 +45,7 @@
       @include focus-ring(3px, 2px, $color-focus, 2px);
     }
 
-    [aria-current='page'] {
+    [aria-current="page"] {
       color: $color-ink;
       font-weight: 500;
     }
@@ -66,14 +66,14 @@
 .product-gallery {
   display: grid;
   grid-template-columns: 76px minmax(0, 1fr);
-  grid-template-areas: 'thumbs main';
+  grid-template-areas: "thumbs main";
   gap: 16px;
   align-items: start;
   min-width: 0;
 
   &--single {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: 'main';
+    grid-template-areas: "main";
   }
 
   &__main {
@@ -111,7 +111,9 @@
     border-radius: 4px;
     background: $color-surface-warm;
     cursor: pointer;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
 
     img {
       display: block;
@@ -440,8 +442,8 @@
   .product-gallery {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
-      'main'
-      'thumbs';
+      "main"
+      "thumbs";
 
     &__thumbnails {
       flex-direction: row;

@@ -7,7 +7,11 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "lint": "run-s lint:oxlint lint:eslint",
+    "lint:oxlint": "oxlint app nuxt.config.ts --fix",
+    "lint:eslint": "eslint . --fix --cache",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@nuxt/content": "^3.16.1",
@@ -21,6 +25,11 @@
     "vue-router": "^5.3.1"
   },
   "devDependencies": {
+    "@nuxt/eslint": "^1.17.0",
+    "eslint": "^10.14.0",
+    "npm-run-all2": "^9.0.4",
+    "oxlint": "^1.93.0",
+    "prettier": "^3.10.1",
     "sass": "^1.107.1",
     "vue-tsc": "^3.3.14"
   }

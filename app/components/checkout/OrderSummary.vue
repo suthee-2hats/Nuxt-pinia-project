@@ -1,33 +1,33 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { CartItem } from '~/types/cart'
+import { computed } from "vue";
+import type { CartItem } from "~/types/cart";
 
 const props = defineProps<{
-  items: CartItem[]
-  shippingCost: number
-}>()
+  items: CartItem[];
+  shippingCost: number;
+}>();
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(value)
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(value);
 
 const lineTotal = (item: CartItem) =>
-  item.price * (1 - item.discountPercentage / 100)
+  item.price * (1 - item.discountPercentage / 100);
 
 const subtotal = computed(() =>
   props.items.reduce(
     (total, item) => total + lineTotal(item) * item.quantity,
     0,
   ),
-)
+);
 
-const total = computed(() => subtotal.value + props.shippingCost)
+const total = computed(() => subtotal.value + props.shippingCost);
 
 const itemCount = computed(() =>
   props.items.reduce((count, item) => count + item.quantity, 0),
-)
+);
 </script>
 
 <template>
@@ -35,7 +35,7 @@ const itemCount = computed(() =>
     <h2 id="order-summary-title" class="order-summary__title">
       Order summary
       <span class="order-summary__count">
-        ({{ itemCount }} {{ itemCount === 1 ? 'item' : 'items' }})
+        ({{ itemCount }} {{ itemCount === 1 ? "item" : "items" }})
       </span>
     </h2>
 
@@ -52,7 +52,7 @@ const itemCount = computed(() =>
             width="72"
             height="72"
             loading="lazy"
-          />
+          >
           <span class="order-summary__quantity" aria-hidden="true">
             {{ item.quantity }}
           </span>
@@ -61,8 +61,7 @@ const itemCount = computed(() =>
         <div class="order-summary__product">
           <h3>{{ item.title }}</h3>
           <p>
-            Qty {{ item.quantity }} ·
-            {{ formatPrice(lineTotal(item)) }} each
+            Qty {{ item.quantity }} · {{ formatPrice(lineTotal(item)) }} each
           </p>
         </div>
 

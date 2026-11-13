@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Product } from '~/types/product'
-import ProductCard from './ProductCard.vue'
+import type { Product } from "~/types/product";
+import ProductCard from "./ProductCard.vue";
 
 defineProps<{
-  products: Product[]
-}>()
+  products: Product[];
+}>();
 </script>
 
 <template>
@@ -15,5 +15,4 @@ defineProps<{
       :product="product"
     />
   </div>
-  
 </template>

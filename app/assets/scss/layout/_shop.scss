@@ -1,4 +1,4 @@
-@use '../abstracts' as *;
+@use "../abstracts" as *;
 
 // SHOP PAGE
 .shop-page {
@@ -27,7 +27,7 @@
     font-size: 13px;
 
     li + li::before {
-      content: '/';
+      content: "/";
       margin-right: 10px;
       color: $color-placeholder;
     }
@@ -69,7 +69,6 @@
     }
 
     &:not(.is-active):hover {
-
       border-color: #b9aaa0;
       color: #332b26;
     }
@@ -224,7 +223,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
-    color:$color-ink-soft ;
+    color: $color-ink-soft;
     font-size: 16px;
   }
 
@@ -233,7 +232,7 @@
     height: 6px;
     border-radius: 10px;
 
-    input[type='range'] {
+    input[type="range"] {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -326,8 +325,8 @@
     font-size: 15px;
     font-weight: 500;
   }
-  &__title:hover{
-     color: $color-focus;
+  &__title:hover {
+    color: $color-focus;
   }
 
   &__price {

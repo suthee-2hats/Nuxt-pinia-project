@@ -1,4 +1,4 @@
-import { useRuntimeConfig } from '#imports'
+import { useRuntimeConfig } from "#imports";
 
 /**
  * Base URL for the dummyjson API.
@@ -7,4 +7,4 @@ import { useRuntimeConfig } from '#imports'
  * on purpose: every request is made from the browser, so this value must not
  * contain secrets.
  */
-export const getApiBase = (): string => useRuntimeConfig().public.apiBase
+export const getApiBase = (): string => useRuntimeConfig().public.apiBase;

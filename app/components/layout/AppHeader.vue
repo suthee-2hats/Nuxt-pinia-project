@@ -1,83 +1,84 @@
-
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useUserStore } from '~/stores/user'
+import { computed, ref, watch } from "vue";
+import { useUserStore } from "~/stores/user";
 
 interface NavItem {
-  label: string
-  path: string
-  match: (routePath: string) => boolean
+  label: string;
+  path: string;
+  match: (routePath: string) => boolean;
 }
 
 const navItems: NavItem[] = [
   {
-    label: 'Home',
-    path: '/',
-    match: (routePath) => routePath === '/',
+    label: "Home",
+    path: "/",
+    match: (routePath) => routePath === "/",
   },
   {
-    label: 'Shop',
-    path: '/products',
-    match: (routePath) => routePath === '/products',
+    label: "Shop",
+    path: "/products",
+    match: (routePath) => routePath === "/products",
   },
   {
-    label: 'Products',
-    path: '/products',
-    match: (routePath) => routePath.startsWith('/products/'),
+    label: "Products",
+    path: "/products",
+    match: (routePath) => routePath.startsWith("/products/"),
   },
-]
+];
 
-const route = useRoute()
-const userStore = useUserStore()
+const route = useRoute();
+const userStore = useUserStore();
 
 // Decide which header layout to display
-const isHomePage = computed(() => route.path === '/')
+const isHomePage = computed(() => route.path === "/");
 
-const isNavItemActive = (item: NavItem) => item.match(route.path)
+const isNavItemActive = (item: NavItem) => item.match(route.path);
 
 // Mobile menu state
-const isMobileMenuOpen = ref(false)
+const isMobileMenuOpen = ref(false);
 
-const menuButtonRef = ref<HTMLButtonElement | null>(null)
+const menuButtonRef = ref<HTMLButtonElement | null>(null);
 
 const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value
-}
+  isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
 
 const closeMobileMenu = () => {
-  isMobileMenuOpen.value = false
-}
+  isMobileMenuOpen.value = false;
+};
 
 const closeMobileMenuAndRestoreFocus = () => {
-  if (!isMobileMenuOpen.value) return
+  if (!isMobileMenuOpen.value) return;
 
-  isMobileMenuOpen.value = false
-  menuButtonRef.value?.focus()
-}
+  isMobileMenuOpen.value = false;
+  menuButtonRef.value?.focus();
+};
 
 // Close the disclosure when the route changes (links, browser back/forward).
 watch(
   () => route.path,
   () => {
-    isMobileMenuOpen.value = false
+    isMobileMenuOpen.value = false;
   },
-)
+);
 
 const handleSignOut = async () => {
-  await userStore.signOut()
-  closeMobileMenu()
-  await navigateTo('/')
-}
+  await userStore.signOut();
+  closeMobileMenu();
+  await navigateTo("/");
+};
 </script>
 
 <template>
   <header
     class="site-header"
-    :class="{ 'site-header--home': isHomePage, 'site-header--inner': !isHomePage }"
+    :class="{
+      'site-header--home': isHomePage,
+      'site-header--inner': !isHomePage,
+    }"
     @keydown.esc="closeMobileMenuAndRestoreFocus"
   >
     <div class="site-header__container container-global1">
-
       <!-- Section 1: Logo -->
       <div class="site-header__logo-section">
         <NuxtLink
@@ -86,7 +87,7 @@ const handleSignOut = async () => {
           aria-label="FASCO homepage"
           @click="closeMobileMenu"
         >
-          <img src="/img/logo/logo-home.svg" alt="" />
+          <img src="/img/logo/logo-home.svg" alt="" >
         </NuxtLink>
       </div>
 
@@ -140,7 +141,13 @@ const handleSignOut = async () => {
           class="site-header__action-link"
           aria-label="Shopping cart"
         >
-          <span aria-hidden="true"><img src="/img/chart-icon.svg" width="20" height="20" alt="chart-icon"/></span>
+          <span aria-hidden="true"
+            ><img
+              src="/img/chart-icon.svg"
+              width="20"
+              height="20"
+              alt="chart-icon"
+          ></span>
         </NuxtLink>
 
         <NuxtLink
@@ -148,7 +155,13 @@ const handleSignOut = async () => {
           class="site-header__action-link"
           aria-label="My account"
         >
-          <span aria-hidden="true"><img src="/img/profile-icon.svg" width="20" height="20" alt="profile-icon" /></span>
+          <span aria-hidden="true"
+            ><img
+              src="/img/profile-icon.svg"
+              width="20"
+              height="20"
+              alt="profile-icon"
+          ></span>
         </NuxtLink>
       </div>
 
@@ -159,21 +172,19 @@ const handleSignOut = async () => {
         type="button"
         :aria-expanded="isMobileMenuOpen"
         aria-controls="mobile-menu"
-        :aria-label="isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'"
+        :aria-label="
+          isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'
+        "
         @click="toggleMobileMenu"
       >
         <span class="mobile-menu-button__icon" aria-hidden="true">
-          {{ isMobileMenuOpen ? '×' : '☰' }}
+          {{ isMobileMenuOpen ? "×" : "☰" }}
         </span>
       </button>
     </div>
 
     <!-- Mobile navigation -->
-    <div
-      id="mobile-menu"
-      v-show="isMobileMenuOpen"
-      class="mobile-menu"
-    >
+    <div v-show="isMobileMenuOpen" id="mobile-menu" class="mobile-menu">
       <nav aria-label="Mobile navigation">
         <ul class="mobile-menu__list">
           <li v-for="item in navItems" :key="item.label">

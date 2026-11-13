@@ -1,68 +1,63 @@
-
 <script setup lang="ts">
-import { reactive } from 'vue'
-import type { SignUpData } from '~/types/user'
-import { useFormValidation } from '~/composables/useFormValidation'
+import { reactive } from "vue";
+import type { SignUpData } from "~/types/user";
+import { useFormValidation } from "~/composables/useFormValidation";
 
 const emit = defineEmits<{
-  submit: [data: SignUpData]
-}>()
+  submit: [data: SignUpData];
+}>();
 
 const form = reactive<SignUpData>({
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-})
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+});
 
-const { errors, validateForm } =
-  useFormValidation<SignUpData>()
+const { errors, validateForm } = useFormValidation<SignUpData>();
 
 const handleSubmit = () => {
   const isValid = validateForm(
     form,
     [
-      { key: 'firstName', label: 'First name' },
-      { key: 'lastName', label: 'Last name' },
-      { key: 'email', label: 'Email address' },
-      { key: 'password', label: 'Password' },
-      { key: 'confirmPassword', label: 'Confirm password' },
+      { key: "firstName", label: "First name" },
+      { key: "lastName", label: "Last name" },
+      { key: "email", label: "Email address" },
+      { key: "password", label: "Password" },
+      { key: "confirmPassword", label: "Confirm password" },
     ],
     [
       {
-        key: 'email',
+        key: "email",
         validate: (value) =>
           /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
             ? null
-            : 'Please enter a valid email address.',
+            : "Please enter a valid email address.",
       },
       {
-        key: 'password',
+        key: "password",
         validate: (value) =>
           value.length >= 8
             ? null
-            : 'Password must contain at least 8 characters.',
+            : "Password must contain at least 8 characters.",
       },
       {
-        key: 'confirmPassword',
+        key: "confirmPassword",
         validate: (value, formData) =>
-          value === formData.password
-            ? null
-            : 'Passwords do not match.',
+          value === formData.password ? null : "Passwords do not match.",
       },
     ],
-  )
+  );
 
-  if (!isValid) return
+  if (!isValid) return;
 
-  emit('submit', { ...form })
-}
+  emit("submit", { ...form });
+};
 </script>
 
-
 <template>
-  <form class="auth-form" @submit.prevent="handleSubmit" novalidate>
+  <form class="auth-form" novalidate @submit.prevent="handleSubmit">
     <div class="auth-form__field">
       <label for="signup-first-name">First name</label>
       <input
@@ -71,9 +66,15 @@ const handleSubmit = () => {
         autocomplete="given-name"
         required
         :aria-invalid="!!errors.firstName"
-        :aria-describedby="errors.firstName ? 'signup-first-name-error' : undefined"
-      />
-      <p v-if="errors.firstName" id="signup-first-name-error" class="auth-form__error">
+        :aria-describedby="
+          errors.firstName ? 'signup-first-name-error' : undefined
+        "
+      >
+      <p
+        v-if="errors.firstName"
+        id="signup-first-name-error"
+        class="auth-form__error"
+      >
         {{ errors.firstName }}
       </p>
     </div>
@@ -86,9 +87,15 @@ const handleSubmit = () => {
         autocomplete="family-name"
         required
         :aria-invalid="!!errors.lastName"
-        :aria-describedby="errors.lastName ? 'signup-last-name-error' : undefined"
-      />
-      <p v-if="errors.lastName" id="signup-last-name-error" class="auth-form__error">
+        :aria-describedby="
+          errors.lastName ? 'signup-last-name-error' : undefined
+        "
+      >
+      <p
+        v-if="errors.lastName"
+        id="signup-last-name-error"
+        class="auth-form__error"
+      >
         {{ errors.lastName }}
       </p>
     </div>
@@ -103,7 +110,7 @@ const handleSubmit = () => {
         required
         :aria-invalid="!!errors.email"
         :aria-describedby="errors.email ? 'signup-email-error' : undefined"
-      />
+      >
       <p v-if="errors.email" id="signup-email-error" class="auth-form__error">
         {{ errors.email }}
       </p>
@@ -118,9 +125,15 @@ const handleSubmit = () => {
         autocomplete="new-password"
         required
         :aria-invalid="!!errors.password"
-        :aria-describedby="errors.password ? 'signup-password-error' : undefined"
-      />
-      <p v-if="errors.password" id="signup-password-error" class="auth-form__error">
+        :aria-describedby="
+          errors.password ? 'signup-password-error' : undefined
+        "
+      >
+      <p
+        v-if="errors.password"
+        id="signup-password-error"
+        class="auth-form__error"
+      >
         {{ errors.password }}
       </p>
     </div>
@@ -134,8 +147,10 @@ const handleSubmit = () => {
         autocomplete="new-password"
         required
         :aria-invalid="!!errors.confirmPassword"
-        :aria-describedby="errors.confirmPassword ? 'signup-confirm-password-error' : undefined"
-      />
+        :aria-describedby="
+          errors.confirmPassword ? 'signup-confirm-password-error' : undefined
+        "
+      >
       <p
         v-if="errors.confirmPassword"
         id="signup-confirm-password-error"
@@ -145,9 +160,7 @@ const handleSubmit = () => {
       </p>
     </div>
 
-    <button type="submit" class="auth-form__submit">
-      Create Account
-    </button>
+    <button type="submit" class="auth-form__submit">Create Account</button>
 
     <p class="auth-form__footer">
       Already have an account?

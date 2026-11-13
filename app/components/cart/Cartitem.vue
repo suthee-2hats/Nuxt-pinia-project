@@ -1,34 +1,30 @@
-
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { CartItem } from '~/types/cart'
-import { useCartStore } from '~/stores/cart'
+import { computed } from "vue";
+import type { CartItem } from "~/types/cart";
+import { useCartStore } from "~/stores/cart";
 
 const props = defineProps<{
-  item: CartItem
-}>()
+  item: CartItem;
+}>();
 
-const cartStore = useCartStore()
+const cartStore = useCartStore();
 
-const productLink = computed(() => `/products/${props.item.productId}`)
+const productLink = computed(() => `/products/${props.item.productId}`);
 
 const discountedPrice = computed(() => {
-  return (
-    props.item.price *
-    (1 - props.item.discountPercentage / 100)
-  )
-})
+  return props.item.price * (1 - props.item.discountPercentage / 100);
+});
 
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(price)
-}
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
+};
 
 const removeFromCart = () => {
-  cartStore.removeItem(props.item.productId)
-}
+  cartStore.removeItem(props.item.productId);
+};
 </script>
 
 <template>
@@ -39,12 +35,7 @@ const removeFromCart = () => {
         class="cart-item__image"
         :aria-label="`View ${item.title}`"
       >
-        <img
-          :src="item.thumbnail"
-          alt=""
-          width="120"
-          height="120"
-        />
+        <img :src="item.thumbnail" alt="" width="120" height="120" >
       </NuxtLink>
 
       <div class="cart-item__details">
@@ -78,4 +69,3 @@ const removeFromCart = () => {
     </p>
   </article>
 </template>
-
