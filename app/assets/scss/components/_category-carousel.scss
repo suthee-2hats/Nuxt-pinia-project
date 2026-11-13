@@ -1,5 +1,4 @@
-@use '../abstracts/variables' as vars;
-@use '../abstracts/mixins' as mixins;
+@use '../abstracts' as *;
 
 .category-carousel {
   display: grid;
@@ -37,7 +36,7 @@
 
 .category-carousel__title {
   margin: 0 0 12px;
-  color: vars.$category-text;
+  color: $color-heading;
   font-size: 46px;
   font-weight: 500;
 }
@@ -45,8 +44,8 @@
 .category-carousel__description {
   max-width: 320px;
   margin: 0 0 24px;
-  color: vars.$category-muted;
-  font-family: 'Poppins', sans-serif;
+  color: $color-subtle;
+  font-family: $font-sans;
   font-size: 16px;
   line-height: 1.6;
 }
@@ -64,19 +63,16 @@
   padding: 10px 24px;
   border: 0;
   border-radius: 4px;
-  background: #000;
-  color: #fff;
+  background: $color-ink;
+  color: $color-surface;
   font-size: 13px;
   cursor: pointer;
 
   &:hover {
-    background: #333;
+    background: $color-heading;
   }
 
-  &:focus-visible {
-    outline: 3px solid vars.$focus-color;
-    outline-offset: 4px;
-  }
+  @include focus-ring(3px, 4px);
 }
 
 // ========================================
@@ -98,32 +94,27 @@
   overflow: hidden;
   min-width: 0;
   aspect-ratio: 3 / 4;
-  background: vars.$category-card-two;
+  background: $category-card-two;
   text-decoration: none;
 
-
-  &:focus-visible {
-    outline: 3px solid vars.$focus-color;
-    outline-offset: 4px;
-  }
+  @include focus-ring(3px, 4px);
 }
 
 // Individual card backgrounds
 
 .category-carousel__card--1 {
   aspect-ratio: 0.72;
-  background: vars.$category-card-one;
+  background: $category-card-one;
   max-height: 582px;
-  
 }
 
 .category-carousel__card--2 {
-  background: vars.$category-card-two;
+  background: $category-card-two;
   max-height: 482px;
 }
 
 .category-carousel__card--3 {
-  background: vars.$category-card-three;
+  background: $category-card-three;
   max-height: 482px;
 }
 
@@ -145,7 +136,7 @@
   left: 0;
   padding: 12px 10px;
   background: rgb(255 255 255 / 92%);
-  color: vars.$category-text;
+  color: $color-heading;
   font-size: 14px;
   font-weight: 500;
 }
@@ -154,7 +145,7 @@
 // Hover effect
 // ========================================
 
-@media (hover: hover) {
+@include hover-media {
   .category-carousel__card img {
     transition: transform 200ms ease;
   }
@@ -168,7 +159,7 @@
 // Tablet
 // ========================================
 
-@include mixins.tablet {
+@include tablet {
   .category-carousel {
     grid-template-columns: 1fr;
     grid-template-areas:
@@ -188,7 +179,7 @@
 // Mobile
 // ========================================
 
-@include mixins.mobile {
+@include mobile {
   .category-carousel {
     padding: 24px 16px;
   }
@@ -269,7 +260,7 @@
   transform: translateX(-30px);
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .category-slide-enter-active,
   .category-slide-leave-active {
     transition: none;
@@ -280,7 +271,7 @@
 // Reduced motion
 // ========================================
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .category-carousel__card img {
     transition: none;
   }
@@ -313,26 +304,23 @@
   align-items: center;
   width: 44px;
   height: 44px;
-  border: 1px solid #ddd;
+  border: 1px solid $color-border-soft;
   border-radius: 50%;
-  background: #fff;
-  color: #333;
+  background: $color-surface;
+  color: $color-heading;
   font-size: 28px;
   line-height: 1;
   cursor: pointer;
   transition: background-color 200ms ease;
+
+  &:hover {
+    background: #f0f0f0;
+  }
+
+  @include focus-ring(3px, 3px);
 }
 
-.category-carousel__arrow:hover {
-  background: #f0f0f0;
-}
-
-.category-carousel__arrow:focus-visible {
-  outline: 3px solid vars.$focus-color;
-  outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .category-carousel__arrow {
     transition: none;
   }

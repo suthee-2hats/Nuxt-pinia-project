@@ -1,5 +1,4 @@
-@use '../abstracts/mixins' as *;
-
+@use '../abstracts' as *;
 
 // ========================================
 // Hero layout
@@ -27,7 +26,6 @@
      with this column and never overflows it. */
   container-type: inline-size;
 }
-
 
 // ========================================
 // Hero images
@@ -60,7 +58,6 @@
   transition: transform 200ms ease;
 }
 
-
 // ========================================
 // Central sale content
 // ========================================
@@ -83,40 +80,39 @@
 }
 
 .home-hero__title-top {
-  font-family: 'Poppins', sans-serif;
+  font-family: $font-sans;
   font-weight: 500;
   font-size: min(22.5cqw, 91px);
   line-height: 1;
   letter-spacing: -0.04em;
   color: #484848;
   text-transform: uppercase;
-  
 }
 
 .home-hero__title-sale {
   /* Typography */
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;                 
-  font-size: min(46.2cqw, 187px);                   
-  line-height: 1;                    
-  letter-spacing: -0.055em;            
-  
+  font-family: $font-sans;
+  font-weight: 500;
+  font-size: min(46.2cqw, 187px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+
   /* Outline Text Styling (Figma Stroke: 1px Outside #484848) */
-  color: transparent;                 
-  -webkit-text-stroke: 1px #484848;    
-  paint-order: stroke fill;            
-  
+  color: transparent;
+  -webkit-text-stroke: 1px #484848;
+  paint-order: stroke fill;
+
   /* Display & Alignment */
-  display: block;                    
-  text-transform: uppercase;         
+  display: block;
+  text-transform: uppercase;
 }
 
 .home-hero__subtitle {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 100;     
+  font-family: $font-sans;
+  font-weight: 100;
   margin: clamp(6px, 1.6cqw, 14px) 0 clamp(12px, 3.2cqw, 28px);
-  font-size: min(4.95cqw, 20px); 
-  letter-spacing: 0.1em;  
+  font-size: min(4.95cqw, 20px);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -128,36 +124,32 @@
   min-height: min(13.8cqw, 56px);
   padding: min(4.9cqw, 20px) min(14.8cqw, 60px);
   border-radius: 10px;
-  background: #000;
-  color: #fff;
+  background: $color-ink;
+  color: $color-surface;
   text-decoration: none;
   text-transform: uppercase;
   font-size: min(3.95cqw, 16px);
-  font-family: 'Poppins', sans-serif;
+  font-family: $font-sans;
 }
-
 
 // ========================================
 // Hover interaction
 // ========================================
 
-@media (hover: hover) {
+@include hover-media {
   .home-hero__image-link:hover img {
     transform: scale(1.03);
   }
 }
 
-
 // ========================================
 // Keyboard focus
 // ========================================
 
-.home-hero__image-link:focus-visible,
-.home-hero__cta:focus-visible {
-  outline: 3px solid #2463eb;
-  outline-offset: 4px;
+.home-hero__image-link,
+.home-hero__cta {
+  @include focus-ring(3px, 4px);
 }
-
 
 // ========================================
 // Tablet layout
@@ -173,7 +165,6 @@
     gap: clamp(10px, 2.4vw, 20px);
   }
 }
-
 
 // ========================================
 // Mobile layout
@@ -221,12 +212,11 @@
   }
 }
 
-
 // ========================================
 // Reduced motion preference
 // ========================================
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .home-hero__image-link img {
     transition: none;
   }

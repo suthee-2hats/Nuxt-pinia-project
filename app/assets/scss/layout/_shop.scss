@@ -1,13 +1,10 @@
-
-@use '../abstracts/variables' as vars;
-@use '../abstracts/mixins' as mixins;
+@use '../abstracts' as *;
 
 // SHOP PAGE
 .shop-page {
   width: 100%;
 
   margin: 0 auto;
-  
 }
 
 // SHOP PAGE HEADER
@@ -32,11 +29,11 @@
     li + li::before {
       content: '/';
       margin-right: 10px;
-      color: #999;
+      color: $color-placeholder;
     }
 
     a {
-      color: #666;
+      color: $color-muted;
       text-decoration: none;
     }
   }
@@ -61,20 +58,17 @@
     padding: 8px 20px;
     border: 1px solid #e4ded8;
     border-radius: 24px;
-    background: #fff;
+    background: $color-surface;
     color: #51463f;
     cursor: pointer;
 
     &.is-active {
       background: #332b26;
       border-color: #332b26;
-      color: #fff;
+      color: $color-surface;
     }
 
-    &:focus-visible {
-      outline: 3px solid vars.$focus-color;
-      outline-offset: 3px;
-    }
+    @include focus-ring(3px, 3px);
   }
 }
 
@@ -132,21 +126,13 @@
     text-align: left;
     cursor: pointer;
 
-    &:focus-visible {
-      outline: 3px solid vars.$focus-color;
-      outline-offset: 4px;
-    }
+    @include focus-ring(3px, 4px);
   }
 
   // Brand dropdown arrow
   &__arrow {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    @include chevron-icon;
+
     transition: transform 200ms ease;
 
     &.is-open {
@@ -189,7 +175,7 @@
       padding: 0;
       border: 0;
       background: transparent;
-      color: #666;
+      color: $color-muted;
       font: inherit;
       font-size: 16px;
       text-align: left;
@@ -197,14 +183,11 @@
 
       &:hover,
       &.is-active {
-        color: #000;
+        color: $color-ink;
         font-weight: 600;
       }
 
-      &:focus-visible {
-        outline: 2px solid vars.$focus-color;
-        outline-offset: 3px;
-      }
+      @include focus-ring(2px, 3px);
     }
   }
 
@@ -224,7 +207,7 @@
     }
 
     span span {
-      color: #b58a38;
+      color: $color-rating;
     }
   }
 }
@@ -235,7 +218,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
-    color: #777;
+    color: $color-subtle;
     font-size: 16px;
   }
 
@@ -270,7 +253,7 @@
         width: 18px;
         height: 18px;
         margin-top: -6px;
-        border: 3px solid #fff;
+        border: 3px solid $color-surface;
         border-radius: 50%;
         background: #1749e8;
         box-shadow: 0 1px 5px rgb(0 0 0 / 20%);
@@ -282,7 +265,7 @@
       &::-moz-range-thumb {
         width: 12px;
         height: 12px;
-        border: 3px solid #fff;
+        border: 3px solid $color-surface;
         border-radius: 50%;
         background: #1749e8;
         box-shadow: 0 1px 5px rgb(0 0 0 / 20%);
@@ -290,10 +273,7 @@
         cursor: grab;
       }
 
-      &:focus-visible {
-        outline: 2px solid vars.$focus-color;
-        outline-offset: 5px;
-      }
+      @include focus-ring(2px, 5px);
     }
   }
 }
@@ -314,15 +294,12 @@
     color: inherit;
     text-decoration: none;
 
-    &:focus-visible {
-      outline: 3px solid vars.$focus-color;
-      outline-offset: 3px;
-    }
+    @include focus-ring(3px, 3px);
   }
 
   &__image {
     overflow: hidden;
-    background: #f2f0ee;
+    background: $color-surface-warm;
     aspect-ratio: 3 / 4;
 
     img {
@@ -352,7 +329,7 @@
     font-weight: 600;
 
     del {
-      color: #666;
+      color: $color-muted;
       font-weight: 400;
     }
   }
@@ -362,13 +339,13 @@
     font-size: 13px;
 
     span {
-      color: #b58a38;
+      color: $color-rating;
     }
   }
 }
 
 // PRODUCT HOVER
-@media (hover: hover) {
+@include hover-media {
   .product-card__link:hover .product-card__image img {
     transform: scale(1.04);
   }
@@ -388,7 +365,7 @@
 }
 
 // TABLET RESPONSIVE
-@include mixins.tablet {
+@include tablet {
   .shop-page__layout {
     grid-template-columns: 180px minmax(0, 1fr);
     gap: 20px;
@@ -400,7 +377,7 @@
 }
 
 // MOBILE RESPONSIVE
-@include mixins.mobile {
+@include mobile {
   .shop-page {
     padding: 24px 16px;
   }
@@ -421,7 +398,7 @@
 }
 
 // REDUCED MOTION
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .product-filters__arrow {
     transition: none;
   }
@@ -434,31 +411,29 @@
     transform: none;
   }
 }
+
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin:auto;
+  margin: auto;
 
   button {
     min-width: 36px;
     height: 36px;
     padding: 0 10px;
-    border: 1px solid #ddd;
-    background: #fff;
-    color: #222;
+    border: 1px solid $color-border-soft;
+    background: $color-surface;
+    color: $color-ink-soft;
     cursor: pointer;
 
     &:hover:not(:disabled) {
-      background: #222;
-      color: #fff;
+      background: $color-ink-soft;
+      color: $color-surface;
     }
 
-    &:focus-visible {
-      outline: 2px solid #2463eb;
-      outline-offset: 3px;
-    }
+    @include focus-ring(2px, 3px);
 
     &:disabled {
       opacity: 0.45;
@@ -467,8 +442,8 @@
   }
 
   &__page--active {
-    background: #222 !important;
-    color: #fff !important;
-    border-color: #222 !important;
+    background: $color-ink-soft !important;
+    color: $color-surface !important;
+    border-color: $color-ink-soft !important;
   }
 }

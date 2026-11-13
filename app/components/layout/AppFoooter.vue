@@ -51,15 +51,16 @@ const footerLinks = [
 </template>
 
 <style lang="scss" scoped>
-.app-footer {
+@use '../../assets/scss/abstracts' as *;
 
+.app-footer {
   padding: 34px 20px;
-  background-color: #fff;
-  font-family: 'Poppins', sans-serif;;
-  border-top: 1px solid #DEDFE1;
+  background-color: $color-surface;
+  font-family: $font-sans;
+  border-top: 1px solid #dedfe1;
 
   &__container {
-    max-width: 1280px;
+    max-width: $container-max;
     margin: 0 auto;
   }
 
@@ -81,10 +82,7 @@ const footerLinks = [
       height: auto;
     }
 
-    &:focus-visible {
-      outline: 3px solid #2463eb;
-      outline-offset: 5px;
-    }
+    @include focus-ring(3px, 5px);
   }
 
   &__list {
@@ -105,23 +103,20 @@ const footerLinks = [
     transition: color 0.2s ease;
 
     &:hover {
-      color: #000;
+      color: $color-ink;
     }
 
-    &:focus-visible {
-      outline: 3px solid #2463eb;
-      outline-offset: 5px;
-    }
+    @include focus-ring(3px, 5px);
   }
 
   &__copyright {
     margin: 44px 0 0;
-    color: #555;
+    color: $color-body;
     font-size: 11px;
     text-align: center;
   }
 
-  @media (max-width: 768px) {
+  @include below(768px) {
     &__top {
       flex-direction: column;
       align-items: center;
@@ -138,7 +133,7 @@ const footerLinks = [
     }
   }
 
-  @media (max-width: 480px) {
+  @include compact {
     margin: 0 12px;
     padding: 28px 16px;
 
@@ -147,7 +142,7 @@ const footerLinks = [
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
+  @include reduced-motion {
     &__link {
       transition: none;
     }

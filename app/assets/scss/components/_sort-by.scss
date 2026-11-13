@@ -1,11 +1,10 @@
+@use '../abstracts' as *;
 
-@use '../abstracts/variables' as vars;
-@use '../abstracts/mixins' as mixins;
 .product-sort {
   position: relative;
   display: inline-flex;
   align-items: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: $font-sans;
 
   // Sort By button
   &__trigger {
@@ -18,11 +17,11 @@
     min-width: 120px;
     padding: 10px 18px;
 
-    border: 1px solid #000;
+    border: 1px solid $color-ink;
     border-radius: 30px;
 
-    background: #000;
-    color: #fff;
+    background: $color-ink;
+    color: $color-surface;
 
     font-family: inherit;
     font-size: 14px;
@@ -30,10 +29,7 @@
 
     cursor: pointer;
 
-    &:focus-visible {
-      outline: 3px solid vars.$focus-color;
-      outline-offset: 3px;
-    }
+    @include focus-ring(3px, 3px);
   }
 
   // Dropdown panel
@@ -48,10 +44,10 @@
     max-width: calc(100vw - 32px);
     padding: 6px;
 
-    border: 1px solid #333;
+    border: 1px solid $color-heading;
     border-radius: 12px;
 
-    background: #000;
+    background: $color-ink;
     box-shadow: 0 6px 16px rgb(0 0 0 / 18%);
   }
 
@@ -65,7 +61,7 @@
     border-radius: 6px;
 
     background: transparent;
-    color: #fff;
+    color: $color-surface;
 
     font-family: inherit;
     font-size: 13px;
@@ -76,26 +72,16 @@
 
     &:hover,
     &[aria-checked='true'] {
-      background: #333;
+      background: $color-heading;
     }
 
-    &:focus-visible {
-      outline: 2px solid vars.$focus-color;
-      outline-offset: -2px;
-    }
+    @include focus-ring(2px, -2px);
   }
 
   // Chevron icon
   &__icon {
-    width: 16px;
-    height: 16px;
     flex-shrink: 0;
-
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    @include chevron-icon;
 
     transition: transform 0.2s ease;
 
@@ -105,12 +91,13 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .product-sort__icon {
     transition: none;
   }
 }
-@include mixins.mobile {
+
+@include mobile {
   .product-sort__menu {
     right: auto;
     left: 0;

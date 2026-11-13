@@ -1,0 +1,49 @@
+// ========================================
+// Design tokens
+// Compile-time values shared by every partial.
+// One token per existing literal — shades are not merged.
+// ========================================
+
+// Ink & text
+$color-ink: #000;
+$color-ink-strong: #111;
+$color-ink-soft: #222;
+$color-heading: #333;
+$color-body: #555;
+$color-muted: #666;
+$color-subtle: #777;
+$color-faint: #888;
+$color-placeholder: #999;
+
+// Surfaces
+$color-surface: #fff;
+$color-surface-soft: #fafafa;
+$color-surface-muted: #f2f2f2;
+$color-surface-warm: #f2f0ee;
+
+// Lines
+$color-border: #ccc;
+$color-border-soft: #ddd;
+$color-border-light: #e3e3e3;
+
+// Feedback
+$color-focus: #2463eb;
+$color-danger: #c0392b;
+$color-danger-strong: #8c1f14;
+$color-danger-surface: #fdf0ee;
+$color-success: #1b7f3b;
+$color-rating: #b58a38;
+
+// Category tints
+$category-card-one: #e9e5df;
+$category-card-two: #e8e9ed;
+$category-card-three: #d8caca;
+
+// Typography
+$font-sans: 'Poppins', sans-serif;
+$font-serif: 'Playfair Display', serif;
+
+// Shape & layout
+$radius-sm: 3px;
+$radius-pill: 999px;
+$container-max: 1280px;

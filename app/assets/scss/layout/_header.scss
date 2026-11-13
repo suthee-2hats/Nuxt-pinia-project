@@ -1,5 +1,4 @@
-@use '../abstracts/mixins' as *;
-
+@use '../abstracts' as *;
 
 // ========================================
 // Site header
@@ -10,9 +9,9 @@
   top: 0;
   z-index: 50;
   width: 100%;
-  background: #fff;
+  background: $color-surface;
   padding-block: 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: $font-sans;
 
   &__container {
     height: 80px;
@@ -51,8 +50,27 @@
       height: clamp(30px, 3.2vw, 40px);
     }
   }
-}
 
+  &__action-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: $color-heading;
+    font-size: 20px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+
+    @include focus-ring(2px, 3px, $color-ink);
+  }
+}
 
 // ========================================
 // Desktop navigation
@@ -86,17 +104,12 @@
 
     &:hover,
     &.is-active {
-      border-bottom: 1px solid #000;
+      border-bottom: 1px solid $color-ink;
     }
 
-    &:focus-visible {
-      outline: 2px solid #000;
-      outline-offset: 4px;
-      border-radius: 2px;
-    }
+    @include focus-ring(2px, 4px, $color-ink, 2px);
   }
 }
-
 
 // ========================================
 // Desktop authentication
@@ -117,7 +130,7 @@
     border-bottom: 1px solid transparent;
 
     &:hover {
-      border-bottom: 1px solid #000;
+      border-bottom: 1px solid $color-ink;
     }
   }
 
@@ -127,8 +140,8 @@
     justify-content: center;
     padding: clamp(8px, 0.8vw, 10px) clamp(14px, 1.9vw, 24px);
     border-radius: 8px;
-    background: #000;
-    color: #fff;
+    background: $color-ink;
+    color: $color-surface;
     font-size: clamp(12px, 1.1vw, 16px);
     font-weight: 500;
     white-space: nowrap;
@@ -136,7 +149,7 @@
     transition: background 0.2s ease;
 
     &:hover {
-      background: #333;
+      background: $color-heading;
     }
   }
 
@@ -160,17 +173,13 @@
     cursor: pointer;
 
     &:hover {
-      border-bottom-color: #000;
-      color: #000;
+      border-bottom-color: $color-ink;
+      color: $color-ink;
     }
 
-    &:focus-visible {
-      outline: 2px solid #000;
-      outline-offset: 3px;
-    }
+    @include focus-ring(2px, 3px, $color-ink);
   }
 }
-
 
 // ========================================
 // Mobile menu button
@@ -182,7 +191,7 @@
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: #333;
+  color: $color-heading;
   cursor: pointer;
   flex-shrink: 0;
 
@@ -192,12 +201,8 @@
     line-height: 1;
   }
 
-  &:focus-visible {
-    outline: 2px solid #000;
-    outline-offset: 3px;
-  }
+  @include focus-ring(2px, 3px, $color-ink);
 }
-
 
 // ========================================
 // Mobile navigation
@@ -216,7 +221,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   border-top: 1px solid #f3f4f6;
-  background: #fff;
+  background: $color-surface;
   box-shadow: 0 16px 32px rgb(0 0 0 / 12%);
 
   &__list {
@@ -240,13 +245,10 @@
     &:hover,
     &.is-active {
       background: #f9fafb;
-      color: #000;
+      color: $color-ink;
     }
 
-    &:focus-visible {
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
+    @include focus-ring(2px, 2px, $color-ink);
   }
 
   &__actions {
@@ -278,20 +280,15 @@
   }
 
   &__signup {
-    background: #000;
-    color: #fff;
+    background: $color-ink;
+    color: $color-surface;
 
     &:hover {
-      background: #333;
+      background: $color-heading;
     }
   }
-}
 
-// ========================================
-// Mobile cart and account actions
-// ========================================
-
-.mobile-menu {
+  // Mobile cart and account actions
   &__account-actions {
     display: flex;
     flex-direction: column;
@@ -312,13 +309,10 @@
 
     &:hover {
       background: #f9fafb;
-      color: #000;
+      color: $color-ink;
     }
 
-    &:focus-visible {
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
+    @include focus-ring(2px, 2px, $color-ink);
   }
 
   &__signout {
@@ -336,17 +330,14 @@
 
     &:hover {
       background: #f9fafb;
-      color: #000;
+      color: $color-ink;
     }
 
-    &:focus-visible {
-      outline: 2px solid #000;
-      outline-offset: 2px;
-    }
+    @include focus-ring(2px, 2px, $color-ink);
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@include reduced-motion {
   .site-header__action-link {
     transition: none;
   }
@@ -356,14 +347,12 @@
 // Keyboard focus for authentication links
 // ========================================
 
-.header-actions__link:focus-visible,
-.header-actions__signup:focus-visible,
-.mobile-menu__signin:focus-visible,
-.mobile-menu__signup:focus-visible {
-  outline: 2px solid #000;
-  outline-offset: 3px;
+.header-actions__link,
+.header-actions__signup,
+.mobile-menu__signin,
+.mobile-menu__signup {
+  @include focus-ring(2px, 3px, $color-ink);
 }
-
 
 // ========================================
 // Responsive layout
@@ -399,7 +388,7 @@
 }
 
 // Compact phones: keep the header on a single line with smaller type.
-@media (max-width: 480px) {
+@include compact {
   .site-header {
     padding-block: 10px;
 
@@ -437,12 +426,11 @@
   }
 }
 
-
 // ========================================
 // Inner-page header layout (desktop only)
 // ========================================
 
-@media (min-width: 768px) {
+@include desktop {
   .site-header {
     &--inner {
       .site-header__container {
@@ -471,31 +459,6 @@
         gap: 20px;
         flex-shrink: 0;
       }
-    }
-  }
-}
-
-.site-header {
-  &__action-link {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: #333;
-    font-size: 20px;
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-
-    &:hover {
-      background-color: #f5f5f5;
-    }
-
-    &:focus-visible {
-      outline: 2px solid #000;
-      outline-offset: 3px;
     }
   }
 }

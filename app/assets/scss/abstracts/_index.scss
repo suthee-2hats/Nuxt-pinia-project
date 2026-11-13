@@ -1,0 +1,5 @@
+// Shared abstract layer.
+// Import from any partial with: @use '../abstracts' as *;
+@forward 'tokens';
+@forward 'breakpoints';
+@forward 'mixins';

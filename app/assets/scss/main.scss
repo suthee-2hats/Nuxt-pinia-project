@@ -1,16 +1,15 @@
 @use './base/reset';
-@use './abstracts/mixins';
-@use './abstracts/variables';
 @use './base/global';
+
 @use './layout/header';
-@use './layout/responsiveHeader';
 @use './layout/heropage';
-@use './base/breakpoints';
 @use './layout/shop';
 @use './layout/product-detail';
-@use './components/category-carosel';
+
+@use './components/category-carousel';
 @use './components/category-grid';
 @use './components/sort-by';
+
 @use './layout/cart';
 @use './layout/checkout';
 @use './layout/auth';

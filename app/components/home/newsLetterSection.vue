@@ -60,6 +60,8 @@ const handleSubscribe = () => {
 </template>
 
 <style lang="scss" scoped>
+@use '../../assets/scss/abstracts' as *;
+
 .newsletter {
   position: relative;
   display: flex;
@@ -70,7 +72,6 @@ const handleSubscribe = () => {
   padding: 60px 24px;
   min-height: 500px;
   overflow: hidden;
- 
 }
 
 .newsletter__content {
@@ -85,14 +86,14 @@ const handleSubscribe = () => {
   font-family: 'Playfair Display', Georgia, serif; /* Matches serif headline style */
   font-size: 38px;
   font-weight: 600;
-  color: #333333;
+  color: $color-heading;
   margin-bottom: 16px;
   line-height: 1.2;
 }
 
 .newsletter__description {
   font-size: 14px;
-  color: #888888;
+  color: $color-faint;
   line-height: 1.6;
   margin-bottom: 32px;
 }
@@ -110,11 +111,11 @@ const handleSubscribe = () => {
   padding: 16px 20px;
   border: 1px solid #f0f0f0;
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: $color-surface;
   font-size: 14px;
-  color: #333333;
+  color: $color-heading;
   outline: none;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* Soft inner/bottom shadow */
+  box-shadow: 0 4px 20px rgb(0 0 0 / 3%); /* Soft inner/bottom shadow */
   text-align: center;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
@@ -123,25 +124,25 @@ const handleSubscribe = () => {
   }
 
   &:focus {
-    border-color: #cccccc;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+    border-color: $color-border;
+    box-shadow: 0 4px 25px rgb(0 0 0 / 7%);
   }
 }
 
 .newsletter__button {
   padding: 14px 40px;
-  background-color: #000000;
-  color: #ffffff;
+  background-color: $color-ink;
+  color: $color-surface;
   border: none;
   border-radius: 8px; /* Slightly rounded pill-like shape */
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Floating black button shadow */
+  box-shadow: 0 8px 20px rgb(0 0 0 / 15%); /* Floating black button shadow */
   transition: transform 0.2s ease, background-color 0.2s ease;
 
   &:hover {
-    background-color: #222222;
+    background-color: $color-ink-soft;
     transform: translateY(-2px);
   }
 

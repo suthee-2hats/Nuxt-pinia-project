@@ -1,0 +1,54 @@
+// ========================================
+// Breakpoints
+// Single source of truth for every media query in the app.
+// ========================================
+
+$compact: 480px;
+$mobile: 576px;
+$tablet: 767px;
+$wide: 900px;
+
+// Generic helpers — use these for one-off widths (e.g. the cart's 768px).
+@mixin below($width) {
+  @media (max-width: $width) {
+    @content;
+  }
+}
+
+@mixin above($width) {
+  @media (min-width: $width) {
+    @content;
+  }
+}
+
+// Named breakpoints — preferred for new code.
+@mixin compact {
+  @include below($compact) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @include below($mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @include below($tablet) {
+    @content;
+  }
+}
+
+@mixin wide {
+  @include below($wide) {
+    @content;
+  }
+}
+
+// Desktop-first inverse of the tablet breakpoint (768px and up).
+@mixin desktop {
+  @include above(768px) {
+    @content;
+  }
+}
