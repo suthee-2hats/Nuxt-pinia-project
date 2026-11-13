@@ -6,7 +6,8 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@nuxt/content": "^3.16.1",
@@ -20,6 +21,7 @@
     "vue-router": "^5.3.1"
   },
   "devDependencies": {
-    "sass": "^1.107.1"
+    "sass": "^1.107.1",
+    "vue-tsc": "^3.3.14"
   }
 }
