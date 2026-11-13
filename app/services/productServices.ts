@@ -1,7 +1,6 @@
 import type { Product, ProductsResponse } from '~/types/product'
 import type { Category } from '~/types/category'
-
-const API_URL = 'https://dummyjson.com'
+import { getApiBase } from '~/utils/api'
 
 interface ProductRequestOptions {
   limit?: number
@@ -26,7 +25,7 @@ export const productService = {
       ? `/products/category/${encodeURIComponent(category)}`
       : '/products'
 
-    return $fetch<ProductsResponse>(`${API_URL}${endpoint}`, {
+    return $fetch<ProductsResponse>(`${getApiBase()}${endpoint}`, {
       query: {
         limit,
         skip,
@@ -38,18 +37,18 @@ export const productService = {
 
   // Fetch categories
   getCategories() {
-    return $fetch<Category[]>(`${API_URL}/products/categories`)
+    return $fetch<Category[]>(`${getApiBase()}/products/categories`)
   },
 
   // Fetch one product
   getProductById(id: number) {
-    return $fetch<Product>(`${API_URL}/products/${id}`)
+    return $fetch<Product>(`${getApiBase()}/products/${id}`)
   },
 
   // Fetch products from the same category
   getRelatedProducts(category: string, limit = 8) {
     return $fetch<ProductsResponse>(
-      `${API_URL}/products/category/${encodeURIComponent(category)}`,
+      `${getApiBase()}/products/category/${encodeURIComponent(category)}`,
       {
         query: { limit },
       },

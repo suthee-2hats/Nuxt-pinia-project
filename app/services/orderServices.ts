@@ -1,4 +1,4 @@
-const API_URL = 'https://dummyjson.com'
+import { getApiBase } from '~/utils/api'
 
 export interface CreateOrderProduct {
   id: number
@@ -22,7 +22,7 @@ export interface OrderApiResponse {
 export const orderService = {
 
   createOrder(payload: CreateOrderPayload) {
-    return $fetch<OrderApiResponse>(`${API_URL}/carts/add`, {
+    return $fetch<OrderApiResponse>(`${getApiBase()}/carts/add`, {
       method: 'POST',
       body: {
         userId: payload.userId ?? 1,

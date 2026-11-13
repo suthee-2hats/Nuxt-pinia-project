@@ -38,6 +38,13 @@ export default defineNuxtConfig({
 
   css: ['~/assets/scss/main.scss'],
 
+  runtimeConfig: {
+    public: {
+      // Override with NUXT_PUBLIC_API_BASE in .env (see .env.example).
+      apiBase: 'https://dummyjson.com',
+    },
+  },
+
   devtools: { enabled: false },
   compatibilityDate: '2024-04-03',
 })

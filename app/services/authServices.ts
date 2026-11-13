@@ -3,8 +3,7 @@ import type {
   SignInCredentials,
   SignUpData,
 } from '~/types/user'
-
-const API_URL = 'https://dummyjson.com'
+import { getApiBase } from '~/utils/api'
 
 interface DummyJsonUser {
   id: number
@@ -84,7 +83,7 @@ const errorStatus = (error: unknown): number => {
 // email address. Resolve the username first, then authenticate.
 const findUsernameByEmail = async (email: string): Promise<string | null> => {
   const response = await $fetch<{ users: { username: string }[] }>(
-    `${API_URL}/users/filter`,
+    `${getApiBase()}/users/filter`,
     {
       query: {
         key: 'email',
@@ -127,7 +126,7 @@ export const signInUser = async (
 
   try {
     const response = await $fetch<DummyJsonAuthResponse>(
-      `${API_URL}/auth/login`,
+      `${getApiBase()}/auth/login`,
       {
         method: 'POST',
         body: {
@@ -160,7 +159,7 @@ export const signUpUser = async (data: SignUpData): Promise<User> => {
 
   try {
     const response = await $fetch<DummyJsonUser>(
-      `${API_URL}/users/add`,
+      `${getApiBase()}/users/add`,
       {
         method: 'POST',
         body: {

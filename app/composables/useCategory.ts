@@ -1,6 +1,7 @@
 
 import { ref } from 'vue'
 import type { Category } from '~/types/category'
+import { getApiBase } from '~/utils/api'
 
 interface DummyProductResponse {
   products: {
@@ -22,14 +23,14 @@ export const useCategories = () => {
     try {
       // Get the complete category list.
       const categoryList = await $fetch<Omit<Category, 'image'>[]>(
-        'https://dummyjson.com/products/categories',
+        `${getApiBase()}/products/categories`,
       )
 
       // Get one product image for each category.
       const categoryResults = await Promise.all(
         categoryList.map(async (category) => {
           const productData = await $fetch<DummyProductResponse>(
-            `https://dummyjson.com/products/category/${encodeURIComponent(category.slug)}?limit=1`,
+            `${getApiBase()}/products/category/${encodeURIComponent(category.slug)}?limit=1`,
           )
 
           return {
