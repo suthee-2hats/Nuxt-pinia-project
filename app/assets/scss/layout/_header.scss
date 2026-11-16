@@ -462,3 +462,35 @@
     }
   }
 }
+//-----------------------------cart item count --------------------------
+
+.site-header {
+  &__cart-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__cart-count {
+    position: absolute;
+    top: -9px;
+    right: -11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+
+    border-radius: 50%;
+    background: $color-ink-soft;
+    color: $color-surface;
+
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+  }
+}

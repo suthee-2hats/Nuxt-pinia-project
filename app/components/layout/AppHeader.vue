@@ -67,6 +67,15 @@ const handleSignOut = async () => {
   closeMobileMenu();
   await navigateTo("/");
 };
+
+const cartStore = useCartStore()
+
+const cartItemCount = computed(() =>
+  cartStore.items.reduce(
+    (count, item) => count + item.quantity,
+    0,
+  ),
+)
 </script>
 
 <template>
@@ -137,18 +146,27 @@ const handleSignOut = async () => {
       <!-- Section 3B: Inner-page actions -->
       <div v-else class="site-header__user-actions">
         <NuxtLink
-          to="/cart"
-          class="site-header__action-link"
-          aria-label="Shopping cart"
-        >
-          <span aria-hidden="true"
-            ><img
-              src="/img/chart-icon.svg"
-              width="20"
-              height="20"
-              alt="chart-icon"
-          ></span>
-        </NuxtLink>
+        to="/cart"
+        class="site-header__action-link"
+        :aria-label="`Shopping cart, ${cartItemCount} ${cartItemCount === 1 ? 'item' : 'items'}`"
+      >
+        <span class="site-header__cart-icon">
+          <img
+            src="/img/chart-icon.svg"
+            width="20"
+            height="20"
+            alt=""
+          >
+      
+          <span
+            v-if="cartItemCount > 0"
+            class="site-header__cart-count"
+            aria-hidden="true"
+          >
+            {{ cartItemCount > 99 ? '99+' : cartItemCount }}
+          </span>
+        </span>
+      </NuxtLink>
 
         <NuxtLink
           to="/account"
