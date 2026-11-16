@@ -327,7 +327,7 @@
     font-weight: 500;
     text-align: left;
     cursor: pointer;
-
+    applied-filters
     &:hover {
       background: #f9fafb;
       color: $color-ink;
@@ -497,9 +497,13 @@
 
 //----------------------------------selected filter page 
 .applied-filters {
-  display: flex;
-  flex-direction: column;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 20px 32px;
   gap: 12px;
+  align-content: start;
+
+  min-height: 98px;
   padding: 16px 0;
   margin-bottom: 8px;
   border-bottom: 1px solid #eee;
@@ -520,13 +524,22 @@
 
   &__list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 8px;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__chip {
     display: inline-flex;
+    flex: 0 0 auto;
     align-items: center;
     gap: 9px;
     min-height: 32px;
@@ -538,6 +551,7 @@
     font: inherit;
     font-size: 12px;
     cursor: pointer;
+
     transition:
       background-color 180ms ease,
       border-color 180ms ease;
@@ -549,8 +563,7 @@
     }
 
     &:hover {
-      border-color: #b9a99e;
-      background: #f0ebe7;
+      border-color: $color-ink-strong;
     }
 
     &:focus-visible {
@@ -571,7 +584,6 @@
 
     &:hover {
       color: $color-ink-strong;
-      text-decoration: underline;
     }
 
     &:focus-visible {
@@ -581,6 +593,9 @@
   }
 
   &__empty {
+    display: flex;
+    align-items: center;
+    height: 32px;
     margin: 0;
     color: #999;
     font-size: 12px;
