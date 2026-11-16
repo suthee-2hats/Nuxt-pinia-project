@@ -19,7 +19,10 @@ const selectedCategory = ref(
   typeof route.query.category === "string" ? route.query.category : "",
 );
 
-const selectedSort = ref("default");
+const selectedSort = useCookie<string>("shop-sort", {
+  default: () => "default",
+  sameSite: "lax",
+});
 
 const filters = ref<ProductFilters>({
   minPrice: null,
