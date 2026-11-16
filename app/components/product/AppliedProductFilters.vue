@@ -156,7 +156,7 @@ const clearAllFilters = () => {
       padding: 5px 10px;
       border: 1px solid #e5ded8;
       border-radius: 20px;
-      background: #f8f6f4;
+      background: transparent;
       color: #38312d;
       font: inherit;
       font-size: 12px;
@@ -186,14 +186,14 @@ const clearAllFilters = () => {
       padding: 4px 0;
       border: 0;
       background: transparent;
-      color: #8b5e4a;
+      color: $color-faint;
       font: inherit;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
   
       &:hover {
-        color: #563829;
+        color: $color-ink-strong;
         text-decoration: underline;
       }
   
