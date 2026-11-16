@@ -9,6 +9,8 @@ import ShopCategoryNav from "~/components/shop/ShopCategoryNav.vue";
 import ProductFiltersSidebar from "~/components/product/ProductFilters.vue";
 import ProductSort from "~/components/product/ProductSort.vue";
 import ProductGrid from "~/components/product/ProductGrid.vue";
+import AppliedProductFilters from "~/components/product/AppliedProductFilters.vue";
+
 import newsLetterSection from "~/components/home/newsLetterSection.vue";
 import AppFoooter from "~/components/layout/AppFoooter.vue";
 
@@ -121,6 +123,8 @@ const brands = computed(() => {
       v-model="selectedCategory"
       :categories="categories ?? []"
     />
+   
+    <AppliedProductFilters v-model="filters" />
 
     <div class="shop-page__layout">
       <ProductFiltersSidebar v-model="filters" :brands="brands" />
