@@ -29,6 +29,15 @@ export const productService = {
     });
   },
 
+  //get all products 
+  getAllProducts(options: Omit<ProductRequestOptions, "limit" | "skip"> = {}) {
+    return productService.getProducts({
+      ...options,
+      limit: 0,
+      skip: 0,
+    });
+  },
+
   // Fetch categories
   getCategories() {
     return $fetch<Category[]>(`${getApiBase()}/products/categories`);

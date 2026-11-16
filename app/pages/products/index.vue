@@ -28,14 +28,14 @@ const filters = ref<ProductFilters>({
   rating: null,
 });
 
+
+
 // SSR: fetch the initial products
 const { data: initialProducts } = await useAsyncData(
   "shop-initial-products",
   () =>
-    productService.getProducts({
+    productService.getAllProducts({
       category: selectedCategory.value || undefined,
-      limit: 12,
-      skip: 0,
     }),
 );
 
@@ -46,6 +46,8 @@ const { data: categories } = await useAsyncData("shop-categories", () =>
 
 const {
   products,
+  filteredProducts,
+  paginatedProducts,
   currentPage,
   totalPages,
   loading,
@@ -54,7 +56,12 @@ const {
   visiblePages,
   hasNext,
   goToPage,
-} = useShopProducts(initialProducts, selectedCategory, selectedSort);
+} = useShopProducts(
+  initialProducts,
+  selectedCategory,
+  selectedSort,
+  filters,
+);
 
 const activeCategoryName = computed(
   () =>
@@ -100,26 +107,7 @@ const brands = computed(() => {
   ];
 });
 
-// Client-side additional filters
-const filteredProducts = computed(() =>
-  products.value.filter((product) => {
-    const matchesMin =
-      filters.value.minPrice === null ||
-      product.price >= filters.value.minPrice;
 
-    const matchesMax =
-      filters.value.maxPrice === null ||
-      product.price <= filters.value.maxPrice;
-
-    const matchesBrand =
-      !filters.value.brand || product.brand === filters.value.brand;
-
-    const matchesRating =
-      filters.value.rating === null || product.rating >= filters.value.rating;
-
-    return matchesMin && matchesMax && matchesBrand && matchesRating;
-  }),
-);
 </script>
 
 <template>
@@ -143,7 +131,7 @@ const filteredProducts = computed(() =>
           <ProductSort v-model="selectedSort" />
         </div>
 
-        <ProductGrid :products="filteredProducts" />
+        <ProductGrid :products="paginatedProducts" />
 
         <p v-if="loading" role="status" class="shop-page__loading">
           Loading products...
@@ -157,11 +145,11 @@ const filteredProducts = computed(() =>
           No products match your filters.
         </p>
         <!-- Pagination -->
-        <nav
-          v-if="totalPages > 1"
-          class="pagination"
-          aria-label="Product pages"
-        >
+      <nav
+  v-if="totalPages > 1"
+  class="pagination"
+  aria-label="Product pages"
+>
           <button
             type="button"
             :disabled="!hasPrevious || loading"
