@@ -80,7 +80,7 @@
 }
 
 .home-hero__title-top {
-  font-family: $font-sans;
+  font-family: $font-body;
   font-weight: 500;
   font-size: min(22.5cqw, 91px);
   line-height: 1;
@@ -91,7 +91,7 @@
 
 .home-hero__title-sale {
   /* Typography */
-  font-family: $font-sans;
+  font-family: $font-body;
   font-weight: 500;
   font-size: min(46.2cqw, 187px);
   line-height: 1;
@@ -108,7 +108,7 @@
 }
 
 .home-hero__subtitle {
-  font-family: $font-sans;
+  font-family: $font-body;
   font-weight: 100;
   margin: clamp(6px, 1.6cqw, 14px) 0 clamp(12px, 3.2cqw, 28px);
   font-size: min(4.95cqw, 20px);
@@ -129,7 +129,7 @@
   text-decoration: none;
   text-transform: uppercase;
   font-size: min(3.95cqw, 16px);
-  font-family: $font-sans;
+  font-family: $font-body;
 }
 .home-hero__cta:hover {
   background-color: $color-body;

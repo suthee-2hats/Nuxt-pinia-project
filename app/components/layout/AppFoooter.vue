@@ -45,7 +45,7 @@ const footerLinks = [
 .app-footer {
   padding: 34px 20px;
   background-color: $color-surface;
-  font-family: $font-sans;
+  font-family: $font-body;
   border-top: 1px solid #dedfe1;
 
   &__container {

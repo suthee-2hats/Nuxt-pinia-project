@@ -1,5 +1,19 @@
 @use "../abstracts" as *;
 
+// Global typography: every page inherits the shared font token.
+html,
+body {
+  font-family: $font-body;
+}
+
+// Form controls do not inherit typography by default.
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
 // Shared page container.
 // Both the site header and the home hero use this class so their left and
 // right edges always line up on the same vertical grid line.

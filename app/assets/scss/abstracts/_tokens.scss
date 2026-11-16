@@ -39,9 +39,10 @@ $category-card-one: #e9e5df;
 $category-card-two: #e8e9ed;
 $category-card-three: #d8caca;
 
-// Typography
-$font-sans: "Poppins", sans-serif;
-$font-serif: "Playfair Display", serif;
+// Typography — one family for the whole app.
+// Change these tokens to change the font everywhere.
+$font-body: "Roboto", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+$font-heading: $font-body;
 
 // Shape & layout
 $radius-sm: 3px;

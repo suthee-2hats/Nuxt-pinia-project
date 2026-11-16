@@ -84,8 +84,7 @@ const handleSubscribe = () => {
 }
 
 .newsletter__title {
-  font-family:
-    "Playfair Display", Georgia, serif; /* Matches serif headline style */
+  font-family: $font-heading;
   font-size: 38px;
   font-weight: 600;
   color: $color-heading;
